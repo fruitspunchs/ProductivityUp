@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="finalproject.productivityup">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UltradianRhythmActivity"
+            android:label="@string/title_activity_ultradian_rhythm"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="finalproject.productivityup.MainActivity" />
+        </activity>
+        <activity
+            android:name=".PomodoroTimerActivity"
+            android:label="@string/title_activity_pomodoro_timer"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="finalproject.productivityup.MainActivity" />
+        </activity>
+        <activity
+            android:name=".DeadlinesActivity"
+            android:label="@string/title_activity_deadlines"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="finalproject.productivityup.MainActivity" />
+        </activity>
+        <activity
+            android:name=".AgendaActivity"
+            android:label="@string/title_activity_agenda"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="finalproject.productivityup.MainActivity" />
+        </activity>
+        <activity
+            android:name=".AccountabilityChartActivity"
+            android:label="@string/title_activity_accountability_chart"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="finalproject.productivityup.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ProductivityQuizActivity"
+            android:label="@string/title_activity_productivity_quiz"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="finalproject.productivityup.MainActivity" />
+        </activity>
+    </application>
+
+</manifest>
