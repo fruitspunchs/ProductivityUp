@@ -7,4 +7,7 @@
     <string name="title_activity_agenda">AgendaActivity</string>
     <string name="title_activity_accountability_chart">AccountabilityChartActivity</string>
     <string name="title_activity_productivity_quiz">ProductivityQuizActivity</string>
+
+    <string name="app_title_1">productivity</string>
+    <string name="app_title_2">Up</string>
 </resources>
