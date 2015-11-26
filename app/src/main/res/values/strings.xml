@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">ProductivityUp</string>
+    <string name="app_name">Productivity Up</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_ultradian_rhythm">UltradianRhythmActivity</string>
-    <string name="title_activity_pomodoro_timer">PomodoroTimerActivity</string>
-    <string name="title_activity_deadlines">DeadlinesActivity</string>
-    <string name="title_activity_agenda">AgendaActivity</string>
-    <string name="title_activity_accountability_chart">AccountabilityChartActivity</string>
-    <string name="title_activity_productivity_quiz">ProductivityQuizActivity</string>
+    <string name="title_activity_ultradian_rhythm">Ultradian Rhythm</string>
+    <string name="title_activity_pomodoro_timer">Pomodoro Timer</string>
+    <string name="title_activity_deadlines">Deadlines</string>
+    <string name="title_activity_agenda">Agenda</string>
+    <string name="title_activity_accountability_chart">Accountability Chart</string>
+    <string name="title_activity_productivity_quiz">Productivity Quiz</string>
 
     <string name="app_title_1">productivity</string>
     <string name="app_title_2">Up</string>

@@ -8,6 +8,7 @@
     tools:context=".MainActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
         android:layout_height="112dp"
         android:elevation="4dp"
@@ -23,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
+                app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             <RelativeLayout
@@ -40,7 +42,7 @@
                     android:contentDescription="@string/app_title_1"
                     android:text="@string/app_title_1"
                     android:textColor="@color/white"
-                    android:textSize="32dp" />
+                    android:textSize="28dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -51,7 +53,7 @@
                     android:contentDescription="@string/app_title_2"
                     android:text="@string/app_title_2"
                     android:textColor="@color/white"
-                    android:textSize="32dp"
+                    android:textSize="28dp"
                     android:textStyle="bold" />
 
             </RelativeLayout>
