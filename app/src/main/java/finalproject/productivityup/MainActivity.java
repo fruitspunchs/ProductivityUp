@@ -18,6 +18,14 @@ public class MainActivity extends AppCompatActivity {
     CardView mPomodoroTimerCard;
     @Bind(R.id.overview_card_ultradian_rhythm)
     CardView mUltradianRhythmCard;
+    @Bind(R.id.overview_card_deadlines)
+    CardView mDeadlinesCard;
+    @Bind(R.id.overview_card_agenda)
+    CardView mAgendaCard;
+    @Bind(R.id.overview_card_accountability_chart)
+    CardView mAccountabilityChartCard;
+    @Bind(R.id.overview_card_productivity_quiz)
+    CardView mProductivityQuizCard;
 
     @OnClick(R.id.overview_card_pomodoro_timer)
     void clickPomodoroCard() {
@@ -28,6 +36,31 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.overview_card_ultradian_rhythm)
     void clickUltradianCard() {
         Intent intent = new Intent(this, UltradianRhythmActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.overview_card_deadlines)
+    void clickDeadlinesCard() {
+        Intent intent = new Intent(this, DeadlinesActivity.class);
+        startActivity(intent);
+
+    }
+
+    @OnClick(R.id.overview_card_agenda)
+    void clickAgendaCard() {
+        Intent intent = new Intent(this, AgendaActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.overview_card_accountability_chart)
+    void clickAccountabilityChartCard() {
+        Intent intent = new Intent(this, AccountabilityChartActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.overview_card_productivity_quiz)
+    void clickProductivityQuizCard() {
+        Intent intent = new Intent(this, ProductivityQuizActivity.class);
         startActivity(intent);
     }
 
