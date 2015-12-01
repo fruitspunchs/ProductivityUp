@@ -16,10 +16,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.overview_card_pomodoro_timer)
     CardView mPomodoroTimerCard;
+    @Bind(R.id.overview_card_ultradian_rhythm)
+    CardView mUltradianRhythmCard;
 
     @OnClick(R.id.overview_card_pomodoro_timer)
     void clickPomodoroCard() {
         Intent intent = new Intent(this, PomodoroTimerActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.overview_card_ultradian_rhythm)
+    void clickUltradianCard() {
+        Intent intent = new Intent(this, UltradianRhythmActivity.class);
         startActivity(intent);
     }
 
