@@ -18,7 +18,7 @@ public class DeadlinesColumns {
     public static final String _ID = "_id";
 
     @DataType(INTEGER)
-    public static final String DEADLINE = "deadline";
+    public static final String DATE = "date";
 
     @DataType(TEXT)
     @NotNull

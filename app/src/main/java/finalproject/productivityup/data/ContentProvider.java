@@ -26,7 +26,7 @@ public class ContentProvider {
 
     @TableEndpoint(table = Database.DEADLINES)
     public static class Deadlines {
-        @ContentUri(path = Path.DEADLINES, type = "vnd.android.cursor.dir/deadlines", defaultSort = DeadlinesColumns.DEADLINE + " ASC")
+        @ContentUri(path = Path.DEADLINES, type = "vnd.android.cursor.dir/deadlines", defaultSort = DeadlinesColumns.DATE + " ASC")
         public static final Uri CONTENT_URI = buildUri(Path.DEADLINES);
     }
 }
