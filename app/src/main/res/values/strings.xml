@@ -10,4 +10,5 @@
 
     <string name="app_title_1">productivity</string>
     <string name="app_title_2">Up</string>
+    <string name="title_activity_add_deadline">Add Deadline</string>
 </resources>

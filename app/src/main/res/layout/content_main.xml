@@ -94,22 +94,24 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                     <TextView
+                        android:id="@+id/deadlines_task_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="24dp"
                         android:layout_marginTop="24dp"
-                        android:text="Finish mock"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/colorPrimaryText" />
+                        android:textColor="@color/colorPrimaryText"
+                        tools:text="Finish mock" />
 
                     <TextView
+                        android:id="@+id/deadlines_date_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="2 days 1 hour"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/colorPrimaryText" />
+                        android:textColor="@color/colorPrimaryText"
+                        tools:text="2 days 1 hour" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 

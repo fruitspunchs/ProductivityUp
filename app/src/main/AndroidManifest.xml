@@ -75,6 +75,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="finalproject.productivityup.MainActivity" />
         </activity>
+        <activity
+            android:name=".AddDeadlineActivity"
+            android:label="@string/title_activity_add_deadline"
+            android:parentActivityName=".DeadlinesActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="finalproject.productivityup.DeadlinesActivity" />
+        </activity>
     </application>
 
 </manifest>
