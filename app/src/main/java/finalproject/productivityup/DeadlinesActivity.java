@@ -13,7 +13,7 @@ import butterknife.OnClick;
 public class DeadlinesActivity extends AppCompatActivity {
 
     @Bind(R.id.deadlines_add_fab)
-    FloatingActionButton addFab;
+    FloatingActionButton mAddFab;
 
     @OnClick(R.id.deadlines_add_fab)
     void clickAddFab() {

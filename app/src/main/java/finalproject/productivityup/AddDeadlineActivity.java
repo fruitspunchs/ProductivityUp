@@ -24,31 +24,31 @@ import finalproject.productivityup.data.ProductivityProvider;
 public class AddDeadlineActivity extends AppCompatActivity {
     private final String LOG_TAG = getClass().getSimpleName();
     @Bind(R.id.add_deadline_task_edit_text)
-    EditText taskEditText;
+    EditText mTaskEditText;
     @Bind(R.id.add_deadline_done_fab)
-    FloatingActionButton doneFab;
+    FloatingActionButton mDoneFab;
     @Bind(R.id.add_deadline_calendar_view)
-    CalendarView calendarView;
+    CalendarView mCalendarView;
     @Bind(R.id.add_deadline_time_picker)
-    TimePicker timePicker;
+    TimePicker mTimePicker;
     @Bind(R.id.add_deadline_date_time_image_button)
-    ImageButton dateTimeButton;
-    private int mode = MODE.DATE;
+    ImageButton mDateTimeButton;
+    private int mMode = MODE.DATE;
 
     @OnClick(R.id.add_deadline_done_fab)
     void clickDoneFab() {
-        String task = taskEditText.getText().toString().trim();
+        String task = mTaskEditText.getText().toString().trim();
 
         if (task.length() == 0)
             finish();
 
         ContentValues values = new ContentValues();
         //TODO
-        long unixDate = calendarView.getDate() / 1000;
+        long unixDate = mCalendarView.getDate() / 1000;
         Log.d(LOG_TAG, "UnixDate: " + unixDate);
-        long unixHours = timePicker.getCurrentHour() * 3600;
+        long unixHours = mTimePicker.getCurrentHour() * 3600;
         Log.d(LOG_TAG, "UnixHours: " + unixHours);
-        long unixMinutes = timePicker.getCurrentMinute() * 60;
+        long unixMinutes = mTimePicker.getCurrentMinute() * 60;
         Log.d(LOG_TAG, "UnixMinutes: " + unixMinutes);
 
         long date = unixDate + unixHours + unixMinutes;
@@ -63,28 +63,28 @@ public class AddDeadlineActivity extends AppCompatActivity {
 
     @OnClick(R.id.add_deadline_date_time_image_button)
     void clickDateTimeButton() {
-        switch (mode) {
+        switch (mMode) {
             case MODE.DATE:
-                mode = MODE.TIME;
-                dateTimeButton.setImageResource(R.drawable.ic_event_white_48dp);
-                calendarView.setVisibility(View.INVISIBLE);
-                timePicker.setVisibility(View.VISIBLE);
+                mMode = MODE.TIME;
+                mDateTimeButton.setImageResource(R.drawable.ic_event_white_48dp);
+                mCalendarView.setVisibility(View.INVISIBLE);
+                mTimePicker.setVisibility(View.VISIBLE);
                 break;
             case MODE.TIME:
-                mode = MODE.DATE;
-                dateTimeButton.setImageResource(R.drawable.ic_alarm_white_48dp);
-                calendarView.setVisibility(View.VISIBLE);
-                timePicker.setVisibility(View.INVISIBLE);
+                mMode = MODE.DATE;
+                mDateTimeButton.setImageResource(R.drawable.ic_alarm_white_48dp);
+                mCalendarView.setVisibility(View.VISIBLE);
+                mTimePicker.setVisibility(View.INVISIBLE);
                 break;
         }
     }
 
     @OnTextChanged(R.id.add_deadline_task_edit_text)
     void taskTextChanged() {
-        if (taskEditText.getText().toString().trim().length() > 0) {
-            doneFab.setImageResource(R.drawable.ic_done_white_48dp);
+        if (mTaskEditText.getText().toString().trim().length() > 0) {
+            mDoneFab.setImageResource(R.drawable.ic_done_white_48dp);
         } else {
-            doneFab.setImageResource(R.drawable.ic_close_white_48dp);
+            mDoneFab.setImageResource(R.drawable.ic_close_white_48dp);
         }
     }
 
@@ -103,9 +103,9 @@ public class AddDeadlineActivity extends AppCompatActivity {
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
-        calendarView.setDate(today.getTimeInMillis());
+        mCalendarView.setDate(today.getTimeInMillis());
 
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
                 Calendar calendar = Calendar.getInstance();
