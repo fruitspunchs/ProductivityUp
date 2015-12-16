@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import finalproject.productivityup.R;
+import finalproject.productivityup.Utility;
 import finalproject.productivityup.data.DeadlinesColumns;
 
 /**
@@ -25,8 +26,8 @@ public class DeadlinesCursorAdapter extends CursorRecyclerViewAdapter<DeadlinesC
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
-        viewHolder.mDateTextView.setText(cursor.getString(
-                cursor.getColumnIndex(DeadlinesColumns.DATE)));
+        viewHolder.mDateTextView.setText(Utility.formatDate(cursor.getLong(
+                cursor.getColumnIndex(DeadlinesColumns.DATE))));
     }
 
     @Override
