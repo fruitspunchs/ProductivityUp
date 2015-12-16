@@ -22,7 +22,7 @@ import finalproject.productivityup.data.DeadlinesColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 
 public class AddDeadlineActivity extends AppCompatActivity {
-    private final String DEBUG_CLASS_NAME = getClass().getSimpleName();
+    private final String LOG_TAG = getClass().getSimpleName();
     @Bind(R.id.add_deadline_task_edit_text)
     EditText taskEditText;
     @Bind(R.id.add_deadline_done_fab)
@@ -45,18 +45,18 @@ public class AddDeadlineActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         //TODO
         long unixDate = calendarView.getDate() / 1000;
-        Log.d(DEBUG_CLASS_NAME, "UnixDate: " + unixDate);
+        Log.d(LOG_TAG, "UnixDate: " + unixDate);
         long unixHours = timePicker.getCurrentHour() * 3600;
-        Log.d(DEBUG_CLASS_NAME, "UnixHours: " + unixHours);
+        Log.d(LOG_TAG, "UnixHours: " + unixHours);
         long unixMinutes = timePicker.getCurrentMinute() * 60;
-        Log.d(DEBUG_CLASS_NAME, "UnixMinutes: " + unixMinutes);
+        Log.d(LOG_TAG, "UnixMinutes: " + unixMinutes);
 
         long date = unixDate + unixHours + unixMinutes;
 
         values.put(DeadlinesColumns.DATE, date);
-        Log.d(DEBUG_CLASS_NAME, "Date: " + date);
+        Log.d(LOG_TAG, "Date: " + date);
         values.put(DeadlinesColumns.TASK, task);
-        Log.d(DEBUG_CLASS_NAME, "Task: " + task);
+        Log.d(LOG_TAG, "Task: " + task);
         getContentResolver().insert(ProductivityProvider.Deadlines.CONTENT_URI, values);
         finish();
     }
@@ -111,7 +111,7 @@ public class AddDeadlineActivity extends AppCompatActivity {
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(year, month, dayOfMonth, 0, 0, 0);
                 view.setDate(calendar.getTimeInMillis());
-                Log.d(DEBUG_CLASS_NAME, "Calendar set to: " + calendar.getTimeInMillis() / 1000);
+                Log.d(LOG_TAG, "Calendar set to: " + calendar.getTimeInMillis() / 1000);
             }
         });
     }
