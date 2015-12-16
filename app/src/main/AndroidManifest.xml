@@ -84,6 +84,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="finalproject.productivityup.DeadlinesActivity" />
         </activity>
+
+        <provider
+            android:name="finalproject.productivityup.data.generated.ProductivityProvider"
+            android:authorities="finalproject.productivityup.data.ProductivityProvider"
+            android:exported="false" />
     </application>
 
 </manifest>
