@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="8dp"
@@ -7,18 +8,19 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/deadlines_date_time_text_view"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
-        android:gravity="right"
-        android:text="9 am"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:gravity="end"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        tools:text="9 am" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/deadlines_task_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Finish Mock"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        tools:text="Finish Mock" />
 </LinearLayout>
