@@ -18,6 +18,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.DeadlinesColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 
@@ -43,7 +44,8 @@ public class AddDeadlineActivity extends AppCompatActivity {
             finish();
 
         ContentValues values = new ContentValues();
-        //TODO
+        ContentValues deadlineDays = new ContentValues();
+
         long unixDate = mCalendarView.getDate() / 1000;
         Log.d(LOG_TAG, "UnixDate: " + unixDate);
         long unixHours = mTimePicker.getCurrentHour() * 3600;
@@ -51,12 +53,16 @@ public class AddDeadlineActivity extends AppCompatActivity {
         long unixMinutes = mTimePicker.getCurrentMinute() * 60;
         Log.d(LOG_TAG, "UnixMinutes: " + unixMinutes);
 
-        long date = unixDate + unixHours + unixMinutes;
-
-        values.put(DeadlinesColumns.DATE, date);
-        Log.d(LOG_TAG, "Date: " + date);
+        values.put(DeadlinesColumns.DATE, unixDate);
+        Log.d(LOG_TAG, "Date: " + unixDate);
+        values.put(DeadlinesColumns.TIME, unixHours + unixMinutes);
+        Log.d(LOG_TAG, "Time: " + unixMinutes);
         values.put(DeadlinesColumns.TASK, task);
         Log.d(LOG_TAG, "Task: " + task);
+
+        deadlineDays.put(DeadlineDaysColumns.DATE, unixDate);
+        getContentResolver().insert(ProductivityProvider.DeadlineDays.CONTENT_URI, deadlineDays);
+
         getContentResolver().insert(ProductivityProvider.Deadlines.CONTENT_URI, values);
         finish();
     }

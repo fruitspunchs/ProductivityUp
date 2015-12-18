@@ -11,4 +11,7 @@ public class ProductivityDatabase {
 
     @Table(DeadlinesColumns.class)
     public static final String DEADLINES = "deadlines";
+
+    @Table(DeadlineDaysColumns.class)
+    public static final String DEADLINE_DAYS = "deadline_days";
 }

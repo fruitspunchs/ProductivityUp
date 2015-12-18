@@ -24,6 +24,7 @@ public final class ProductivityProvider {
 
     interface Path {
         String DEADLINES = "deadlines";
+        String DEADLINE_DAYS = "deadline_days";
     }
 
     @TableEndpoint(table = ProductivityDatabase.DEADLINES)
@@ -31,4 +32,12 @@ public final class ProductivityProvider {
         @ContentUri(path = Path.DEADLINES, type = "vnd.android.cursor.dir/deadlines", defaultSort = DeadlinesColumns.DATE + " ASC")
         public static final Uri CONTENT_URI = buildUri(Path.DEADLINES);
     }
+
+    @TableEndpoint(table = ProductivityDatabase.DEADLINE_DAYS)
+    public static class DeadlineDays {
+        @ContentUri(path = Path.DEADLINE_DAYS, type = "vnd.android.cursor.dir/deadline_days", defaultSort = DeadlineDaysColumns.DATE + " ASC")
+        public static final Uri CONTENT_URI = buildUri(Path.DEADLINE_DAYS);
+    }
+
+
 }

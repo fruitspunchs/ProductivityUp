@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import finalproject.productivityup.R;
 import finalproject.productivityup.Utility;
-import finalproject.productivityup.data.DeadlinesColumns;
+import finalproject.productivityup.data.DeadlineDaysColumns;
 
 /**
  * Created by User on 12/17/2015.
@@ -27,7 +27,7 @@ public class DeadlinesCursorAdapter extends CursorRecyclerViewAdapter<DeadlinesC
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
         viewHolder.mDateTextView.setText(Utility.formatDate(cursor.getLong(
-                cursor.getColumnIndex(DeadlinesColumns.DATE))));
+                cursor.getColumnIndex(DeadlineDaysColumns.DATE))));
     }
 
     @Override

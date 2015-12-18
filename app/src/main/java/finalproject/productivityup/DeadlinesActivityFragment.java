@@ -28,7 +28,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity(), ProductivityProvider.Deadlines.CONTENT_URI,
+        return new CursorLoader(getActivity(), ProductivityProvider.DeadlineDays.CONTENT_URI,
                 null,
                 null,
                 null,
