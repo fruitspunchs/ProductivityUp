@@ -5,6 +5,7 @@ import android.util.Log;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by User on 12/17/2015.
@@ -19,7 +20,9 @@ public class Utility {
     public static String formatTime(long timeInSeconds) {
         Date date = new Date(timeInSeconds * 1000);
         Log.d("Format time", "Date: " + date);
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
-        return sdf.format(date);
+        SimpleDateFormat sdf = new SimpleDateFormat("h:mm aa", Locale.US);
+        String dateString = sdf.format(date);
+        dateString = dateString.toLowerCase(Locale.US);
+        return dateString;
     }
 }
