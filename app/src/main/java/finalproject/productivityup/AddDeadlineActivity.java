@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import finalproject.productivityup.data.DeadlineDaysColumns;
-import finalproject.productivityup.data.DeadlinesColumns;
+import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 
 public class AddDeadlineActivity extends AppCompatActivity {
@@ -39,9 +39,13 @@ public class AddDeadlineActivity extends AppCompatActivity {
     @OnClick(R.id.add_deadline_done_fab)
     void clickDoneFab() {
         String task = mTaskEditText.getText().toString().trim();
+        Log.d(LOG_TAG, "Task number of trimmed chars: " + task.length());
 
-        if (task.length() == 0)
+        if (task.length() == 0) {
+            Log.d(LOG_TAG, "No task input, returning");
             finish();
+            return;
+        }
 
         ContentValues values = new ContentValues();
         ContentValues deadlineDays = new ContentValues();
@@ -53,17 +57,18 @@ public class AddDeadlineActivity extends AppCompatActivity {
         long unixMinutes = mTimePicker.getCurrentMinute() * 60;
         Log.d(LOG_TAG, "UnixMinutes: " + unixMinutes);
 
-        values.put(DeadlinesColumns.DATE, unixDate);
+        values.put(DeadlineTasksColumns.DATE, unixDate);
         Log.d(LOG_TAG, "Date: " + unixDate);
-        values.put(DeadlinesColumns.TIME, unixHours + unixMinutes);
-        Log.d(LOG_TAG, "Time: " + unixMinutes);
-        values.put(DeadlinesColumns.TASK, task);
+        values.put(DeadlineTasksColumns.TIME, unixDate + unixHours + unixMinutes);
+        long time = unixDate + unixHours + unixMinutes;
+        Log.d(LOG_TAG, "Time: " + time);
+        values.put(DeadlineTasksColumns.TASK, task);
         Log.d(LOG_TAG, "Task: " + task);
 
         deadlineDays.put(DeadlineDaysColumns.DATE, unixDate);
         getContentResolver().insert(ProductivityProvider.DeadlineDays.CONTENT_URI, deadlineDays);
 
-        getContentResolver().insert(ProductivityProvider.Deadlines.CONTENT_URI, values);
+        getContentResolver().insert(ProductivityProvider.DeadlineTasks.CONTENT_URI, values);
         finish();
     }
 
