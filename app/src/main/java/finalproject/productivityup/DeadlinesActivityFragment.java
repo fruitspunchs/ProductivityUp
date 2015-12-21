@@ -20,9 +20,9 @@ import finalproject.productivityup.data.ProductivityProvider;
  */
 public class DeadlinesActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    public static final int TASK_CURSOR_LOADER_ID = 1;
+    public static final int TASK_CURSOR_LOADER_START_ID = 1;
     private static final int DATE_CURSOR_LOADER_ID = 0;
-    private DeadlineDaysCursorAdapter mCursorAdapter;
+    private DeadlineDaysCursorAdapter mDeadlineDaysCursorAdapter;
 
     public DeadlinesActivityFragment() {
     }
@@ -38,30 +38,31 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mCursorAdapter.swapCursor(data);
+        mDeadlineDaysCursorAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mCursorAdapter.swapCursor(null);
+        mDeadlineDaysCursorAdapter.swapCursor(null);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(DATE_CURSOR_LOADER_ID, null, this);
-        getLoaderManager().initLoader(TASK_CURSOR_LOADER_ID, null, mCursorAdapter);
     }
 
     public void restartTaskCursorLoader(int id) {
-        getLoaderManager().restartLoader(id, null, mCursorAdapter);
+        getLoaderManager().restartLoader(id, null, mDeadlineDaysCursorAdapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         getLoaderManager().restartLoader(DATE_CURSOR_LOADER_ID, null, this);
-        getLoaderManager().restartLoader(TASK_CURSOR_LOADER_ID, null, mCursorAdapter);
+        if (mDeadlineDaysCursorAdapter != null) {
+            mDeadlineDaysCursorAdapter.restartAllLoaders();
+        }
     }
 
     @Override
@@ -71,8 +72,8 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.deadlines_card_recycler_view);
 
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        mCursorAdapter = new DeadlineDaysCursorAdapter(getActivity(), null);
-        recyclerView.setAdapter(mCursorAdapter);
+        mDeadlineDaysCursorAdapter = new DeadlineDaysCursorAdapter(getActivity(), null);
+        recyclerView.setAdapter(mDeadlineDaysCursorAdapter);
         return rootView;
     }
 }

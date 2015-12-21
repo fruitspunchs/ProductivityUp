@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import finalproject.productivityup.DeadlinesActivity;
+import finalproject.productivityup.DeadlinesActivityFragment;
 import finalproject.productivityup.R;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.DeadlineTasksColumns;
@@ -29,7 +30,7 @@ import finalproject.productivityup.libs.Utility;
  */
 public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<DeadlineDaysCursorAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static int sId = 1;
+    private static int sTaskCursorLoaderId = DeadlinesActivityFragment.TASK_CURSOR_LOADER_START_ID;
     private final String LOG_TAG = this.getClass().getSimpleName();
     ViewHolder mVh;
     private Context mContext;
@@ -39,7 +40,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
     public DeadlineDaysCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor);
         mContext = context;
-        sId = 1;
+        sTaskCursorLoaderId = DeadlinesActivityFragment.TASK_CURSOR_LOADER_START_ID;
     }
 
 
@@ -90,11 +91,15 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
         }
     }
 
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void restartAllLoaders() {
         for (DeadlineTasksCursorAdapter i : mDeadlineTasksCursorAdapterArrayList) {
             i.swapCursor(null);
         }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        restartAllLoaders();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -108,7 +113,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
             mDateTextView = (TextView) view.findViewById(R.id.deadlines_card_date_text_view);
             mTasksRecyclerView = (RecyclerView) view.findViewById(R.id.deadlines_card_tasks_recycler_view);
             mDeadlineTasksCursorAdapter = new DeadlineTasksCursorAdapter(null, null);
-            mId = sId++;
+            mId = sTaskCursorLoaderId++;
         }
     }
 }
