@@ -11,7 +11,7 @@ import static net.simonvt.schematic.annotation.DataType.Type.TEXT;
 /**
  * Created by User on 12/10/2015.
  */
-public class DeadlinesColumns {
+public class DeadlineTasksColumns {
     @DataType(INTEGER)
     @PrimaryKey
     @AutoIncrement

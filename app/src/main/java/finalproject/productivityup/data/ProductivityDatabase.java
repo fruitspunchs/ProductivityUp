@@ -9,8 +9,8 @@ import net.simonvt.schematic.annotation.Table;
 public class ProductivityDatabase {
     public static final int VERSION = 1;
 
-    @Table(DeadlinesColumns.class)
-    public static final String DEADLINES = "deadlines";
+    @Table(DeadlineTasksColumns.class)
+    public static final String DEADLINE_TASKS = "deadline_tasks";
 
     @Table(DeadlineDaysColumns.class)
     public static final String DEADLINE_DAYS = "deadline_days";

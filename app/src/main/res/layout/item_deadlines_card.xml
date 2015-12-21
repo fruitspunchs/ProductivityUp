@@ -22,8 +22,8 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             tools:text="November 8, 2015" />
 
-        <ListView
-            android:id="@+id/deadlines_card_tasks_list_view"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/deadlines_card_tasks_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal" />

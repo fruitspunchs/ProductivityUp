@@ -23,14 +23,14 @@ public final class ProductivityProvider {
     }
 
     interface Path {
-        String DEADLINES = "deadlines";
+        String DEADLINE_TASKS = "deadline_tasks";
         String DEADLINE_DAYS = "deadline_days";
     }
 
-    @TableEndpoint(table = ProductivityDatabase.DEADLINES)
-    public static class Deadlines {
-        @ContentUri(path = Path.DEADLINES, type = "vnd.android.cursor.dir/deadlines", defaultSort = DeadlinesColumns.DATE + " ASC")
-        public static final Uri CONTENT_URI = buildUri(Path.DEADLINES);
+    @TableEndpoint(table = ProductivityDatabase.DEADLINE_TASKS)
+    public static class DeadlineTasks {
+        @ContentUri(path = Path.DEADLINE_TASKS, type = "vnd.android.cursor.dir/deadline_tasks", defaultSort = DeadlineTasksColumns.DATE + " ASC")
+        public static final Uri CONTENT_URI = buildUri(Path.DEADLINE_TASKS);
     }
 
     @TableEndpoint(table = ProductivityDatabase.DEADLINE_DAYS)

@@ -8,7 +8,7 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/deadlines_date_time_text_view"
+        android:id="@+id/deadlines_time_text_view"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"

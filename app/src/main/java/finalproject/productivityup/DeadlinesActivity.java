@@ -21,6 +21,11 @@ public class DeadlinesActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
+    public void restartTaskCursorLoader(int id) {
+        DeadlinesActivityFragment fragment = (DeadlinesActivityFragment) getSupportFragmentManager().findFragmentById(R.id.deadlines_fragment);
+        fragment.restartTaskCursorLoader(id);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

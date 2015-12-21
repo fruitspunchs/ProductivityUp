@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import finalproject.productivityup.adapter.DeadlinesCursorAdapter;
+import finalproject.productivityup.adapter.DeadlineDaysCursorAdapter;
 import finalproject.productivityup.data.ProductivityProvider;
 
 /**
@@ -20,8 +20,9 @@ import finalproject.productivityup.data.ProductivityProvider;
  */
 public class DeadlinesActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int CURSOR_LOADER_ID = 0;
-    private DeadlinesCursorAdapter mCursorAdapter;
+    public static final int TASK_CURSOR_LOADER_ID = 1;
+    private static final int DATE_CURSOR_LOADER_ID = 0;
+    private DeadlineDaysCursorAdapter mCursorAdapter;
 
     public DeadlinesActivityFragment() {
     }
@@ -48,13 +49,19 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
+        getLoaderManager().initLoader(DATE_CURSOR_LOADER_ID, null, this);
+        getLoaderManager().initLoader(TASK_CURSOR_LOADER_ID, null, mCursorAdapter);
+    }
+
+    public void restartTaskCursorLoader(int id) {
+        getLoaderManager().restartLoader(id, null, mCursorAdapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
+        getLoaderManager().restartLoader(DATE_CURSOR_LOADER_ID, null, this);
+        getLoaderManager().restartLoader(TASK_CURSOR_LOADER_ID, null, mCursorAdapter);
     }
 
     @Override
@@ -64,9 +71,8 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.deadlines_card_recycler_view);
 
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        mCursorAdapter = new DeadlinesCursorAdapter(getActivity(), null);
+        mCursorAdapter = new DeadlineDaysCursorAdapter(getActivity(), null);
         recyclerView.setAdapter(mCursorAdapter);
-
         return rootView;
     }
 }

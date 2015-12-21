@@ -1,0 +1,114 @@
+package finalproject.productivityup.adapter;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import finalproject.productivityup.DeadlinesActivity;
+import finalproject.productivityup.R;
+import finalproject.productivityup.data.DeadlineDaysColumns;
+import finalproject.productivityup.data.DeadlineTasksColumns;
+import finalproject.productivityup.data.ProductivityProvider;
+import finalproject.productivityup.libs.LinearLayoutManager;
+import finalproject.productivityup.libs.Utility;
+
+/**
+ * Created by User on 12/17/2015.
+ */
+public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<DeadlineDaysCursorAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static int sId = 1;
+    private final String LOG_TAG = this.getClass().getSimpleName();
+    ViewHolder mVh;
+    private Context mContext;
+    private long mUnixDate;
+    private List<DeadlineTasksCursorAdapter> mDeadlineTasksCursorAdapterArrayList = new ArrayList<>();
+
+    public DeadlineDaysCursorAdapter(Context context, Cursor cursor) {
+        super(context, cursor);
+        mContext = context;
+        sId = 1;
+    }
+
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
+        mUnixDate = cursor.getLong(cursor.getColumnIndex(DeadlineDaysColumns.DATE));
+        viewHolder.mDateTextView.setText(Utility.formatDate(mUnixDate));
+        viewHolder.mTasksRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        viewHolder.mTasksRecyclerView.setAdapter(viewHolder.mDeadlineTasksCursorAdapter);
+        Log.d(LOG_TAG, "Task cursor adapter items: " + viewHolder.mDeadlineTasksCursorAdapter.getItemCount());
+        ((DeadlinesActivity) mContext).restartTaskCursorLoader(viewHolder.mId);
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_deadlines_card, parent, false);
+        ViewHolder vh = new ViewHolder(itemView);
+        mVh = vh;
+        Log.d(LOG_TAG, "Creating viewholder. Id: " + mVh.mId);
+        mDeadlineTasksCursorAdapterArrayList.add(mVh.mDeadlineTasksCursorAdapter);
+        return vh;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.d(LOG_TAG, "Creating loader. Id: " + id);
+        String[] selectionArgs = {""};
+        selectionArgs[0] = String.valueOf(mUnixDate);
+        Log.d(LOG_TAG, "Date value: " + selectionArgs[0]);
+        return new CursorLoader(mContext, ProductivityProvider.DeadlineTasks.CONTENT_URI,
+                null,
+                DeadlineTasksColumns.DATE + " = ?",
+                selectionArgs,
+                DeadlineTasksColumns.TIME + " ASC");
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Log.d(LOG_TAG, "Loader finished. Id: " + loader.getId());
+        Log.d(LOG_TAG, "Cursor items: " + data.getCount());
+        if (mVh != null) {
+            if (mDeadlineTasksCursorAdapterArrayList.get(loader.getId() - 1) != null) {
+                mDeadlineTasksCursorAdapterArrayList.get(loader.getId() - 1).swapCursor(data);
+                Log.d(LOG_TAG, "Swapping adapter " + mVh.mId + " with loader " + loader.getId());
+
+            }
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        for (DeadlineTasksCursorAdapter i : mDeadlineTasksCursorAdapterArrayList) {
+            i.swapCursor(null);
+        }
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView mDateTextView;
+        public RecyclerView mTasksRecyclerView;
+        public DeadlineTasksCursorAdapter mDeadlineTasksCursorAdapter;
+        public int mId;
+
+        public ViewHolder(View view) {
+            super(view);
+            mDateTextView = (TextView) view.findViewById(R.id.deadlines_card_date_text_view);
+            mTasksRecyclerView = (RecyclerView) view.findViewById(R.id.deadlines_card_tasks_recycler_view);
+            mDeadlineTasksCursorAdapter = new DeadlineTasksCursorAdapter(null, null);
+            mId = sId++;
+        }
+    }
+}

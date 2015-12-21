@@ -106,7 +106,7 @@
                         tools:text="Finish mock" />
 
                     <TextView
-                        android:id="@+id/deadlines_date_textview"
+                        android:id="@+id/deadlines_date_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
