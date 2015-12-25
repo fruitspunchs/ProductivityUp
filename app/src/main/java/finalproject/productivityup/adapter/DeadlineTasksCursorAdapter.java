@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 import finalproject.productivityup.R;
 import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.libs.Utility;
@@ -17,6 +19,7 @@ import finalproject.productivityup.libs.Utility;
  */
 public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<DeadlineTasksCursorAdapter.ViewHolder> {
     ViewHolder mVh;
+    private Context mContext;
 
     public DeadlineTasksCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor);
@@ -24,8 +27,25 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
+        Calendar currentTime = Calendar.getInstance();
+        long unixTime = cursor.getLong(cursor.getColumnIndex(DeadlineTasksColumns.TIME));
+        int textColor;
+
+        if (unixTime < currentTime.getTimeInMillis() / 1000) {
+            textColor = mContext.getResources().getColor(R.color.colorSecondaryText);
+        } else {
+            textColor = mContext.getResources().getColor(R.color.colorPrimaryText);
+        }
+
         viewHolder.mTimeTextView.setText(Utility.formatTime(cursor.getLong(cursor.getColumnIndex(DeadlineTasksColumns.TIME))));
         viewHolder.mTaskTextView.setText(cursor.getString(cursor.getColumnIndex(DeadlineTasksColumns.TASK)));
+
+        viewHolder.mTaskTextView.setTextColor(textColor);
+        viewHolder.mTimeTextView.setTextColor(textColor);
+    }
+
+    public void setContext(Context context) {
+        mContext = context;
     }
 
     @Override

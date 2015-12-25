@@ -54,6 +54,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
         mUnixDate = cursor.getLong(cursor.getColumnIndex(DeadlineDaysColumns.DATE));
+        viewHolder.mDeadlineTasksCursorAdapter.setContext(mContext);
         viewHolder.mDateTextView.setText(Utility.formatDate(mUnixDate));
 
         Calendar today = Calendar.getInstance();
@@ -62,6 +63,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
         today.set(Calendar.SECOND, 0);
         Log.d(LOG_TAG, "Today is: " + today.getTimeInMillis() / 1000);
 
+        //Set text colors for easier reading
         if (mUnixDate == mNextDeadline) {
             viewHolder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
         } else if (mUnixDate < today.getTimeInMillis() / 1000) {
