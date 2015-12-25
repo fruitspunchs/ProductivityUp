@@ -1,7 +1,5 @@
 package finalproject.productivityup.libs;
 
-import android.util.Log;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +17,6 @@ public class Utility {
 
     public static String formatTime(long timeInSeconds) {
         Date date = new Date(timeInSeconds * 1000);
-        Log.d("Format time", "Date: " + date);
         SimpleDateFormat sdf = new SimpleDateFormat("h:mm aa", Locale.US);
         String dateString = sdf.format(date);
         dateString = dateString.toLowerCase(Locale.US);

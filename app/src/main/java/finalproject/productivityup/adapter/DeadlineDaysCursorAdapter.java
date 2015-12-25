@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import finalproject.productivityup.DeadlinesActivity;
@@ -36,6 +37,8 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
     private Context mContext;
     private long mUnixDate;
     private List<DeadlineTasksCursorAdapter> mDeadlineTasksCursorAdapterArrayList = new ArrayList<>();
+    private boolean mGetNextDeadline = true;
+    private long mNextDeadline = -1;
 
     public DeadlineDaysCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor);
@@ -48,6 +51,25 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
         mUnixDate = cursor.getLong(cursor.getColumnIndex(DeadlineDaysColumns.DATE));
         viewHolder.mDateTextView.setText(Utility.formatDate(mUnixDate));
+
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        Log.d(LOG_TAG, "Today is: " + today.getTimeInMillis() / 1000);
+
+        if (mUnixDate == mNextDeadline) {
+            viewHolder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+        } else if (mUnixDate < today.getTimeInMillis() / 1000) {
+            viewHolder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorSecondaryText));
+        } else if (mGetNextDeadline) {
+            viewHolder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+            mGetNextDeadline = false;
+            mNextDeadline = mUnixDate;
+        } else {
+            viewHolder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
+        }
+
         viewHolder.mTasksRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         viewHolder.mTasksRecyclerView.setAdapter(viewHolder.mDeadlineTasksCursorAdapter);
         Log.d(LOG_TAG, "Task cursor adapter items: " + viewHolder.mDeadlineTasksCursorAdapter.getItemCount());
