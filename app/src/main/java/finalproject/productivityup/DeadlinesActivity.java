@@ -26,6 +26,11 @@ public class DeadlinesActivity extends AppCompatActivity {
         fragment.restartTaskCursorLoader(id);
     }
 
+    public void scrollToPosition(int position) {
+        DeadlinesActivityFragment fragment = (DeadlinesActivityFragment) getSupportFragmentManager().findFragmentById(R.id.deadlines_fragment);
+        fragment.scrollToPosition(position);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

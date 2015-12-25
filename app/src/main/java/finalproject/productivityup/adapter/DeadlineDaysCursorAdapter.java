@@ -39,6 +39,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
     private List<DeadlineTasksCursorAdapter> mDeadlineTasksCursorAdapterArrayList = new ArrayList<>();
     private boolean mGetNextDeadline = true;
     private long mNextDeadline = -1;
+    private int mScrollToPosition = -1;
 
     public DeadlineDaysCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor);
@@ -46,6 +47,9 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
         sTaskCursorLoaderId = DeadlinesActivityFragment.TASK_CURSOR_LOADER_START_ID;
     }
 
+    public void setScrollToPosition(int position) {
+        mScrollToPosition = position;
+    }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
@@ -109,6 +113,10 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
                 mDeadlineTasksCursorAdapterArrayList.get(loader.getId() - 1).swapCursor(data);
                 Log.d(LOG_TAG, "Swapping adapter " + mVh.mId + " with loader " + loader.getId());
 
+                //Scroll to most recent deadline after recycler views are populated.
+                if (mScrollToPosition != -1) {
+                    ((DeadlinesActivity) mContext).scrollToPosition(mScrollToPosition);
+                }
             }
         }
     }
