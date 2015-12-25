@@ -11,18 +11,15 @@
     <android.support.v7.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingBottom="16dp"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingStart="16dp"
+        android:layout_marginTop="14dp"
+        android:paddingBottom="14dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
         app:alignmentMode="alignBounds"
         app:columnCount="3"
         app:orientation="horizontal"
         app:rowCount="2"
         app:rowOrderPreserved="false"
-        app:useDefaultMargins="false"
         tools:context=".MainActivity"
         tools:showIn="@layout/activity_main">
 
@@ -30,8 +27,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingEnd="4dp"
-            android:paddingRight="4dp"
+            android:paddingEnd="2dp"
+            android:paddingRight="2dp"
             app:layout_column="0"
             app:layout_columnWeight="1"
             app:layout_gravity="fill_horizontal"
@@ -41,7 +38,8 @@
                 android:id="@+id/overview_card_ultradian_rhythm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/card_margin_bottom">
+                android:layout_marginBottom="@dimen/card_margin_bottom"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -81,7 +79,8 @@
                 android:id="@+id/overview_card_deadlines"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/card_margin_bottom">
+                android:layout_marginBottom="@dimen/card_margin_bottom"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -123,7 +122,8 @@
                 android:id="@+id/overview_card_accountability_chart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin">
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -230,8 +230,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingLeft="4dp"
-            android:paddingStart="4dp"
+            android:paddingLeft="2dp"
+            android:paddingStart="2dp"
             app:layout_column="2"
             app:layout_columnWeight="1"
             app:layout_gravity="fill_horizontal"
@@ -241,7 +241,8 @@
                 android:id="@+id/overview_card_pomodoro_timer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/card_margin_bottom">
+                android:layout_marginBottom="@dimen/card_margin_bottom"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -283,7 +284,8 @@
                 android:id="@+id/overview_card_agenda"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/card_margin_bottom">
+                android:layout_marginBottom="@dimen/card_margin_bottom"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -345,7 +347,8 @@
                 android:id="@+id/overview_card_productivity_quiz"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin">
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
