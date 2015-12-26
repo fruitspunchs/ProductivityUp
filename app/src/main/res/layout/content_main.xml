@@ -49,6 +49,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/ultradian_rhythm_title_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -90,6 +91,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/deadlines_title_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -97,7 +99,7 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                     <TextView
-                        android:id="@+id/deadlines_task_textview"
+                        android:id="@+id/deadlines_task_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -133,6 +135,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/accountability_chart_title1_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -140,6 +143,7 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                     <TextView
+                        android:id="@+id/accountability_chart_title2_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -252,6 +256,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/pomodoro_timer_title_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -297,6 +302,7 @@
                     android:paddingRight="8dp">
 
                     <TextView
+                        android:id="@+id/agenda_title_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"

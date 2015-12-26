@@ -5,14 +5,20 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
+    private final String LOG_TAG = this.getClass().getSimpleName();
 
     @Bind(R.id.overview_card_pomodoro_timer)
     CardView mPomodoroTimerCard;
@@ -26,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     CardView mAccountabilityChartCard;
     @Bind(R.id.overview_card_productivity_quiz)
     CardView mProductivityQuizCard;
+
+    @Bind({R.id.deadlines_title_text_view, R.id.accountability_chart_title1_text_view, R.id.accountability_chart_title2_text_view, R.id.agenda_title_text_view, R.id.ultradian_rhythm_title_text_view, R.id.pomodoro_timer_title_text_view})
+    List<TextView> cardTitles;
+    boolean isShowingCardTitles = true;
 
     @OnClick(R.id.overview_card_pomodoro_timer)
     void clickPomodoroCard() {
@@ -91,6 +101,22 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_toggle_card_title) {
+            if (isShowingCardTitles) {
+                Log.d(LOG_TAG, "Hiding card titles");
+                for (TextView textView : cardTitles) {
+                    textView.setVisibility(View.GONE);
+                }
+                item.setIcon(R.drawable.ic_show_card_title);
+                isShowingCardTitles = false;
+            } else {
+                Log.d(LOG_TAG, "Showing card titles");
+                for (TextView textView : cardTitles) {
+                    textView.setVisibility(View.VISIBLE);
+                }
+                item.setIcon(R.drawable.ic_hide_card_title);
+                isShowingCardTitles = true;
+            }
         }
 
         return super.onOptionsItemSelected(item);
