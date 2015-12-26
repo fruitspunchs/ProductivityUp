@@ -131,7 +131,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/card_padding_bottom"
-                    android:layout_marginTop="@dimen/card_padding_top"
                     android:orientation="vertical">
 
                     <TextView
@@ -139,6 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/card_padding_top"
                         android:text="Accountability"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
