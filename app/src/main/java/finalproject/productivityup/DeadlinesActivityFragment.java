@@ -81,6 +81,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         getLoaderManager().restartLoader(id, null, mDeadlineDaysCursorAdapter);
     }
 
+    //TODO: Fix scroll offset
     public void scrollToPosition(int position) {
         if (mWillAutoScroll) {
             mWillAutoScroll = false;

@@ -106,6 +106,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
                 DeadlineTasksColumns.TIME + " ASC");
     }
 
+    //TODO: Fix rare date task mismatch bug
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.d(LOG_TAG, "Loader finished. Id: " + loader.getId());
