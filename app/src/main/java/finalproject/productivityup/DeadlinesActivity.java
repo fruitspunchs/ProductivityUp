@@ -21,11 +21,6 @@ public class DeadlinesActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
-    public void restartTaskCursorLoader(int id) {
-        DeadlinesActivityFragment fragment = (DeadlinesActivityFragment) getSupportFragmentManager().findFragmentById(R.id.deadlines_fragment);
-        fragment.restartTaskCursorLoader(id);
-    }
-
     public void scrollToPosition(int position) {
         DeadlinesActivityFragment fragment = (DeadlinesActivityFragment) getSupportFragmentManager().findFragmentById(R.id.deadlines_fragment);
         fragment.scrollToPosition(position);
