@@ -11,4 +11,19 @@
     <string name="app_title_1">productivity</string>
     <string name="app_title_2">Up</string>
     <string name="title_activity_add_deadline">Add Deadline</string>
+
+    <!--Used to format time left for next deadline-->
+    <string name="year">y</string>
+    <string name="years">y</string>
+    <string name="month">m</string>
+    <string name="months">m</string>
+    <string name="day">d</string>
+    <string name="days">d</string>
+    <string name="hour">h</string>
+    <string name="hours">h</string>
+    <string name="minute">m</string>
+    <string name="minutes">m</string>
+    <string name="second">s</string>
+    <string name="seconds">s</string>
+
 </resources>

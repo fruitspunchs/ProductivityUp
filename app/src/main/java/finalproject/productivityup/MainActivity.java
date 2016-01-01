@@ -3,6 +3,7 @@ package finalproject.productivityup;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -26,6 +27,7 @@ import finalproject.productivityup.adapter.OverviewDeadlinesCursorAdapter;
 import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.libs.LinearLayoutManager;
+import finalproject.productivityup.libs.Utility;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int DEADLINE_TASKS_CURSOR_LOADER_ID = 0;
@@ -183,37 +185,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else if (loader.getId() == DEADLINE_TASKS_CURSOR_LOADER_ID) {
             if (data.moveToNext()) {
                 nextDeadlineUnixTime = data.getLong(data.getColumnIndex(DeadlineTasksColumns.TIME));
+
+                long timeUntilNextDeadline = nextDeadlineUnixTime * 1000 - System.currentTimeMillis();
+                new CountDownTimer(timeUntilNextDeadline, 1000) {
+
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        mDeadlinesDate.setText(Utility.formatTimeLeft(getApplication(), millisUntilFinished / 1000));
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        mDeadlinesDate.setText("done!");
+                    }
+                }.start();
+
                 getSupportLoaderManager().restartLoader(NEXT_DEADLINE_CURSOR_LOADER_ID, null, this);
             }
         }
-
-
-//        if (data.moveToNext()) {
-//            Long date = data.getLong(data.getColumnIndex(DeadlineTasksColumns.TIME));
-//            Long nextDate;
-//            String task = "";
-//            int ctr = 0;
-//
-//            do {
-//
-//                if (ctr > 0) {
-//                    task += "\n";
-//                }
-//                ctr++;
-//
-//                task += data.getString(data.getColumnIndex(DeadlineTasksColumns.TASK));
-//
-//                if (data.moveToNext()) {
-//                    nextDate = data.getLong(data.getColumnIndex(DeadlineTasksColumns.TIME));
-//                } else {
-//                    nextDate = -1L;
-//                }
-//
-//            } while (date.equals(nextDate));
-//
-//            mDeadlinesTaskRecyclerView.setText(task);
-//            mDeadlinesDate.setText(String.valueOf(date));
-//        }
     }
 
     @Override
