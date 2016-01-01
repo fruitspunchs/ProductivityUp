@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             return new CursorLoader(this, ProductivityProvider.DeadlineTasks.CONTENT_URI,
                     null,
-                    DeadlineTasksColumns.TIME + " >= ?",
+                    DeadlineTasksColumns.TIME + " > ?",
                     selectionArgs,
                     DeadlineTasksColumns.TIME + " ASC");
         } else if (id == NEXT_DEADLINE_CURSOR_LOADER_ID) {
@@ -180,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Log.d(LOG_TAG, "Loader finished. Id: " + loader.getId());
 
         if (loader.getId() == NEXT_DEADLINE_CURSOR_LOADER_ID) {
             mOverviewDeadlinesCursorAdapter.swapCursor(data);
@@ -204,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     public void onFinish() {
                         mDeadlinesTimeLeft.setText(getApplication().getString(R.string.time_up));
                         restartDeadlinesLoader();
+                        Log.d(LOG_TAG, "Countdown finished");
                     }
                 }.start();
 
