@@ -51,9 +51,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Bind(R.id.deadlines_task_text_view)
     RecyclerView mDeadlinesTaskRecyclerView;
     @Bind(R.id.deadlines_date_text_view)
-    TextView mDeadlinesDate;
+    TextView mDeadlinesTimeLeft;
     OverviewDeadlinesCursorAdapter mOverviewDeadlinesCursorAdapter;
     private long nextDeadlineUnixTime = -1;
+    private CountDownTimer deadlinesCountdownTimer;
 
     @OnClick(R.id.overview_card_pomodoro_timer)
     void clickPomodoroCard() {
@@ -187,22 +188,32 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 nextDeadlineUnixTime = data.getLong(data.getColumnIndex(DeadlineTasksColumns.TIME));
 
                 long timeUntilNextDeadline = nextDeadlineUnixTime * 1000 - System.currentTimeMillis();
-                new CountDownTimer(timeUntilNextDeadline, 1000) {
+
+                if (null != deadlinesCountdownTimer) {
+                    deadlinesCountdownTimer.cancel();
+                }
+
+                deadlinesCountdownTimer = new CountDownTimer(timeUntilNextDeadline, 1000) {
 
                     @Override
                     public void onTick(long millisUntilFinished) {
-                        mDeadlinesDate.setText(Utility.formatTimeLeft(getApplication(), millisUntilFinished / 1000));
+                        mDeadlinesTimeLeft.setText(Utility.formatTimeLeft(getApplication(), millisUntilFinished / 1000));
                     }
 
                     @Override
                     public void onFinish() {
-                        mDeadlinesDate.setText("done!");
+                        mDeadlinesTimeLeft.setText(getApplication().getString(R.string.time_up));
+                        restartDeadlinesLoader();
                     }
                 }.start();
 
                 getSupportLoaderManager().restartLoader(NEXT_DEADLINE_CURSOR_LOADER_ID, null, this);
             }
         }
+    }
+
+    private void restartDeadlinesLoader() {
+        getSupportLoaderManager().restartLoader(DEADLINE_TASKS_CURSOR_LOADER_ID, null, this);
     }
 
     @Override

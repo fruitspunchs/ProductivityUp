@@ -25,5 +25,6 @@
     <string name="minutes">m</string>
     <string name="second">s</string>
     <string name="seconds">s</string>
+    <string name="time_up">Time\'s up!</string>
 
 </resources>
