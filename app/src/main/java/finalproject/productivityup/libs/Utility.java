@@ -176,7 +176,7 @@ public class Utility {
         }
 
         String suffix = "";
-        if (timeLeftInSeconds == 1) {
+        if (timeLeftInSeconds >= 0) {
             suffix = context.getString(R.string.second);
         } else if (timeLeftInSeconds > 1) {
             suffix = context.getString(R.string.seconds);
