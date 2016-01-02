@@ -31,7 +31,8 @@ import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.libs.LinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 
-//TODO: Add feature: ask if deadline was met, or reschedule or archive
+//TODO: Feature: ask if deadline was met, or reschedule or archive
+//TODO: Feature: add animations to card resize
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int DEADLINE_TASKS_CURSOR_LOADER_ID = 0;
     private static final int NEXT_DEADLINE_CURSOR_LOADER_ID = 1;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     OverviewDeadlinesCursorAdapter mOverviewDeadlinesCursorAdapter;
     private long nextDeadlineUnixTime = -1;
     private CountDownTimer deadlinesCountdownTimer;
+    private CountDownTimer mDeadlineTimeUpDelayCountDownTimer;
 
     @OnClick(R.id.overview_card_pomodoro_timer)
     void clickPomodoroCard() {
@@ -259,7 +261,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void restartDeadlinesLoader() {
-        getSupportLoaderManager().restartLoader(DEADLINE_TASKS_CURSOR_LOADER_ID, null, this);
+        Log.d(LOG_TAG, "Waiting a few seconds before restarting loader");
+
+        if (null != mDeadlineTimeUpDelayCountDownTimer) {
+            mDeadlineTimeUpDelayCountDownTimer.cancel();
+        }
+
+        final MainActivity thisActivity = this;
+
+        mDeadlineTimeUpDelayCountDownTimer = new CountDownTimer(15000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                getSupportLoaderManager().restartLoader(DEADLINE_TASKS_CURSOR_LOADER_ID, null, thisActivity);
+            }
+        }.start();
     }
 
     @Override

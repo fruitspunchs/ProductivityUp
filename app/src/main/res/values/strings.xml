@@ -30,6 +30,6 @@
     <string name="seconds">s</string>
     <string name="time_up">Time\'s up!</string>
 
-    <string name="no_deadlines">Yay! No deadlines!</string>
+    <string name="no_deadlines">Add a deadline</string>
 
 </resources>
