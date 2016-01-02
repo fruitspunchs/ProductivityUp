@@ -55,7 +55,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="Ultradian rhythm"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                         android:layout_marginTop="24dp"
                         android:text="73m"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textColor="@color/colorPrimaryText" />
+                        android:textColor="@color/colorPrimaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="Work"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/colorPrimaryText" />
+                        android:textColor="@color/colorPrimaryText"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -85,6 +85,7 @@
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
+                    android:id="@+id/deadlines_card_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/card_padding_bottom"
@@ -96,21 +97,38 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/card_padding_top"
-                        android:text="Next deadline"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:text="@string/deadlines_title_card"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/deadlines_task_text_view"
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="24dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="24dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/colorPrimaryText"
-                        tools:text="Finish mock"/>
+                        android:layout_marginTop="24dp">
+
+                        <TextView
+                            android:id="@+id/deadlines_no_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:text="@string/no_deadlines"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/colorPrimaryText"
+                            android:visibility="gone"
+                            />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/deadlines_task_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/colorPrimaryText"
+                            tools:text="Finish mock"/>
+                    </FrameLayout>
 
                     <TextView
                         android:id="@+id/deadlines_date_text_view"
@@ -119,7 +137,7 @@
                         android:layout_gravity="center_horizontal"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorPrimaryText"
-                        tools:text="2 days 1 hour" />
+                        tools:text="2 days 1 hour"/>
                 </LinearLayout>
             </finalproject.productivityup.libs.InterceptTouchCardView>
 
@@ -143,7 +161,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/card_padding_top"
                         android:text="Accountability"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
                     <TextView
                         android:id="@+id/accountability_chart_title2_text_view"
@@ -153,7 +171,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:text="chart"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -163,7 +181,7 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="24dp"
                         android:text="9 am to 10:30 am"
-                        android:textColor="@color/colorPrimaryText" />
+                        android:textColor="@color/colorPrimaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -172,7 +190,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:text="Cat videos"
-                        android:textColor="@color/colorPrimaryText" />
+                        android:textColor="@color/colorPrimaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -181,7 +199,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:text="Research features"
-                        android:textColor="@color/colorPrimaryText" />
+                        android:textColor="@color/colorPrimaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -189,7 +207,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:text="Draw draft on paper"
-                        android:textColor="@color/colorPrimaryText" />
+                        android:textColor="@color/colorPrimaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -199,7 +217,7 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="24dp"
                         android:text="11 am to 12:30 am"
-                        android:textColor="@color/colorPrimaryText" />
+                        android:textColor="@color/colorPrimaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -208,7 +226,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:text="League of Legends"
-                        android:textColor="@color/colorPrimaryText" />
+                        android:textColor="@color/colorPrimaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -217,7 +235,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:text="Eat lunch"
-                        android:textColor="@color/colorPrimaryText" />
+                        android:textColor="@color/colorPrimaryText"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -225,7 +243,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:text="Fire lasers"
-                        android:textColor="@color/colorPrimaryText" />
+                        android:textColor="@color/colorPrimaryText"/>
 
 
                 </LinearLayout>
@@ -264,7 +282,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="Pomodoro timer"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -274,7 +292,7 @@
                         android:layout_marginTop="24dp"
                         android:text="19:24"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textColor="@color/colorPrimaryText" />
+                        android:textColor="@color/colorPrimaryText"/>
 
                     <ImageButton
                         android:id="@+id/button"
@@ -283,7 +301,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:background="@android:color/transparent"
-                        android:src="@android:drawable/ic_media_pause" />
+                        android:src="@android:drawable/ic_media_pause"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -311,42 +329,42 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="24dp"
                         android:text="Today's agenda"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
                     <CheckBox
                         android:id="@+id/checkBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="Research features" />
+                        android:text="Research features"/>
 
                     <CheckBox
                         android:id="@+id/checkBox2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="Draw draft on paper" />
+                        android:text="Draw draft on paper"/>
 
                     <CheckBox
                         android:id="@+id/checkBox3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="Find mocking programs" />
+                        android:text="Find mocking programs"/>
 
                     <CheckBox
                         android:id="@+id/checkBox4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="false"
-                        android:text="Create mocks" />
+                        android:text="Create mocks"/>
 
                     <CheckBox
                         android:id="@+id/checkBox5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="false"
-                        android:text="Add to doc" />
+                        android:text="Add to doc"/>
 
 
                 </LinearLayout>
@@ -373,14 +391,14 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:text="Take the"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="productivity quiz"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>

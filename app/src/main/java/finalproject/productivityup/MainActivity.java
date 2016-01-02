@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -29,6 +31,7 @@ import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.libs.LinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 
+//TODO: Add feature: ask if deadline was met, or reschedule or archive
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int DEADLINE_TASKS_CURSOR_LOADER_ID = 0;
     private static final int NEXT_DEADLINE_CURSOR_LOADER_ID = 1;
@@ -52,6 +55,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     RecyclerView mDeadlinesTaskRecyclerView;
     @Bind(R.id.deadlines_date_text_view)
     TextView mDeadlinesTimeLeft;
+    @Bind(R.id.deadlines_card_container)
+    LinearLayout mDeadlinesCardContainer;
+    @Bind(R.id.deadlines_no_item)
+    TextView mDeadlinesNoItem;
+    boolean mHasDeadlines = true;
+
+
     OverviewDeadlinesCursorAdapter mOverviewDeadlinesCursorAdapter;
     private long nextDeadlineUnixTime = -1;
     private CountDownTimer deadlinesCountdownTimer;
@@ -148,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 item.setIcon(R.drawable.ic_hide_card_title);
                 mIsShowingCardTitles = true;
             }
+
+            adjustDeadlinesLayout(mIsShowingCardTitles);
         }
 
         return super.onOptionsItemSelected(item);
@@ -186,6 +198,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             mOverviewDeadlinesCursorAdapter.swapCursor(data);
         } else if (loader.getId() == DEADLINE_TASKS_CURSOR_LOADER_ID) {
             if (data.moveToNext()) {
+
+                mHasDeadlines = true;
+
+                mDeadlinesTimeLeft.setVisibility(View.VISIBLE);
+                mDeadlinesTaskRecyclerView.setVisibility(View.VISIBLE);
+                mDeadlinesNoItem.setVisibility(View.GONE);
+
                 nextDeadlineUnixTime = data.getLong(data.getColumnIndex(DeadlineTasksColumns.TIME));
 
                 long timeUntilNextDeadline = nextDeadlineUnixTime * 1000 - System.currentTimeMillis();
@@ -210,8 +229,33 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 }.start();
 
                 getSupportLoaderManager().restartLoader(NEXT_DEADLINE_CURSOR_LOADER_ID, null, this);
+
+                adjustDeadlinesLayout(mIsShowingCardTitles);
+
+            } else {
+                mDeadlinesTimeLeft.setVisibility(View.GONE);
+                mDeadlinesTaskRecyclerView.setVisibility(View.GONE);
+                mDeadlinesNoItem.setVisibility(View.VISIBLE);
+
+                mHasDeadlines = false;
+
+                adjustDeadlinesLayout(mIsShowingCardTitles);
+
             }
         }
+    }
+
+    private void adjustDeadlinesLayout(boolean isShowingCardTitles) {
+
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+        if (isShowingCardTitles || mHasDeadlines) {
+            layoutParams.setMargins(0, 0, 0, getResources().getDimensionPixelSize(R.dimen.card_padding_bottom));
+        } else {
+            layoutParams.setMargins(0, 0, 0, 0);
+        }
+
+        mDeadlinesCardContainer.setLayoutParams(layoutParams);
     }
 
     private void restartDeadlinesLoader() {

@@ -12,6 +12,9 @@
     <string name="app_title_2">Up</string>
     <string name="title_activity_add_deadline">Add Deadline</string>
 
+    <!-- Overview card titles-->
+    <string name="deadlines_title_card">Next Deadline</string>
+
     <!--Used to format time left for next deadline-->
     <string name="year">y</string>
     <string name="years">y</string>
@@ -26,5 +29,7 @@
     <string name="second">s</string>
     <string name="seconds">s</string>
     <string name="time_up">Time\'s up!</string>
+
+    <string name="no_deadlines">Yay! No deadlines!</string>
 
 </resources>

@@ -185,4 +185,9 @@ public class Utility {
 
         return formattedString;
     }
+
+    public static int convertToDp(Context context, int pixels) {
+        float scale = context.getResources().getDisplayMetrics().density;
+        return (int) Math.ceil(pixels * scale);
+    }
 }
