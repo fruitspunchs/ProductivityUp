@@ -1,28 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="8dp"
-    android:layout_marginTop="8dp"
-    android:orientation="horizontal">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginBottom="8dp"
+              android:layout_marginTop="8dp"
+              android:orientation="horizontal">
 
     <TextView
         android:id="@+id/deadlines_time_text_view"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:gravity="end"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/colorPrimaryText"
-        tools:text="9 am" />
+        tools:text="9 am"/>
+
 
     <TextView
         android:id="@+id/deadlines_task_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/colorPrimaryText"
-        tools:text="Finish Mock" />
+        tools:text="Finish Mock"/>
+
+    <ImageButton
+        android:id="@+id/deadlines_delete_button"
+        android:layout_width="28dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_delete_black_18dp"
+        android:visibility="gone"/>
+
+    <ImageButton
+        android:id="@+id/deadlines_edit_button"
+        android:layout_width="28dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_mode_edit_black_18dp"
+        android:visibility="gone"/>
 </LinearLayout>
