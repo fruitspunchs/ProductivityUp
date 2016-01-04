@@ -32,4 +32,8 @@
 
     <string name="no_deadlines">Add a deadline</string>
 
+    <!-- Content descriptions-->
+    <string name="cd_delete">delete</string>
+    <string name="cd_edit">edit</string>
+
 </resources>
