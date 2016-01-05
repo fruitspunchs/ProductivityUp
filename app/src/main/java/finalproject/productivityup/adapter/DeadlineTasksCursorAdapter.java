@@ -28,11 +28,9 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
     private static int sLastSelectedTextColor;
     private DeadlineTasksViewHolder mVh;
     private Context mContext;
-    private DeadlineTasksCursorAdapterOnClickHandler mDeadlineTasksCursorAdapterOnClickHandler;
 
-    public DeadlineTasksCursorAdapter(Context context, DeadlineTasksCursorAdapterOnClickHandler deadlineTasksCursorAdapterOnClickHandler, Cursor cursor) {
+    public DeadlineTasksCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor);
-        mDeadlineTasksCursorAdapterOnClickHandler = deadlineTasksCursorAdapterOnClickHandler;
     }
 
     @Override
@@ -91,17 +89,15 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
             mDeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    view.setVisibility(View.GONE);
                     String[] selectionArgs = {String.valueOf(mId)};
                     mContext.getContentResolver().delete(ProductivityProvider.DeadlineTasks.CONTENT_URI, DeadlineTasksColumns._ID + " = ?", selectionArgs);
                 }
             });
         }
 
-        //TODO: implement delete action
-        // FIXME: 1/5/2016 invisible last item when deleting
+        // TODO: implement delete action
         // FIXME: 1/5/2016 also delete unix day when no items left
-        //TODO: implement edit action
+        // TODO: implement edit action
         @Override
         public void onClick(View v) {
             if (sLastSelectedView != null) {
@@ -124,8 +120,6 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
             mTaskTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             mTimeTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             v.setSelected(true);
-
-            mDeadlineTasksCursorAdapterOnClickHandler.onClick(0, "", this);
         }
     }
 }

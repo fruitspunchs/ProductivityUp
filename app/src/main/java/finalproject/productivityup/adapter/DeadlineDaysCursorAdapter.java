@@ -24,13 +24,13 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
-import finalproject.productivityup.libs.LinearLayoutManager;
+import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 
 /**
  * Created by User on 12/17/2015.
  */
-public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<DeadlineDaysCursorAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<Cursor>, DeadlineTasksCursorAdapter.DeadlineTasksCursorAdapterOnClickHandler {
+public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<DeadlineDaysCursorAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static int sTaskCursorLoaderId = DeadlinesActivityFragment.TASK_CURSOR_LOADER_START_ID;
     private final String LOG_TAG = this.getClass().getSimpleName();
@@ -41,8 +41,6 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
     private boolean mGetNextDeadline = true;
     private long mNextDeadline = -1;
     private int mScrollToPosition = -1;
-    private DeadlineDaysCursorAdapter thisClass = this;
-    private RecyclerView mRecyclerView;
 
     public DeadlineDaysCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor);
@@ -64,7 +62,6 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
-        Log.d(LOG_TAG, "Today is: " + today.getTimeInMillis() / 1000);
 
         //Set text colors for easier reading
         if (mUnixDate == mNextDeadline) {
@@ -79,7 +76,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
             viewHolder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
         }
 
-        viewHolder.mTasksRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        viewHolder.mTasksRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
         viewHolder.mTasksRecyclerView.setAdapter(viewHolder.mDeadlineTasksCursorAdapter);
         Log.d(LOG_TAG, "Task cursor adapter items: " + viewHolder.mDeadlineTasksCursorAdapter.getItemCount());
         ((AppCompatActivity) mContext).getSupportLoaderManager().restartLoader(viewHolder.mId, null, this);
@@ -138,11 +135,6 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
         restartAllLoaders();
     }
 
-    @Override
-    public void onClick(long unixDate, String task, DeadlineTasksCursorAdapter.DeadlineTasksViewHolder deadlineTasksViewHolder) {
-        Log.d(LOG_TAG, "Request resize");
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mDateTextView;
         public RecyclerView mTasksRecyclerView;
@@ -155,7 +147,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
             mView = view;
             mDateTextView = (TextView) view.findViewById(R.id.deadlines_card_date_text_view);
             mTasksRecyclerView = (RecyclerView) view.findViewById(R.id.deadlines_card_tasks_recycler_view);
-            mDeadlineTasksCursorAdapter = new DeadlineTasksCursorAdapter(mContext, thisClass, null);
+            mDeadlineTasksCursorAdapter = new DeadlineTasksCursorAdapter(mContext, null);
             mId = sTaskCursorLoaderId++;
         }
     }

@@ -44,7 +44,7 @@ import finalproject.productivityup.BuildConfig;
  * If animations are not used at all then a normal measuring procedure will run and child views will be measured during
  * the measure pass.
  */
-public class LinearLayoutManager extends android.support.v7.widget.LinearLayoutManager {
+public class CustomLinearLayoutManager extends android.support.v7.widget.LinearLayoutManager {
 
     private static final int CHILD_WIDTH = 0;
     private static final int CHILD_HEIGHT = 1;
@@ -59,26 +59,26 @@ public class LinearLayoutManager extends android.support.v7.widget.LinearLayoutM
     private int overScrollMode = ViewCompat.OVER_SCROLL_ALWAYS;
 
     @SuppressWarnings("UnusedDeclaration")
-    public LinearLayoutManager(Context context) {
+    public CustomLinearLayoutManager(Context context) {
         super(context);
         this.view = null;
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    public LinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+    public CustomLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
         super(context, orientation, reverseLayout);
         this.view = null;
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    public LinearLayoutManager(RecyclerView view) {
+    public CustomLinearLayoutManager(RecyclerView view) {
         super(view.getContext());
         this.view = view;
         this.overScrollMode = ViewCompat.getOverScrollMode(view);
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    public LinearLayoutManager(RecyclerView view, int orientation, boolean reverseLayout) {
+    public CustomLinearLayoutManager(RecyclerView view, int orientation, boolean reverseLayout) {
         super(view.getContext(), orientation, reverseLayout);
         this.view = view;
         this.overScrollMode = ViewCompat.getOverScrollMode(view);

@@ -28,7 +28,7 @@ import butterknife.OnClick;
 import finalproject.productivityup.adapter.OverviewDeadlinesCursorAdapter;
 import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
-import finalproject.productivityup.libs.LinearLayoutManager;
+import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 
 //TODO: Feature: ask if deadline was met, or reschedule or archive
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         ButterKnife.bind(this);
 
         getSupportLoaderManager().initLoader(DEADLINE_TASKS_CURSOR_LOADER_ID, null, this);
-        mDeadlinesTaskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mDeadlinesTaskRecyclerView.setLayoutManager(new CustomLinearLayoutManager(this));
         mOverviewDeadlinesCursorAdapter = new OverviewDeadlinesCursorAdapter(this, null);
         mDeadlinesTaskRecyclerView.setAdapter(mOverviewDeadlinesCursorAdapter);
     }
