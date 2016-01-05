@@ -4,11 +4,10 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@drawable/selector_row"
+              android:minHeight="48dp"
               android:orientation="horizontal"
-              android:paddingBottom="8dp"
               android:paddingLeft="8dp"
-              android:paddingRight="8dp"
-              android:paddingTop="8dp">
+              android:paddingRight="8dp">
 
     <TextView
         android:id="@+id/deadlines_time_text_view"
@@ -29,6 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/colorPrimaryText"
         tools:text="Finish Mock"/>

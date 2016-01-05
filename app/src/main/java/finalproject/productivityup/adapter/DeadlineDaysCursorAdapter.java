@@ -30,7 +30,7 @@ import finalproject.productivityup.libs.Utility;
 /**
  * Created by User on 12/17/2015.
  */
-public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<DeadlineDaysCursorAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<Cursor> {
+public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<DeadlineDaysCursorAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<Cursor>, DeadlineTasksCursorAdapter.DeadlineTasksCursorAdapterOnClickHandler {
 
     private static int sTaskCursorLoaderId = DeadlinesActivityFragment.TASK_CURSOR_LOADER_START_ID;
     private final String LOG_TAG = this.getClass().getSimpleName();
@@ -41,6 +41,8 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
     private boolean mGetNextDeadline = true;
     private long mNextDeadline = -1;
     private int mScrollToPosition = -1;
+    private DeadlineDaysCursorAdapter thisClass = this;
+    private RecyclerView mRecyclerView;
 
     public DeadlineDaysCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor);
@@ -136,17 +138,24 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
         restartAllLoaders();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onClick(long unixDate, String task, DeadlineTasksCursorAdapter.DeadlineTasksViewHolder deadlineTasksViewHolder) {
+        Log.d(LOG_TAG, "Request resize");
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mDateTextView;
         public RecyclerView mTasksRecyclerView;
         public DeadlineTasksCursorAdapter mDeadlineTasksCursorAdapter;
+        public View mView;
         public int mId;
 
         public ViewHolder(View view) {
             super(view);
+            mView = view;
             mDateTextView = (TextView) view.findViewById(R.id.deadlines_card_date_text_view);
             mTasksRecyclerView = (RecyclerView) view.findViewById(R.id.deadlines_card_tasks_recycler_view);
-            mDeadlineTasksCursorAdapter = new DeadlineTasksCursorAdapter(null, null);
+            mDeadlineTasksCursorAdapter = new DeadlineTasksCursorAdapter(mContext, thisClass, null);
             mId = sTaskCursorLoaderId++;
         }
     }
