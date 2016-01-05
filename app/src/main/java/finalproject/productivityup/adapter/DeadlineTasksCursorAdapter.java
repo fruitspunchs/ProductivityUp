@@ -13,6 +13,7 @@ import java.util.Calendar;
 
 import finalproject.productivityup.R;
 import finalproject.productivityup.data.DeadlineTasksColumns;
+import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.libs.Utility;
 
 /**
@@ -46,6 +47,7 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
             textColor = mContext.getResources().getColor(R.color.colorPrimaryText);
         }
 
+        viewHolder.mId = cursor.getLong(cursor.getColumnIndex(DeadlineTasksColumns._ID));
         viewHolder.mTimeTextView.setText(Utility.formatTime(cursor.getLong(cursor.getColumnIndex(DeadlineTasksColumns.TIME))));
         viewHolder.mTaskTextView.setText(cursor.getString(cursor.getColumnIndex(DeadlineTasksColumns.TASK)));
 
@@ -76,18 +78,29 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
         public TextView mTaskTextView;
         public ImageButton mEditButton;
         public ImageButton mDeleteButton;
+        public long mId;
 
-        public DeadlineTasksViewHolder(View view) {
+        public DeadlineTasksViewHolder(final View view) {
             super(view);
             mTaskTextView = (TextView) view.findViewById(R.id.deadlines_task_text_view);
             mTimeTextView = (TextView) view.findViewById(R.id.deadlines_time_text_view);
             mEditButton = (ImageButton) view.findViewById(R.id.deadlines_edit_button);
             mDeleteButton = (ImageButton) view.findViewById(R.id.deadlines_delete_button);
             view.setOnClickListener(this);
+
+            mDeleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    view.setVisibility(View.GONE);
+                    String[] selectionArgs = {String.valueOf(mId)};
+                    mContext.getContentResolver().delete(ProductivityProvider.DeadlineTasks.CONTENT_URI, DeadlineTasksColumns._ID + " = ?", selectionArgs);
+                }
+            });
         }
 
-        //TODO: request layout on parent card
         //TODO: implement delete action
+        // FIXME: 1/5/2016 invisible last item when deleting
+        // FIXME: 1/5/2016 also delete unix day when no items left
         //TODO: implement edit action
         @Override
         public void onClick(View v) {
