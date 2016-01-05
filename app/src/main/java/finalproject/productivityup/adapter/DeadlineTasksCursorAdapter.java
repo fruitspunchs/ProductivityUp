@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 import finalproject.productivityup.R;
+import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.libs.Utility;
@@ -46,6 +47,7 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
         }
 
         viewHolder.mId = cursor.getLong(cursor.getColumnIndex(DeadlineTasksColumns._ID));
+        viewHolder.mDay = cursor.getLong(cursor.getColumnIndex(DeadlineTasksColumns.DATE));
         viewHolder.mTimeTextView.setText(Utility.formatTime(cursor.getLong(cursor.getColumnIndex(DeadlineTasksColumns.TIME))));
         viewHolder.mTaskTextView.setText(cursor.getString(cursor.getColumnIndex(DeadlineTasksColumns.TASK)));
 
@@ -66,10 +68,6 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
         return vh;
     }
 
-    public interface DeadlineTasksCursorAdapterOnClickHandler {
-        void onClick(long unixDate, String task, DeadlineTasksViewHolder deadlineTasksViewHolder);
-    }
-
     public class DeadlineTasksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView mTimeTextView;
@@ -77,6 +75,7 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
         public ImageButton mEditButton;
         public ImageButton mDeleteButton;
         public long mId;
+        public long mDay;
 
         public DeadlineTasksViewHolder(final View view) {
             super(view);
@@ -89,14 +88,17 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
             mDeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String[] selectionArgs = {String.valueOf(mId)};
-                    mContext.getContentResolver().delete(ProductivityProvider.DeadlineTasks.CONTENT_URI, DeadlineTasksColumns._ID + " = ?", selectionArgs);
+                    String[] taskArg = {String.valueOf(mId)};
+                    mContext.getContentResolver().delete(ProductivityProvider.DeadlineTasks.CONTENT_URI, DeadlineTasksColumns._ID + " = ?", taskArg);
+
+                    if (getItemCount() == 1) {
+                        String[] dayArg = {String.valueOf(mDay)};
+                        mContext.getContentResolver().delete(ProductivityProvider.DeadlineDays.CONTENT_URI, DeadlineDaysColumns.DATE + " = ?", dayArg);
+                    }
                 }
             });
         }
 
-        // TODO: implement delete action
-        // FIXME: 1/5/2016 also delete unix day when no items left
         // TODO: implement edit action
         @Override
         public void onClick(View v) {
