@@ -21,7 +21,7 @@
         app:orientation="horizontal"
         app:rowCount="2"
         app:rowOrderPreserved="false"
-        tools:context=".MainActivity"
+        tools:context=".ui.MainActivity"
         tools:showIn="@layout/activity_main">
 
         <LinearLayout

@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="16dp"
-    tools:context="finalproject.productivityup.DeadlinesActivityFragment"
+    tools:context=".ui.deadlines.DeadlinesActivityFragment"
     tools:showIn="@layout/activity_deadlines">
 
 

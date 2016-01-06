@@ -1,4 +1,4 @@
-package finalproject.productivityup;
+package finalproject.productivityup.ui.deadlines;
 
 import android.content.ContentValues;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import finalproject.productivityup.R;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;

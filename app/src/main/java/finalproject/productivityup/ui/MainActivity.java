@@ -1,4 +1,4 @@
-package finalproject.productivityup;
+package finalproject.productivityup.ui;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -25,11 +25,18 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import finalproject.productivityup.R;
 import finalproject.productivityup.adapter.OverviewDeadlinesCursorAdapter;
 import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
+import finalproject.productivityup.ui.accountability.AccountabilityChartActivity;
+import finalproject.productivityup.ui.agenda.AgendaActivity;
+import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
+import finalproject.productivityup.ui.pomodoro.PomodoroTimerActivity;
+import finalproject.productivityup.ui.quiz.ProductivityQuizActivity;
+import finalproject.productivityup.ui.rhythm.UltradianRhythmActivity;
 
 //TODO: Feature: ask if deadline was met, or reschedule or archive
 //TODO: Feature: add animations to card resize

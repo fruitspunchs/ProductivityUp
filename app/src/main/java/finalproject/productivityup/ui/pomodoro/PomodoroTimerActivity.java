@@ -1,8 +1,10 @@
-package finalproject.productivityup;
+package finalproject.productivityup.ui.pomodoro;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import finalproject.productivityup.R;
 
 public class PomodoroTimerActivity extends AppCompatActivity {
 

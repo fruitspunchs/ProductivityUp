@@ -5,7 +5,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="finalproject.productivityup.ProductivityQuizActivityFragment"
+             tools:context=".ui.quiz.ProductivityQuizActivityFragment"
     tools:showIn="@layout/activity_productivity_quiz">
 
 

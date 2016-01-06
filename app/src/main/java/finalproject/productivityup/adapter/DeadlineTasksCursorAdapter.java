@@ -12,12 +12,12 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
-import finalproject.productivityup.EditDeadlineActivity;
 import finalproject.productivityup.R;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.libs.Utility;
+import finalproject.productivityup.ui.deadlines.EditDeadlineActivity;
 
 /**
  * Cursor adapter used to display deadline tasks

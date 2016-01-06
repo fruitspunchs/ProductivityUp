@@ -18,14 +18,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import finalproject.productivityup.DeadlinesActivity;
-import finalproject.productivityup.DeadlinesActivityFragment;
 import finalproject.productivityup.R;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
+import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
+import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
 /**
  * Created by User on 12/17/2015.

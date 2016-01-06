@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -23,76 +23,76 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UltradianRhythmActivity"
+            android:name=".ui.rhythm.UltradianRhythmActivity"
             android:label="@string/title_activity_ultradian_rhythm"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="finalproject.productivityup.MainActivity" />
+                android:value=".ui.MainActivity"/>
         </activity>
         <activity
-            android:name=".PomodoroTimerActivity"
+            android:name=".ui.pomodoro.PomodoroTimerActivity"
             android:label="@string/title_activity_pomodoro_timer"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="finalproject.productivityup.MainActivity" />
+                android:value=".ui.MainActivity"/>
         </activity>
         <activity
-            android:name=".DeadlinesActivity"
+            android:name=".ui.deadlines.DeadlinesActivity"
             android:label="@string/title_activity_deadlines"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="finalproject.productivityup.MainActivity" />
+                android:value=".ui.MainActivity"/>
         </activity>
         <activity
-            android:name=".AgendaActivity"
+            android:name=".ui.agenda.AgendaActivity"
             android:label="@string/title_activity_agenda"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="finalproject.productivityup.MainActivity" />
+                android:value=".ui.MainActivity"/>
         </activity>
         <activity
-            android:name=".AccountabilityChartActivity"
+            android:name=".ui.accountability.AccountabilityChartActivity"
             android:label="@string/title_activity_accountability_chart"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="finalproject.productivityup.MainActivity" />
+                android:value=".ui.MainActivity"/>
         </activity>
         <activity
-            android:name=".ProductivityQuizActivity"
+            android:name=".ui.quiz.ProductivityQuizActivity"
             android:label="@string/title_activity_productivity_quiz"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="finalproject.productivityup.MainActivity" />
+                android:value=".ui.MainActivity"/>
         </activity>
         <activity
-            android:name=".AddDeadlineActivity"
+            android:name=".ui.deadlines.AddDeadlineActivity"
             android:label="@string/title_activity_add_deadline"
-            android:parentActivityName=".DeadlinesActivity"
+            android:parentActivityName=".ui.deadlines.DeadlinesActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="finalproject.productivityup.DeadlinesActivity"/>
+                android:value=".ui.deadlines.DeadlinesActivity"/>
         </activity>
         <activity
-            android:name=".EditDeadlineActivity"
+            android:name=".ui.deadlines.EditDeadlineActivity"
             android:label="@string/title_activity_add_deadline"
-            android:parentActivityName=".DeadlinesActivity"
+            android:parentActivityName=".ui.deadlines.DeadlinesActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="finalproject.productivityup.DeadlinesActivity" />
+                android:value=".ui.deadlines.DeadlinesActivity"/>
         </activity>
 
         <provider

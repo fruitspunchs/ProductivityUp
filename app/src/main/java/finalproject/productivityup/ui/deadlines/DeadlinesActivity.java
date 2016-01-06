@@ -1,4 +1,4 @@
-package finalproject.productivityup;
+package finalproject.productivityup.ui.deadlines;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import finalproject.productivityup.R;
 
 public class DeadlinesActivity extends AppCompatActivity {
 

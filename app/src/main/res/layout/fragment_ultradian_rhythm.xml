@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="finalproject.productivityup.UltradianRhythmActivityFragment"
+              tools:context=".ui.rhythm.UltradianRhythmActivityFragment"
     tools:showIn="@layout/activity_ultradian_rhythm">
 
 

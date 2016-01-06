@@ -10,7 +10,7 @@
     app:columnCount="2"
     app:orientation="vertical"
     app:rowCount="1"
-    tools:context="finalproject.productivityup.UltradianRhythmActivityFragment"
+                                      tools:context=".ui.rhythm.UltradianRhythmActivityFragment"
     tools:showIn="@layout/activity_ultradian_rhythm">
 
 

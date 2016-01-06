@@ -1,4 +1,4 @@
-package finalproject.productivityup;
+package finalproject.productivityup.ui.deadlines;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import java.util.Calendar;
 
+import finalproject.productivityup.R;
 import finalproject.productivityup.adapter.DeadlineDaysCursorAdapter;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.ProductivityProvider;

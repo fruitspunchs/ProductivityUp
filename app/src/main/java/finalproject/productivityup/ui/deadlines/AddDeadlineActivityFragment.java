@@ -1,22 +1,24 @@
-package finalproject.productivityup;
+package finalproject.productivityup.ui.deadlines;
 
-import android.support.v4.app.Fragment;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import finalproject.productivityup.R;
+
 /**
  * A placeholder fragment containing a simple view.
  */
-public class AgendaActivityFragment extends Fragment {
+public class AddDeadlineActivityFragment extends DialogFragment {
 
-    public AgendaActivityFragment() {
+    public AddDeadlineActivityFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_agenda, container, false);
+        return inflater.inflate(R.layout.fragment_add_deadline, container, false);
     }
 }

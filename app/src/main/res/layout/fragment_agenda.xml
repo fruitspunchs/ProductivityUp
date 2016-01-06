@@ -5,7 +5,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="finalproject.productivityup.AgendaActivityFragment"
+                                        tools:context=".ui.agenda.AgendaActivityFragment"
     tools:showIn="@layout/activity_agenda">
 
 
