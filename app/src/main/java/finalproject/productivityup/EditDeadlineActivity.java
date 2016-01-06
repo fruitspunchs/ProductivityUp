@@ -1,6 +1,7 @@
 package finalproject.productivityup;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -40,7 +41,7 @@ public class EditDeadlineActivity extends AppCompatActivity {
     ImageButton mDateTimeButton;
     private int mMode = MODE.DATE;
     private long mId;
-    private String mTask;
+    private long mDate;
 
     @SuppressWarnings("deprecation")
     @OnClick(R.id.add_deadline_done_fab)
@@ -54,28 +55,43 @@ public class EditDeadlineActivity extends AppCompatActivity {
             return;
         }
 
-        ContentValues values = new ContentValues();
-        ContentValues deadlineDays = new ContentValues();
+        ContentValues taskValues = new ContentValues();
+        ContentValues dateValues = new ContentValues();
 
         long unixDate = mCalendarView.getDate() / 1000;
         Log.d(LOG_TAG, "UnixDate: " + unixDate);
+
         long unixHours = mTimePicker.getCurrentHour() * 3600;
         Log.d(LOG_TAG, "UnixHours: " + unixHours);
         long unixMinutes = mTimePicker.getCurrentMinute() * 60;
         Log.d(LOG_TAG, "UnixMinutes: " + unixMinutes);
 
-        values.put(DeadlineTasksColumns.DATE, unixDate);
+        taskValues.put(DeadlineTasksColumns.DATE, unixDate);
         Log.d(LOG_TAG, "Date: " + unixDate);
-        values.put(DeadlineTasksColumns.TIME, unixDate + unixHours + unixMinutes);
+        taskValues.put(DeadlineTasksColumns.TIME, unixDate + unixHours + unixMinutes);
         long time = unixDate + unixHours + unixMinutes;
         Log.d(LOG_TAG, "Time: " + time);
-        values.put(DeadlineTasksColumns.TASK, task);
+        taskValues.put(DeadlineTasksColumns.TASK, task);
         Log.d(LOG_TAG, "Task: " + task);
 
-        deadlineDays.put(DeadlineDaysColumns.DATE, unixDate);
-        getContentResolver().insert(ProductivityProvider.DeadlineDays.CONTENT_URI, deadlineDays);
+        dateValues.put(DeadlineDaysColumns.DATE, unixDate);
+        getContentResolver().insert(ProductivityProvider.DeadlineDays.CONTENT_URI, dateValues);
 
-        getContentResolver().insert(ProductivityProvider.DeadlineTasks.CONTENT_URI, values);
+        String[] taskSelectionArgs = {String.valueOf(mId)};
+
+        getContentResolver().update(ProductivityProvider.DeadlineTasks.CONTENT_URI, taskValues, DeadlineTasksColumns._ID + " = ?", taskSelectionArgs);
+
+        // Delete date entry if there are no corresponding tasks
+        String[] dateSelectionArgs = {String.valueOf(mDate)};
+        Cursor cursor = getContentResolver().query(ProductivityProvider.DeadlineTasks.CONTENT_URI, null, DeadlineDaysColumns.DATE + " = ?", dateSelectionArgs, null);
+        if (cursor != null) {
+            if (cursor.getCount() < 1) {
+                getContentResolver().delete(ProductivityProvider.DeadlineDays.CONTENT_URI, DeadlineDaysColumns.DATE + " = ?", dateSelectionArgs);
+            }
+            cursor.close();
+        }
+
+
         finish();
     }
 
@@ -120,15 +136,15 @@ public class EditDeadlineActivity extends AppCompatActivity {
 
 
         mId = getIntent().getLongExtra(ID_KEY, -1);
-        mTask = getIntent().getStringExtra(TASK_KEY);
+        String task = getIntent().getStringExtra(TASK_KEY);
 
-        long date = getIntent().getLongExtra(DATE_KEY, -1);
+        mDate = getIntent().getLongExtra(DATE_KEY, -1);
         long time = getIntent().getLongExtra(TIME_KEY, -1);
 
-        mTaskEditText.setText(mTask);
-        mCalendarView.setDate(date * 1000);
+        mTaskEditText.setText(task);
+        mCalendarView.setDate(mDate * 1000);
 
-        long daySeconds = time - date;
+        long daySeconds = time - mDate;
 
         int hour = 0;
         int minute = 0;
