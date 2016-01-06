@@ -1,6 +1,7 @@
 package finalproject.productivityup.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
+import finalproject.productivityup.EditDeadlineActivity;
 import finalproject.productivityup.R;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.DeadlineTasksColumns;
@@ -18,7 +20,7 @@ import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.libs.Utility;
 
 /**
- * Created by User on 12/18/2015.
+ * Cursor adapter used to display deadline tasks
  */
 public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<DeadlineTasksCursorAdapter.DeadlineTasksViewHolder> {
     private static ImageButton sLastSelectedEditButton;
@@ -27,13 +29,13 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
     private static TextView sLastSelectedTimeTextView;
     private static TextView sLastSelectedTaskTextView;
     private static int sLastSelectedTextColor;
-    private DeadlineTasksViewHolder mVh;
     private Context mContext;
 
     public DeadlineTasksCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onBindViewHolder(DeadlineTasksViewHolder viewHolder, Cursor cursor) {
         Calendar currentTime = Calendar.getInstance();
@@ -48,6 +50,9 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
 
         viewHolder.mId = cursor.getLong(cursor.getColumnIndex(DeadlineTasksColumns._ID));
         viewHolder.mDay = cursor.getLong(cursor.getColumnIndex(DeadlineTasksColumns.DATE));
+        viewHolder.mTask = cursor.getString(cursor.getColumnIndex(DeadlineTasksColumns.TASK));
+        viewHolder.mTime = cursor.getLong(cursor.getColumnIndex(DeadlineTasksColumns.TIME));
+
         viewHolder.mTimeTextView.setText(Utility.formatTime(cursor.getLong(cursor.getColumnIndex(DeadlineTasksColumns.TIME))));
         viewHolder.mTaskTextView.setText(cursor.getString(cursor.getColumnIndex(DeadlineTasksColumns.TASK)));
 
@@ -63,9 +68,7 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
     public DeadlineTasksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_deadlines_list, parent, false);
-        DeadlineTasksViewHolder vh = new DeadlineTasksViewHolder(itemView);
-        mVh = vh;
-        return vh;
+        return new DeadlineTasksViewHolder(itemView);
     }
 
     public class DeadlineTasksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -76,6 +79,8 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
         public ImageButton mDeleteButton;
         public long mId;
         public long mDay;
+        public String mTask;
+        public long mTime;
 
         public DeadlineTasksViewHolder(final View view) {
             super(view);
@@ -97,9 +102,23 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
                     }
                 }
             });
+
+            mEditButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, EditDeadlineActivity.class);
+                    intent.putExtra(EditDeadlineActivity.ID_KEY, mId);
+                    intent.putExtra(EditDeadlineActivity.TIME_KEY, mTime);
+                    intent.putExtra(EditDeadlineActivity.DATE_KEY, mDay);
+                    intent.putExtra(EditDeadlineActivity.TASK_KEY, mTask);
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         // TODO: implement edit action
+
+        @SuppressWarnings("deprecation")
         @Override
         public void onClick(View v) {
             if (sLastSelectedView != null) {

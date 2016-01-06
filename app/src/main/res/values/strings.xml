@@ -11,6 +11,7 @@
     <string name="app_title_1">productivity</string>
     <string name="app_title_2">Up</string>
     <string name="title_activity_add_deadline">Add Deadline</string>
+    <string name="title_activity_edit_deadline">Edit Deadline</string>
 
     <!-- Overview card titles-->
     <string name="deadlines_title_card">Next Deadline</string>
