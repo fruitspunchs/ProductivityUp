@@ -12,20 +12,21 @@
     tools:showIn="@layout/activity_ultradian_rhythm">
 
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/time_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_centerInParent="true"
             android:text="73m"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="32dp" />
-    </FrameLayout>
+
+    </RelativeLayout>
 
     <android.support.v7.widget.GridLayout
         android:layout_width="match_parent"
@@ -175,7 +176,8 @@
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_pause_circle_filled_white_36dp"/>
+            android:src="@drawable/ic_rest_white_36dp"
+            android:tint="@color/colorAccent"/>
     </FrameLayout>
 
 </LinearLayout>
