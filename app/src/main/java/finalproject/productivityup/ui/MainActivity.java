@@ -34,7 +34,6 @@ import finalproject.productivityup.libs.Utility;
 import finalproject.productivityup.ui.accountability.AccountabilityChartActivity;
 import finalproject.productivityup.ui.agenda.AgendaActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
-import finalproject.productivityup.ui.pomodoro.PomodoroTimerActivity;
 
 //TODO: Feature: ask if deadline was met, or reschedule or archive
 //TODO: Feature: add animations to card resize
@@ -42,10 +41,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int DEADLINE_TASKS_CURSOR_LOADER_ID = 0;
     private static final int NEXT_DEADLINE_CURSOR_LOADER_ID = 1;
     private final String LOG_TAG = this.getClass().getSimpleName();
-    @Bind(R.id.overview_card_pomodoro_timer)
-    CardView mPomodoroTimerCard;
-    @Bind(R.id.overview_card_ultradian_rhythm)
-    CardView mUltradianRhythmCard;
     @Bind(R.id.overview_card_deadlines)
     CardView mDeadlinesCard;
     @Bind(R.id.overview_card_agenda)
@@ -70,13 +65,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private long nextDeadlineUnixTime = -1;
     private CountDownTimer deadlinesCountdownTimer;
     private CountDownTimer mDeadlineTimeUpDelayCountDownTimer;
-
-    @OnClick(R.id.overview_card_pomodoro_timer)
-    void clickPomodoroCard() {
-        Intent intent = new Intent(this, PomodoroTimerActivity.class);
-        startActivity(intent);
-    }
-
     @OnClick(R.id.overview_card_deadlines)
     void clickDeadlinesCard() {
         Intent intent = new Intent(this, DeadlinesActivity.class);
