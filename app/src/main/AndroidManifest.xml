@@ -31,6 +31,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity"/>
         </activity>
+
         <activity
             android:name=".ui.deadlines.DeadlinesActivity"
             android:label="@string/title_activity_deadlines"
@@ -52,15 +53,6 @@
         <activity
             android:name=".ui.accountability.AccountabilityChartActivity"
             android:label="@string/title_activity_accountability_chart"
-            android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity"/>
-        </activity>
-        <activity
-            android:name=".ui.quiz.ProductivityQuizActivity"
-            android:label="@string/title_activity_productivity_quiz"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

@@ -35,7 +35,6 @@ import finalproject.productivityup.ui.accountability.AccountabilityChartActivity
 import finalproject.productivityup.ui.agenda.AgendaActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
 import finalproject.productivityup.ui.pomodoro.PomodoroTimerActivity;
-import finalproject.productivityup.ui.quiz.ProductivityQuizActivity;
 
 //TODO: Feature: ask if deadline was met, or reschedule or archive
 //TODO: Feature: add animations to card resize
@@ -53,8 +52,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     CardView mAgendaCard;
     @Bind(R.id.overview_card_accountability_chart)
     CardView mAccountabilityChartCard;
-    @Bind(R.id.overview_card_productivity_quiz)
-    CardView mProductivityQuizCard;
     @Bind({R.id.deadlines_title_text_view, R.id.accountability_chart_title1_text_view, R.id.accountability_chart_title2_text_view, R.id.agenda_title_text_view, R.id.ultradian_rhythm_title_text_view, R.id.pomodoro_timer_title_text_view})
     List<TextView> mCardTitles;
     boolean mIsShowingCardTitles = true;
@@ -96,12 +93,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @OnClick(R.id.overview_card_accountability_chart)
     void clickAccountabilityChartCard() {
         Intent intent = new Intent(this, AccountabilityChartActivity.class);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.overview_card_productivity_quiz)
-    void clickProductivityQuizCard() {
-        Intent intent = new Intent(this, ProductivityQuizActivity.class);
         startActivity(intent);
     }
 
