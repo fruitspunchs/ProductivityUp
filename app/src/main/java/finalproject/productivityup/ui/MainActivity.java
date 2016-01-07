@@ -36,7 +36,6 @@ import finalproject.productivityup.ui.agenda.AgendaActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
 import finalproject.productivityup.ui.pomodoro.PomodoroTimerActivity;
 import finalproject.productivityup.ui.quiz.ProductivityQuizActivity;
-import finalproject.productivityup.ui.rhythm.UltradianRhythmActivity;
 
 //TODO: Feature: ask if deadline was met, or reschedule or archive
 //TODO: Feature: add animations to card resize
@@ -78,12 +77,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @OnClick(R.id.overview_card_pomodoro_timer)
     void clickPomodoroCard() {
         Intent intent = new Intent(this, PomodoroTimerActivity.class);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.overview_card_ultradian_rhythm)
-    void clickUltradianCard() {
-        Intent intent = new Intent(this, UltradianRhythmActivity.class);
         startActivity(intent);
     }
 

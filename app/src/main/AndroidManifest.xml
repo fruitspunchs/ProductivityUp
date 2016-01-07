@@ -23,15 +23,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.rhythm.UltradianRhythmActivity"
-            android:label="@string/title_activity_ultradian_rhythm"
-            android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity"/>
-        </activity>
-        <activity
             android:name=".ui.pomodoro.PomodoroTimerActivity"
             android:label="@string/title_activity_pomodoro_timer"
             android:parentActivityName=".ui.MainActivity"
