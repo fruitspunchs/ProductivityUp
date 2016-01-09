@@ -45,7 +45,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/card_padding_bottom"
+                    android:layout_marginBottom="12dp"
                     android:layout_marginTop="@dimen/card_padding_top"
                     android:orientation="vertical">
 
@@ -61,19 +61,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="24dp"
+                        android:layout_marginBottom="12dp"
                         android:layout_marginTop="24dp"
                         android:text="73m"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="@color/colorPrimaryText"/>
 
-                    <TextView
+                    <ImageButton
+                        android:id="@+id/ultradian_rhythm_work_rest_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Work"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/colorPrimaryText"/>
+                        android:background="@android:color/transparent"
+                        android:minHeight="48dp"
+                        android:minWidth="48dp"
+                        android:src="@drawable/ic_work_white_36dp"
+                        android:tint="@color/colorAccent"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
