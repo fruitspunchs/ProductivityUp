@@ -67,7 +67,7 @@ public class UltradianRhythmTimer {
         long startTime;
 
         if (prefs.contains(ULTRADIAN_RHYTHM_START_TIME_KEY)) {
-            startTime = prefs.getLong(ULTRADIAN_RHYTHM_START_TIME_KEY, 0);
+            startTime = prefs.getLong(ULTRADIAN_RHYTHM_START_TIME_KEY, getCurrentTimeInSeconds());
             mRhythmState = prefs.getInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, WORK);
         } else {
             startTime = getCurrentTimeInSeconds();
