@@ -50,7 +50,7 @@ public class UltradianRhythmTimer {
                 prefs.edit()
                         .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, getCurrentTimeInSeconds())
                         .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
-                        .commit();
+                        .apply();
 
                 startTimer();
             }
@@ -75,7 +75,7 @@ public class UltradianRhythmTimer {
             prefs.edit()
                     .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, getCurrentTimeInSeconds())
                     .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
-                    .commit();
+                    .apply();
         }
 
         long timeElapsed = getCurrentTimeInSeconds() - startTime;
