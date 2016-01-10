@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mDeadlinesTaskRecyclerView.setAdapter(mOverviewDeadlinesCursorAdapter);
 
         mUltradianRhythmTimer = new UltradianRhythmTimer(this, mUltradianRhythmWorkRestButton, mUltradianRhythmTimerTextView);
+        mUltradianRhythmTimer.startTimer();
     }
 
     @Override
@@ -111,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onStart();
         Log.d(LOG_TAG, "Restarting loader");
         getSupportLoaderManager().restartLoader(DEADLINE_TASKS_CURSOR_LOADER_ID, null, this);
-        mUltradianRhythmTimer.startTimer();
     }
 
     @Override

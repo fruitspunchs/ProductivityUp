@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -30,6 +31,30 @@ public class UltradianRhythmTimer {
         mContext = context;
         mWorkRestImageButton = workRestButton;
         mTimerTextView = timerTextView;
+
+        mWorkRestImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+
+                if (mCountDownTimer != null) {
+                    mCountDownTimer.cancel();
+                }
+
+                if (mRhythmState == WORK) {
+                    mRhythmState = REST;
+                } else if (mRhythmState == REST) {
+                    mRhythmState = WORK;
+                }
+
+                prefs.edit()
+                        .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, getCurrentTimeInSeconds())
+                        .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
+                        .commit();
+
+                startTimer();
+            }
+        });
     }
 
     public long getCurrentTimeInSeconds() {
@@ -47,9 +72,13 @@ public class UltradianRhythmTimer {
         } else {
             startTime = getCurrentTimeInSeconds();
             mRhythmState = WORK;
+            prefs.edit()
+                    .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, getCurrentTimeInSeconds())
+                    .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
+                    .commit();
         }
 
-        long timeElapsed = startTime - getCurrentTimeInSeconds();
+        long timeElapsed = getCurrentTimeInSeconds() - startTime;
 
         if (mRhythmState == REST) {
             if (timeElapsed >= REST_DURATION) {
@@ -100,12 +129,6 @@ public class UltradianRhythmTimer {
                 } else if (mRhythmState == REST) {
                     mRhythmState = WORK;
                 }
-
-                prefs.edit()
-                        .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, System.currentTimeMillis())
-                        .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
-                        .commit();
-
                 startTimer();
             }
         }.start();
