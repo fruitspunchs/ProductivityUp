@@ -14,7 +14,8 @@
     <string name="title_activity_edit_deadline">Edit Deadline</string>
 
     <!-- Overview card titles-->
-    <string name="deadlines_title_card">Next Deadline</string>
+    <string name="deadlines_title_card">Next deadline</string>
+    <string name="ultradian_rhythm_title_card">Ultradian rhythm</string>
 
     <!--Used to format time left for next deadline-->
     <string name="year">y</string>
@@ -32,6 +33,8 @@
     <string name="time_up">Time\'s up!</string>
 
     <string name="no_deadlines">Add a deadline</string>
+
+    <string name="minute_letter">m</string>
 
     <!-- Content descriptions-->
     <string name="cd_delete">delete</string>

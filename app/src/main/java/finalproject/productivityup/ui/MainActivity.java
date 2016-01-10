@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -59,12 +60,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Bind(R.id.deadlines_no_item)
     TextView mDeadlinesNoItem;
     boolean mHasDeadlines = true;
-
-
-    OverviewDeadlinesCursorAdapter mOverviewDeadlinesCursorAdapter;
-    private long nextDeadlineUnixTime = -1;
-    private CountDownTimer deadlinesCountdownTimer;
+    @Bind(R.id.ultradian_rhythm_work_rest_button)
+    ImageButton mUltradianRhythmWorkRestButton;
+    @Bind(R.id.ultradian_rhythm_timer_text_view)
+    TextView mUltradianRhythmTimerTextView;
+    private UltradianRhythmTimer mUltradianRhythmTimer;
+    private OverviewDeadlinesCursorAdapter mOverviewDeadlinesCursorAdapter;
+    private long mNextDeadlineUnixTime = -1;
+    private CountDownTimer mDeadlinesCountdownTimer;
     private CountDownTimer mDeadlineTimeUpDelayCountDownTimer;
+
     @OnClick(R.id.overview_card_deadlines)
     void clickDeadlinesCard() {
         Intent intent = new Intent(this, DeadlinesActivity.class);
@@ -97,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mDeadlinesTaskRecyclerView.setLayoutManager(new CustomLinearLayoutManager(this));
         mOverviewDeadlinesCursorAdapter = new OverviewDeadlinesCursorAdapter(this, null);
         mDeadlinesTaskRecyclerView.setAdapter(mOverviewDeadlinesCursorAdapter);
+
+        mUltradianRhythmTimer = new UltradianRhythmTimer(this, mUltradianRhythmWorkRestButton, mUltradianRhythmTimerTextView);
     }
 
     @Override
@@ -104,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onStart();
         Log.d(LOG_TAG, "Restarting loader");
         getSupportLoaderManager().restartLoader(DEADLINE_TASKS_CURSOR_LOADER_ID, null, this);
+        mUltradianRhythmTimer.startTimer();
     }
 
     @Override
@@ -159,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     selectionArgs,
                     DeadlineTasksColumns.TIME + " ASC");
         } else if (id == NEXT_DEADLINE_CURSOR_LOADER_ID) {
-            String[] selectionArgs = {String.valueOf(nextDeadlineUnixTime)};
+            String[] selectionArgs = {String.valueOf(mNextDeadlineUnixTime)};
 
             return new CursorLoader(this, ProductivityProvider.DeadlineTasks.CONTENT_URI,
                     null,
@@ -186,15 +194,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 mDeadlinesTaskRecyclerView.setVisibility(View.VISIBLE);
                 mDeadlinesNoItem.setVisibility(View.GONE);
 
-                nextDeadlineUnixTime = data.getLong(data.getColumnIndex(DeadlineTasksColumns.TIME));
+                mNextDeadlineUnixTime = data.getLong(data.getColumnIndex(DeadlineTasksColumns.TIME));
 
-                long timeUntilNextDeadline = nextDeadlineUnixTime * 1000 - System.currentTimeMillis();
+                long timeUntilNextDeadline = mNextDeadlineUnixTime * 1000 - System.currentTimeMillis();
 
-                if (null != deadlinesCountdownTimer) {
-                    deadlinesCountdownTimer.cancel();
+                if (null != mDeadlinesCountdownTimer) {
+                    mDeadlinesCountdownTimer.cancel();
                 }
 
-                deadlinesCountdownTimer = new CountDownTimer(timeUntilNextDeadline, 1000) {
+                mDeadlinesCountdownTimer = new CountDownTimer(timeUntilNextDeadline, 1000) {
 
                     @Override
                     public void onTick(long millisUntilFinished) {
