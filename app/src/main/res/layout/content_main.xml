@@ -285,21 +285,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Pomodoro timer"
+                        android:text="@string/pomodoro_timer_title_card"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
                     <TextView
+                        android:id="@+id/pomodoro_timer_timer_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="12dp"
                         android:layout_marginTop="24dp"
-                        android:text="19:24"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textColor="@color/colorPrimaryText"/>
+                        android:textColor="@color/colorPrimaryText"
+                        tools:text="19:24"/>
 
                     <ImageButton
-                        android:id="@+id/button"
+                        android:id="@+id/pomodoro_timer_start_pause_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"

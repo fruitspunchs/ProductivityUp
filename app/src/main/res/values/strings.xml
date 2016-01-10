@@ -16,6 +16,7 @@
     <!-- Overview card titles-->
     <string name="deadlines_title_card">Next deadline</string>
     <string name="ultradian_rhythm_title_card">Ultradian rhythm</string>
+    <string name="pomodoro_timer_title_card">Pomodoro timer</string>
 
     <!--Used to format time left for next deadline-->
     <string name="year">y</string>
@@ -35,6 +36,8 @@
     <string name="no_deadlines">Add a deadline</string>
 
     <string name="minute_letter">m</string>
+
+    <string name="timer_zero">0:00</string>
 
     <!-- Content descriptions-->
     <string name="cd_delete">delete</string>
