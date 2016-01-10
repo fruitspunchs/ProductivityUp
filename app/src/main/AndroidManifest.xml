@@ -72,6 +72,9 @@
             android:name="finalproject.productivityup.data.generated.ProductivityProvider"
             android:authorities="finalproject.productivityup.data.ProductivityProvider"
             android:exported="false" />
+        <service
+            android:name=".ui.AlarmPlayerService"
+            android:exported="false"/>
     </application>
 
 </manifest>
