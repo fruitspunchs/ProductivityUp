@@ -3,8 +3,8 @@
     package="finalproject.productivityup"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -17,9 +17,9 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
@@ -69,12 +69,23 @@
         </activity>
 
         <provider
-            android:name="finalproject.productivityup.data.generated.ProductivityProvider"
+            android:name=".data.generated.ProductivityProvider"
             android:authorities="finalproject.productivityup.data.ProductivityProvider"
-            android:exported="false" />
+            android:exported="false"/>
+
         <service
             android:name=".ui.AlarmPlayerService"
             android:exported="false"/>
+
+        <activity
+            android:name=".ui.agenda.AddAgendaActivity"
+            android:label="@string/title_activity_add_agenda"
+            android:parentActivityName=".ui.agenda.AgendaActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="finalproject.productivityup.ui.agenda.AgendaActivity"/>
+        </activity>
     </application>
 
 </manifest>

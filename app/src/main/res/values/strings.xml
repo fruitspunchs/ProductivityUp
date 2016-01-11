@@ -43,5 +43,6 @@
     <string name="cd_delete">delete</string>
     <string name="cd_edit">edit</string>
     <string name="notification_title">Pomodoro Timer</string>
+    <string name="title_activity_add_agenda">AddAgendaActivity</string>
 
 </resources>

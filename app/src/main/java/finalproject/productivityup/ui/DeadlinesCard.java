@@ -34,7 +34,7 @@ public class DeadlinesCard {
     private long mNextDeadlineUnixTime = -1;
     private CountDownTimer mDeadlinesCountdownTimer;
     private CountDownTimer mDeadlineTimeUpDelayCountDownTimer;
-    private boolean mIsShowingCardTitles;
+    private boolean mIsShowingCardTitles = true;
 
     public DeadlinesCard(MainActivity mainActivity, RecyclerView deadlinesTaskRecyclerView, TextView deadlinesTimeLeftTextView, TextView deadlinesNoItemTextView, LinearLayout deadlinesCardContainer) {
 
@@ -54,6 +54,7 @@ public class DeadlinesCard {
 
     public void onStart() {
         mMainActivity.getSupportLoaderManager().restartLoader(MainActivity.DEADLINE_TASKS_CURSOR_LOADER_ID, null, mMainActivity);
+        adjustDeadlinesLayout(mIsShowingCardTitles);
     }
 
     public void toggleCardTitles(boolean isShowingCardTitles) {
