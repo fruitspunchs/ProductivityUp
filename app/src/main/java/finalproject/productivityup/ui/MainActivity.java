@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private long mNextDeadlineUnixTime = -1;
     private CountDownTimer mDeadlinesCountdownTimer;
     private CountDownTimer mDeadlineTimeUpDelayCountDownTimer;
-    private PomodoroTimer mPomodoroTimer;
+    private PomodoroTimerCard mPomodoroTimerCard;
 
     @OnClick(R.id.overview_card_deadlines)
     void clickDeadlinesCard() {
@@ -107,11 +107,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mOverviewDeadlinesCursorAdapter = new OverviewDeadlinesCursorAdapter(this, null);
         mDeadlinesTaskRecyclerView.setAdapter(mOverviewDeadlinesCursorAdapter);
 
-        UltradianRhythmTimer ultradianRhythmTimer = new UltradianRhythmTimer(this, mUltradianRhythmWorkRestButton, mUltradianRhythmTimerTextView);
-        ultradianRhythmTimer.startTimer();
+        UltradianRhythmTimerCard ultradianRhythmTimerCard = new UltradianRhythmTimerCard(this, mUltradianRhythmWorkRestButton, mUltradianRhythmTimerTextView);
+        ultradianRhythmTimerCard.startTimer();
 
-        mPomodoroTimer = new PomodoroTimer(this, mPomodoroTimerStartPauseImageButton, mPomodoroTimerTextView);
-        mPomodoroTimer.initialize();
+        mPomodoroTimerCard = new PomodoroTimerCard(this, mPomodoroTimerStartPauseImageButton, mPomodoroTimerTextView);
+        mPomodoroTimerCard.initialize();
     }
 
     @Override
@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onPause() {
         super.onPause();
-        mPomodoroTimer.onPause();
+        mPomodoroTimerCard.onPause();
     }
 
     private void restartDeadlinesLoader() {

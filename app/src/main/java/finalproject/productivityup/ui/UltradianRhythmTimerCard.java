@@ -13,7 +13,7 @@ import finalproject.productivityup.R;
 /**
  * Created by User on 1/9/2016.
  */
-public class UltradianRhythmTimer {
+public class UltradianRhythmTimerCard {
 
     private final static String ULTRADIAN_RHYTHM_START_TIME_KEY = "ULTRADIAN_RHYTHM_START_TIME_KEY";
     private final static String ULTRADIAN_RHYTHM_WORK_REST_KEY = "ULTRADIAN_RHYTHM_WORK_REST_KEY";
@@ -27,7 +27,7 @@ public class UltradianRhythmTimer {
     private CountDownTimer mCountDownTimer;
     private int mRhythmState;
 
-    public UltradianRhythmTimer(Context context, ImageButton workRestButton, TextView timerTextView) {
+    public UltradianRhythmTimerCard(Context context, ImageButton workRestButton, TextView timerTextView) {
         mContext = context;
         mWorkRestImageButton = workRestButton;
         mTimerTextView = timerTextView;

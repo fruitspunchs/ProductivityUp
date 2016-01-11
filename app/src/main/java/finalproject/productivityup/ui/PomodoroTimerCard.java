@@ -15,7 +15,7 @@ import finalproject.productivityup.R;
 /**
  * Created by User on 1/9/2016.
  */
-public class PomodoroTimer {
+public class PomodoroTimerCard {
     private final static String POMODORO_TIMER_START_TIME_KEY = "POMODORO_TIMER_START_TIME_KEY";
     private final static String POMODORO_TIMER_START_PAUSE_KEY = "POMODORO_TIMER_START_PAUSE_KEY";
     private final static String POMODORO_TIMER_TIME_LEFT_KEY = "POMODORO_TIMER_TIME_LEFT_KEY";
@@ -32,7 +32,7 @@ public class PomodoroTimer {
     private long mTimeLeft;
     private SharedPreferences mSharedPreferences;
 
-    public PomodoroTimer(Context context, ImageButton startPauseButton, TextView timerTextView) {
+    public PomodoroTimerCard(Context context, ImageButton startPauseButton, TextView timerTextView) {
         Log.d(LOG_TAG, "Pomodoro timer created");
 
         mContext = context;
