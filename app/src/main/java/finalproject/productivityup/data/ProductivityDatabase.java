@@ -14,4 +14,10 @@ public class ProductivityDatabase {
 
     @Table(DeadlineDaysColumns.class)
     public static final String DEADLINE_DAYS = "deadline_days";
+
+    @Table(AgendaDaysColumns.class)
+    public static final String AGENDA_DAYS = "agenda_days";
+
+    @Table(AgendaTasksColumns.class)
+    public static final String AGENDA_TASKS = "agenda_tasks";
 }
