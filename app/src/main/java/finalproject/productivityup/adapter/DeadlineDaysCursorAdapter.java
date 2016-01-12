@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +33,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
 
     private static int sTaskCursorLoaderId = DeadlinesActivityFragment.TASK_CURSOR_LOADER_START_ID;
     private final String LOG_TAG = this.getClass().getSimpleName();
+    private final LoaderManager mLoaderManager;
     ViewHolder mVh;
     private Context mContext;
     private long mUnixDate;
@@ -42,9 +42,10 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
     private long mNextDeadline = -1;
     private int mScrollToPosition = -1;
 
-    public DeadlineDaysCursorAdapter(Context context, Cursor cursor) {
+    public DeadlineDaysCursorAdapter(Context context, Cursor cursor, LoaderManager loaderManager) {
         super(context, cursor);
         mContext = context;
+        mLoaderManager = loaderManager;
         sTaskCursorLoaderId = DeadlinesActivityFragment.TASK_CURSOR_LOADER_START_ID;
     }
 
@@ -79,7 +80,13 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
         viewHolder.mTasksRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
         viewHolder.mTasksRecyclerView.setAdapter(viewHolder.mDeadlineTasksCursorAdapter);
         Log.d(LOG_TAG, "Task cursor adapter items: " + viewHolder.mDeadlineTasksCursorAdapter.getItemCount());
-        ((AppCompatActivity) mContext).getSupportLoaderManager().restartLoader(viewHolder.mId, null, this);
+
+        Loader loader = mLoaderManager.getLoader(viewHolder.mId);
+        if (loader != null && loader.isReset()) {
+            mLoaderManager.restartLoader(viewHolder.mId, null, this);
+        } else {
+            mLoaderManager.initLoader(viewHolder.mId, null, this);
+        }
     }
 
     @Override
@@ -106,7 +113,6 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
                 DeadlineTasksColumns.TIME + " ASC");
     }
 
-    //TODO: Fix rare date task mismatch bug
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.d(LOG_TAG, "Loader finished. Id: " + loader.getId());
@@ -124,7 +130,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
         }
     }
 
-    public void restartAllLoaders() {
+    public void resetAllAdapters() {
         for (DeadlineTasksCursorAdapter i : mDeadlineTasksCursorAdapterArrayList) {
             i.swapCursor(null);
         }
@@ -132,7 +138,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        restartAllLoaders();
+        resetAllAdapters();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +33,7 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
 
     private static int sTaskCursorLoaderId = AgendaActivityFragment.TASK_CURSOR_LOADER_START_ID;
     private final String LOG_TAG = this.getClass().getSimpleName();
+    private final LoaderManager mLoaderManager;
     ViewHolder mVh;
     private Context mContext;
     private long mUnixDate;
@@ -42,10 +42,11 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
     private long mNextDeadline = -1;
     private int mScrollToPosition = -1;
 
-    public AgendaDaysCursorAdapter(Context context, Cursor cursor) {
+    public AgendaDaysCursorAdapter(Context context, Cursor cursor, LoaderManager loaderManager) {
         super(context, cursor);
         mContext = context;
         sTaskCursorLoaderId = AgendaActivityFragment.TASK_CURSOR_LOADER_START_ID;
+        mLoaderManager = loaderManager;
     }
 
     @Override
@@ -76,7 +77,13 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
         viewHolder.mTasksRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
         viewHolder.mTasksRecyclerView.setAdapter(viewHolder.mAgendaTasksCursorAdapter);
         Log.d(LOG_TAG, "Task cursor adapter items: " + viewHolder.mAgendaTasksCursorAdapter.getItemCount());
-        ((AppCompatActivity) mContext).getSupportLoaderManager().restartLoader(viewHolder.mId, null, this);
+
+        Loader loader = mLoaderManager.getLoader(viewHolder.mId);
+        if (loader != null && loader.isReset()) {
+            mLoaderManager.restartLoader(viewHolder.mId, null, this);
+        } else {
+            mLoaderManager.initLoader(viewHolder.mId, null, this);
+        }
     }
 
     @Override
@@ -122,7 +129,7 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        restartAllLoaders();
+        resetAllAdapters();
     }
 
     public void setScrollToPosition(int position) {
@@ -130,7 +137,7 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
     }
 
 
-    public void restartAllLoaders() {
+    private void resetAllAdapters() {
         for (AgendaTasksCursorAdapter i : mAgendaTasksCursorAdapterArrayList) {
             i.swapCursor(null);
         }

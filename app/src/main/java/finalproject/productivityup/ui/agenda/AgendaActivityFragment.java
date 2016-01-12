@@ -1,5 +1,6 @@
 package finalproject.productivityup.ui.agenda;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,7 +36,6 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
     public AgendaActivityFragment() {
     }
 
-    //TODO: Fix scroll offset
     public void scrollToPosition(int position) {
         if (mWillAutoScroll) {
             mWillAutoScroll = false;
@@ -92,9 +92,11 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
     public void onResume() {
         super.onResume();
         getLoaderManager().restartLoader(DATE_CURSOR_LOADER_ID, null, this);
-        if (mAgendaDaysCursorAdapter != null) {
-            mAgendaDaysCursorAdapter.restartAllLoaders();
-        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -104,7 +106,7 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.deadlines_card_recycler_view);
 
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        mAgendaDaysCursorAdapter = new AgendaDaysCursorAdapter(getActivity(), null);
+        mAgendaDaysCursorAdapter = new AgendaDaysCursorAdapter(getActivity(), null, getLoaderManager());
         mRecyclerView.setAdapter(mAgendaDaysCursorAdapter);
         return rootView;
     }

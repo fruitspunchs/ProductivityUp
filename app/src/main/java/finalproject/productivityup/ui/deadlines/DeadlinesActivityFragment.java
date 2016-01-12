@@ -78,7 +78,6 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         getLoaderManager().initLoader(DATE_CURSOR_LOADER_ID, null, this);
     }
 
-    //TODO: Fix scroll offset
     public void scrollToPosition(int position) {
         if (mWillAutoScroll) {
             mWillAutoScroll = false;
@@ -91,9 +90,6 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     public void onResume() {
         super.onResume();
         getLoaderManager().restartLoader(DATE_CURSOR_LOADER_ID, null, this);
-        if (mDeadlineDaysCursorAdapter != null) {
-            mDeadlineDaysCursorAdapter.restartAllLoaders();
-        }
     }
 
     @Override
@@ -103,7 +99,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.deadlines_card_recycler_view);
 
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        mDeadlineDaysCursorAdapter = new DeadlineDaysCursorAdapter(getActivity(), null);
+        mDeadlineDaysCursorAdapter = new DeadlineDaysCursorAdapter(getActivity(), null, getLoaderManager());
         mRecyclerView.setAdapter(mDeadlineDaysCursorAdapter);
         return rootView;
     }
