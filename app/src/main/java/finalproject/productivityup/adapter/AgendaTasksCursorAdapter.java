@@ -20,16 +20,17 @@ import finalproject.productivityup.data.ProductivityProvider;
  * Cursor adapter used to display deadline tasks
  */
 public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTasksCursorAdapter.AgendaTasksViewHolder> {
-    private static ImageButton sLastSelectedEditButton;
-    private static ImageButton sLastSelectedDeleteButton;
-    private static View sLastSelectedView;
-    private static TextView sLastSelectedTaskTextView;
-    private static int sLastSelectedTextColor;
-    private static CheckBox sLastSelectedCheckBox;
+    private ImageButton mLastSelectedEditButton;
+    private ImageButton mLastSelectedDeleteButton;
+    private View mLastSelectedView;
+    private TextView mLastSelectedTaskTextView;
+    private int mLastSelectedTextColor;
+    private CheckBox mLastSelectedCheckBox;
     private Context mContext;
 
     public AgendaTasksCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor);
+        mContext = context;
     }
 
     @SuppressWarnings("deprecation")
@@ -46,18 +47,12 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
                 isChecked = true;
                 break;
         }
-
-
         viewHolder.mId = cursor.getLong(cursor.getColumnIndex(AgendaTasksColumns._ID));
         viewHolder.mDay = cursor.getLong(cursor.getColumnIndex(AgendaTasksColumns.DATE));
         viewHolder.mTask = cursor.getString(cursor.getColumnIndex(AgendaTasksColumns.TASK));
 
         viewHolder.mCheckBox.setChecked(isChecked);
         viewHolder.mTaskTextView.setText(cursor.getString(cursor.getColumnIndex(AgendaTasksColumns.TASK)));
-    }
-
-    public void setContext(Context context) {
-        mContext = context;
     }
 
     @Override
@@ -133,20 +128,20 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
         @SuppressWarnings("deprecation")
         @Override
         public void onClick(View v) {
-            if (sLastSelectedView != null) {
-                sLastSelectedDeleteButton.setVisibility(View.GONE);
-                sLastSelectedEditButton.setVisibility(View.GONE);
-                sLastSelectedView.setSelected(false);
-                sLastSelectedTaskTextView.setTextColor(sLastSelectedTextColor);
-                sLastSelectedCheckBox.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
+            if (mLastSelectedView != null) {
+                mLastSelectedDeleteButton.setVisibility(View.GONE);
+                mLastSelectedEditButton.setVisibility(View.GONE);
+                mLastSelectedView.setSelected(false);
+                mLastSelectedTaskTextView.setTextColor(mLastSelectedTextColor);
+                mLastSelectedCheckBox.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
             }
 
-            sLastSelectedDeleteButton = mDeleteButton;
-            sLastSelectedEditButton = mEditButton;
-            sLastSelectedView = v;
-            sLastSelectedTaskTextView = mTaskTextView;
-            sLastSelectedTextColor = mTaskTextView.getCurrentTextColor();
-            sLastSelectedCheckBox = mCheckBox;
+            mLastSelectedDeleteButton = mDeleteButton;
+            mLastSelectedEditButton = mEditButton;
+            mLastSelectedView = v;
+            mLastSelectedTaskTextView = mTaskTextView;
+            mLastSelectedTextColor = mTaskTextView.getCurrentTextColor();
+            mLastSelectedCheckBox = mCheckBox;
 
             mEditButton.setVisibility(View.VISIBLE);
             mDeleteButton.setVisibility(View.VISIBLE);

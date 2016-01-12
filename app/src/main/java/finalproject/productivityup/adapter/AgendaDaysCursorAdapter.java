@@ -52,7 +52,6 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
     @Override
     public void onBindViewHolder(AgendaDaysCursorAdapter.ViewHolder viewHolder, Cursor cursor) {
         mUnixDate = cursor.getLong(cursor.getColumnIndex(DeadlineDaysColumns.DATE));
-        viewHolder.mAgendaTasksCursorAdapter.setContext(mContext);
         viewHolder.mDateTextView.setText(Utility.formatDate(mUnixDate));
 
         Calendar today = Calendar.getInstance();
@@ -60,7 +59,7 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
 
-        //// TODO: 1/12/2016 if no today or tomorrow add blank card, only today is red text
+        //// TODO: Feature: 1/12/2016 if no today or tomorrow add blank card, only today is red text
         //Set text colors for easier reading
         if (mUnixDate == mNextDeadline) {
             viewHolder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorAccent));

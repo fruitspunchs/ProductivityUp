@@ -23,16 +23,17 @@ import finalproject.productivityup.ui.deadlines.EditDeadlineActivity;
  * Cursor adapter used to display deadline tasks
  */
 public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<DeadlineTasksCursorAdapter.DeadlineTasksViewHolder> {
-    private static ImageButton sLastSelectedEditButton;
-    private static ImageButton sLastSelectedDeleteButton;
-    private static View sLastSelectedView;
-    private static TextView sLastSelectedTimeTextView;
-    private static TextView sLastSelectedTaskTextView;
-    private static int sLastSelectedTextColor;
+    private ImageButton mLastSelectedEditButton;
+    private ImageButton mLastSelectedDeleteButton;
+    private View mLastSelectedView;
+    private TextView mLastSelectedTimeTextView;
+    private TextView mLastSelectedTaskTextView;
+    private int mLastSelectedTextColor;
     private Context mContext;
 
     public DeadlineTasksCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor);
+        mContext = context;
     }
 
     @SuppressWarnings("deprecation")
@@ -58,10 +59,6 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
 
         viewHolder.mTaskTextView.setTextColor(textColor);
         viewHolder.mTimeTextView.setTextColor(textColor);
-    }
-
-    public void setContext(Context context) {
-        mContext = context;
     }
 
     @Override
@@ -116,31 +113,31 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
             });
         }
 
-        // TODO: implement edit action
 
         @SuppressWarnings("deprecation")
         @Override
         public void onClick(View v) {
-            if (sLastSelectedView != null) {
-                sLastSelectedDeleteButton.setVisibility(View.GONE);
-                sLastSelectedEditButton.setVisibility(View.GONE);
-                sLastSelectedView.setSelected(false);
-                sLastSelectedTimeTextView.setTextColor(sLastSelectedTextColor);
-                sLastSelectedTaskTextView.setTextColor(sLastSelectedTextColor);
+            if (mLastSelectedView != null) {
+                mLastSelectedDeleteButton.setVisibility(View.GONE);
+                mLastSelectedEditButton.setVisibility(View.GONE);
+                mLastSelectedView.setSelected(false);
+                mLastSelectedTimeTextView.setTextColor(mLastSelectedTextColor);
+                mLastSelectedTaskTextView.setTextColor(mLastSelectedTextColor);
             }
 
-            sLastSelectedDeleteButton = mDeleteButton;
-            sLastSelectedEditButton = mEditButton;
-            sLastSelectedView = v;
-            sLastSelectedTaskTextView = mTaskTextView;
-            sLastSelectedTimeTextView = mTimeTextView;
-            sLastSelectedTextColor = mTaskTextView.getCurrentTextColor();
+            mLastSelectedDeleteButton = mDeleteButton;
+            mLastSelectedEditButton = mEditButton;
+            mLastSelectedView = v;
+            mLastSelectedTaskTextView = mTaskTextView;
+            mLastSelectedTimeTextView = mTimeTextView;
+            mLastSelectedTextColor = mTaskTextView.getCurrentTextColor();
 
             mEditButton.setVisibility(View.VISIBLE);
             mDeleteButton.setVisibility(View.VISIBLE);
             mTaskTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             mTimeTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             v.setSelected(true);
+
         }
     }
 }

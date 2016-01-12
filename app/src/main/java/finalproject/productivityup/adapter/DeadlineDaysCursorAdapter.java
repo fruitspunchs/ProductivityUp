@@ -56,7 +56,6 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
         mUnixDate = cursor.getLong(cursor.getColumnIndex(DeadlineDaysColumns.DATE));
-        viewHolder.mDeadlineTasksCursorAdapter.setContext(mContext);
         viewHolder.mDateTextView.setText(Utility.formatDate(mUnixDate));
 
         Calendar today = Calendar.getInstance();
