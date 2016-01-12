@@ -1,15 +1,72 @@
 package finalproject.productivityup.ui.agenda;
 
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
+import android.widget.CalendarView;
+import android.widget.EditText;
 
+import java.util.Calendar;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import finalproject.productivityup.R;
+import finalproject.productivityup.data.AgendaTasksColumns;
+import finalproject.productivityup.data.DeadlineDaysColumns;
+import finalproject.productivityup.data.ProductivityProvider;
 
 public class AddAgendaActivity extends AppCompatActivity {
+    private final String LOG_TAG = getClass().getSimpleName();
+    @Bind(R.id.add_agenda_task_edit_text)
+    EditText mTaskEditText;
+    @Bind(R.id.add_agenda_done_fab)
+    FloatingActionButton mDoneFab;
+    @Bind(R.id.add_agenda_calendar_view)
+    CalendarView mCalendarView;
+
+    @OnClick(R.id.add_agenda_done_fab)
+    void clickDoneFab() {
+        String task = mTaskEditText.getText().toString().trim();
+        Log.d(LOG_TAG, "Task number of trimmed chars: " + task.length());
+
+        if (task.length() == 0) {
+            Log.d(LOG_TAG, "No task input, returning");
+            finish();
+            return;
+        }
+
+        ContentValues agendaTasks = new ContentValues();
+        ContentValues agendaDays = new ContentValues();
+
+        long unixDate = mCalendarView.getDate() / 1000;
+        Log.d(LOG_TAG, "UnixDate: " + unixDate);
+
+        agendaTasks.put(AgendaTasksColumns.DATE, unixDate);
+        Log.d(LOG_TAG, "Date: " + unixDate);
+        agendaTasks.put(AgendaTasksColumns.TASK, task);
+        Log.d(LOG_TAG, "Task: " + task);
+        agendaTasks.put(AgendaTasksColumns.IS_CHECKED, 0);
+
+        agendaDays.put(DeadlineDaysColumns.DATE, unixDate);
+
+        getContentResolver().insert(ProductivityProvider.AgendaDays.CONTENT_URI, agendaDays);
+        getContentResolver().insert(ProductivityProvider.AgendaTasks.CONTENT_URI, agendaTasks);
+        finish();
+    }
+
+    @OnTextChanged(R.id.add_agenda_task_edit_text)
+    void taskTextChanged() {
+        if (mTaskEditText.getText().toString().trim().length() > 0) {
+            mDoneFab.setImageResource(R.drawable.ic_done_white_48dp);
+        } else {
+            mDoneFab.setImageResource(R.drawable.ic_close_white_48dp);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,15 +75,26 @@ public class AddAgendaActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ButterKnife.bind(this);
+
+        //Set clock to start of day
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        mCalendarView.setDate(today.getTimeInMillis());
+
+        mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, dayOfMonth, 0, 0, 0);
+                view.setDate(calendar.getTimeInMillis());
+                Log.d(LOG_TAG, "Calendar set to: " + calendar.getTimeInMillis() / 1000);
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 }

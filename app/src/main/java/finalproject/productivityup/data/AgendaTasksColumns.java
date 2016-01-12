@@ -21,10 +21,6 @@ public class AgendaTasksColumns {
     @NotNull
     public static final String DATE = "date";
 
-    @DataType(INTEGER)
-    @NotNull
-    public static final String TIME = "time";
-
     @DataType(TEXT)
     @NotNull
     public static final String TASK = "task";

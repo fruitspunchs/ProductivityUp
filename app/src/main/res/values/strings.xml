@@ -7,17 +7,18 @@
     <string name="title_activity_agenda">Agenda</string>
     <string name="title_activity_accountability_chart">Accountability Chart</string>
     <string name="title_activity_productivity_quiz">Productivity Quiz</string>
-
     <string name="app_title_1">productivity</string>
     <string name="app_title_2">Up</string>
     <string name="title_activity_add_deadline">Add Deadline</string>
     <string name="title_activity_edit_deadline">Edit Deadline</string>
+    <string name="title_activity_add_agenda">Add Agenda</string>
+
+    <string name="add_agenda_edit_text_hint">Enter task here</string>
 
     <!-- Overview card titles-->
     <string name="deadlines_title_card">Next deadline</string>
     <string name="ultradian_rhythm_title_card">Ultradian rhythm</string>
     <string name="pomodoro_timer_title_card">Pomodoro timer</string>
-
     <!--Used to format time left for next deadline-->
     <string name="year">y</string>
     <string name="years">y</string>
@@ -42,7 +43,5 @@
     <!-- Content descriptions-->
     <string name="cd_delete">delete</string>
     <string name="cd_edit">edit</string>
-    <string name="notification_title">Pomodoro Timer</string>
-    <string name="title_activity_add_agenda">AddAgendaActivity</string>
 
 </resources>
