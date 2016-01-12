@@ -173,7 +173,7 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
             mTaskTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             mTimeTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             v.setSelected(true);
-
+            mLastSelectedItem = mId;
             mSharedPreferences.edit().putLong(DEADLINES_LAST_SELECTED_ITEM_KEY, mId).apply();
         }
     }
