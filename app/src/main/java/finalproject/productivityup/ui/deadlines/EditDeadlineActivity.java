@@ -84,7 +84,7 @@ public class EditDeadlineActivity extends AppCompatActivity {
 
         // Delete date entry if there are no corresponding tasks
         String[] dateSelectionArgs = {String.valueOf(mDate)};
-        Cursor cursor = getContentResolver().query(ProductivityProvider.DeadlineTasks.CONTENT_URI, null, DeadlineDaysColumns.DATE + " = ?", dateSelectionArgs, null);
+        Cursor cursor = getContentResolver().query(ProductivityProvider.DeadlineTasks.CONTENT_URI, null, DeadlineTasksColumns.DATE + " = ?", dateSelectionArgs, null);
         if (cursor != null) {
             if (cursor.getCount() < 1) {
                 getContentResolver().delete(ProductivityProvider.DeadlineDays.CONTENT_URI, DeadlineDaysColumns.DATE + " = ?", dateSelectionArgs);
