@@ -2,8 +2,11 @@ package finalproject.productivityup.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,7 @@ import finalproject.productivityup.ui.deadlines.EditDeadlineActivity;
  * Cursor adapter used to display deadline tasks
  */
 public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<DeadlineTasksCursorAdapter.DeadlineTasksViewHolder> {
+    private final String DEADLINES_LAST_SELECTED_ITEM_KEY = "DEADLINES_LAST_SELECTED_ITEM_KEY";
     private ImageButton mLastSelectedEditButton;
     private ImageButton mLastSelectedDeleteButton;
     private View mLastSelectedView;
@@ -30,10 +34,13 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
     private TextView mLastSelectedTaskTextView;
     private int mLastSelectedTextColor;
     private Context mContext;
+    private SharedPreferences mSharedPreferences;
+    private long mLastSelectedItem = -1;
 
     public DeadlineTasksCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor);
         mContext = context;
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
     }
 
     @SuppressWarnings("deprecation")
@@ -66,6 +73,36 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_deadlines_list, parent, false);
         return new DeadlineTasksViewHolder(itemView);
+    }
+
+    @Override
+    public void onViewAttachedToWindow(DeadlineTasksViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+
+        Log.d(getClass().getSimpleName(), "Attaching to window: " + holder.mId);
+        if (mLastSelectedItem == holder.mId) {
+            Log.d(getClass().getSimpleName(), "Selection match: " + holder.mId);
+
+            mLastSelectedDeleteButton = holder.mDeleteButton;
+            mLastSelectedEditButton = holder.mEditButton;
+            mLastSelectedView = holder.itemView;
+            mLastSelectedTaskTextView = holder.mTaskTextView;
+            mLastSelectedTimeTextView = holder.mTimeTextView;
+            mLastSelectedTextColor = holder.mTaskTextView.getCurrentTextColor();
+
+            holder.mEditButton.setVisibility(View.VISIBLE);
+            holder.mDeleteButton.setVisibility(View.VISIBLE);
+            holder.mTaskTextView.setTextColor(mContext.getResources().getColor(R.color.white));
+            holder.mTimeTextView.setTextColor(mContext.getResources().getColor(R.color.white));
+            holder.itemView.setSelected(true);
+        }
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        Log.d(getClass().getSimpleName(), "Attaching to recycler view");
+        mLastSelectedItem = mSharedPreferences.getLong(DEADLINES_LAST_SELECTED_ITEM_KEY, -1);
     }
 
     public class DeadlineTasksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -113,7 +150,6 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
             });
         }
 
-
         @SuppressWarnings("deprecation")
         @Override
         public void onClick(View v) {
@@ -138,6 +174,7 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
             mTimeTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             v.setSelected(true);
 
+            mSharedPreferences.edit().putLong(DEADLINES_LAST_SELECTED_ITEM_KEY, mId).apply();
         }
     }
 }
