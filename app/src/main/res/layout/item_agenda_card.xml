@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/agenda_card_date_text_view"
+            android:id="@+id/date_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -23,7 +23,7 @@
             tools:text="November 8, 2015"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/agenda_card_tasks_recycler_view"
+            android:id="@+id/tasks_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"/>
