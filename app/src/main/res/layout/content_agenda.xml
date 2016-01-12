@@ -1,5 +1,5 @@
 <fragment
-    android:id="@+id/fragment"
+    android:id="@+id/agenda_fragment"
     android:name="finalproject.productivityup.ui.agenda.AgendaActivityFragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

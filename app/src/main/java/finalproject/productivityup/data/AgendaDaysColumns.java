@@ -1,9 +1,11 @@
 package finalproject.productivityup.data;
 
 import net.simonvt.schematic.annotation.AutoIncrement;
+import net.simonvt.schematic.annotation.ConflictResolutionType;
 import net.simonvt.schematic.annotation.DataType;
 import net.simonvt.schematic.annotation.NotNull;
 import net.simonvt.schematic.annotation.PrimaryKey;
+import net.simonvt.schematic.annotation.Unique;
 
 import static net.simonvt.schematic.annotation.DataType.Type.INTEGER;
 
@@ -18,5 +20,6 @@ public class AgendaDaysColumns {
 
     @DataType(INTEGER)
     @NotNull
+    @Unique(onConflict = ConflictResolutionType.REPLACE)
     public static final String DATE = "date";
 }

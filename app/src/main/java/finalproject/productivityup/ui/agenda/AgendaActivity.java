@@ -22,6 +22,11 @@ public class AgendaActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
+    public void scrollToPosition(int position) {
+        AgendaActivityFragment fragment = (AgendaActivityFragment) getSupportFragmentManager().findFragmentById(R.id.agenda_fragment);
+        fragment.scrollToPosition(position);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
