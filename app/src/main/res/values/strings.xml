@@ -43,6 +43,6 @@
     <!-- Content descriptions-->
     <string name="cd_delete">delete</string>
     <string name="cd_edit">edit</string>
-    <string name="title_activity_edit_agenda">EditAgendaActivity</string>
+    <string name="title_activity_edit_agenda">Edit Agenda</string>
 
 </resources>

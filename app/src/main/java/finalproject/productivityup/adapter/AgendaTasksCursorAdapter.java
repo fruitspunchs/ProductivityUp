@@ -2,6 +2,7 @@ package finalproject.productivityup.adapter;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
@@ -18,6 +19,7 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.data.AgendaDaysColumns;
 import finalproject.productivityup.data.AgendaTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
+import finalproject.productivityup.ui.agenda.EditAgendaActivity;
 
 /**
  * Cursor adapter used to display deadline tasks
@@ -140,12 +142,18 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
             mEditButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 1/12/2016
-//                    Intent intent = new Intent(mContext, EditDeadlineActivity.class);
-//                    intent.putExtra(EditDeadlineActivity.ID_KEY, mId);
-//                    intent.putExtra(EditDeadlineActivity.DATE_KEY, mDay);
-//                    intent.putExtra(EditDeadlineActivity.TASK_KEY, mTask);
-//                    mContext.startActivity(intent);
+                    Intent intent = new Intent(mContext, EditAgendaActivity.class);
+                    intent.putExtra(EditAgendaActivity.ID_KEY, mId);
+                    intent.putExtra(EditAgendaActivity.DATE_KEY, mDay);
+                    intent.putExtra(EditAgendaActivity.TASK_KEY, mTask);
+                    int checkValue;
+                    if (mCheckBox.isChecked()) {
+                        checkValue = 1;
+                    } else {
+                        checkValue = 0;
+                    }
+                    intent.putExtra(EditAgendaActivity.CHECK_VALUE_KEY, checkValue);
+                    mContext.startActivity(intent);
                 }
             });
 
