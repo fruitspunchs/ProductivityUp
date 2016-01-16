@@ -1,8 +1,10 @@
 package finalproject.productivityup.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -39,6 +41,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
     private boolean mGetNextDeadline = true;
     private long mNextDeadline = -1;
     private DeadlineTasksCursorAdapter.DeadlineTasksLastSelectedItemViewHolder mDeadlineTasksLastSelectedItemViewHolder;
+    private SharedPreferences mSharedPreferences;
 
     public DeadlineDaysCursorAdapter(Context context, Cursor cursor, LoaderManager loaderManager) {
         super(context, cursor);
@@ -46,7 +49,10 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
         mLoaderManager = loaderManager;
         sTaskCursorLoaderId = DeadlinesActivityFragment.TASK_CURSOR_LOADER_START_ID;
         mDeadlineTasksLastSelectedItemViewHolder = new DeadlineTasksCursorAdapter.DeadlineTasksLastSelectedItemViewHolder();
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        mDeadlineTasksLastSelectedItemViewHolder.mLastSelectedItem = mSharedPreferences.getLong(DeadlineTasksCursorAdapter.DEADLINES_LAST_SELECTED_ITEM_KEY, -1);
     }
+
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
         long mUnixDate = cursor.getLong(cursor.getColumnIndex(DeadlineDaysColumns.DATE));
@@ -141,7 +147,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
             mView = view;
             mDateTextView = (TextView) view.findViewById(R.id.deadlines_card_date_text_view);
             mTasksRecyclerView = (RecyclerView) view.findViewById(R.id.deadlines_card_tasks_recycler_view);
-            mDeadlineTasksCursorAdapter = new DeadlineTasksCursorAdapter(mContext, null, mDeadlineTasksLastSelectedItemViewHolder);
+            mDeadlineTasksCursorAdapter = new DeadlineTasksCursorAdapter(mContext, null, mDeadlineTasksLastSelectedItemViewHolder, mSharedPreferences);
             mId = sTaskCursorLoaderId++;
         }
     }

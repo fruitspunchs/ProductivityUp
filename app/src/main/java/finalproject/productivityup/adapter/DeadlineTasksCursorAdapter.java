@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,16 +26,16 @@ import finalproject.productivityup.ui.deadlines.EditDeadlineActivity;
  * Cursor adapter used to display deadline tasks
  */
 public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<DeadlineTasksCursorAdapter.DeadlineTasksViewHolder> {
-    private final String DEADLINES_LAST_SELECTED_ITEM_KEY = "DEADLINES_LAST_SELECTED_ITEM_KEY";
+    public static final String DEADLINES_LAST_SELECTED_ITEM_KEY = "DEADLINES_LAST_SELECTED_ITEM_KEY";
     private final DeadlineTasksLastSelectedItemViewHolder mLastSelectedViewHolder;
+    private final SharedPreferences mSharedPreferences;
     private Context mContext;
-    private SharedPreferences mSharedPreferences;
 
-    public DeadlineTasksCursorAdapter(Context context, Cursor cursor, DeadlineTasksLastSelectedItemViewHolder lastSelectedViewHolder) {
+    public DeadlineTasksCursorAdapter(Context context, Cursor cursor, DeadlineTasksLastSelectedItemViewHolder lastSelectedViewHolder, SharedPreferences sharedPreferences) {
         super(context, cursor);
         mContext = context;
         mLastSelectedViewHolder = lastSelectedViewHolder;
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        mSharedPreferences = sharedPreferences;
     }
 
     @SuppressWarnings("deprecation")
@@ -91,6 +90,10 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
             holder.mTaskTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             holder.mTimeTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             holder.itemView.setSelected(true);
+        } else {
+            holder.mEditButton.setVisibility(View.GONE);
+            holder.mDeleteButton.setVisibility(View.GONE);
+            holder.itemView.setSelected(false);
         }
 
         ((DeadlinesActivity) mContext).scrollToPosition(holder.mDay);
@@ -100,18 +103,16 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         Log.d(getClass().getSimpleName(), "Attaching to recycler view");
-        mLastSelectedViewHolder.mLastSelectedItem = mSharedPreferences.getLong(DEADLINES_LAST_SELECTED_ITEM_KEY, -1);
-
     }
 
     public static class DeadlineTasksLastSelectedItemViewHolder {
+        public long mLastSelectedItem = -1;
         private ImageButton mLastSelectedEditButton;
         private ImageButton mLastSelectedDeleteButton;
         private View mLastSelectedView;
         private TextView mLastSelectedTimeTextView;
         private TextView mLastSelectedTaskTextView;
         private int mLastSelectedTextColor;
-        private long mLastSelectedItem = -1;
     }
 
     public class DeadlineTasksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -154,6 +155,7 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
                     mLastSelectedViewHolder.mLastSelectedTaskTextView = null;
                     mLastSelectedViewHolder.mLastSelectedTimeTextView = null;
                     mLastSelectedViewHolder.mLastSelectedTextColor = 0;
+                    mLastSelectedViewHolder.mLastSelectedItem = -1;
                 }
             });
 
