@@ -20,6 +20,7 @@ import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.libs.Utility;
+import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
 import finalproject.productivityup.ui.deadlines.EditDeadlineActivity;
 
 /**
@@ -91,6 +92,8 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
             holder.mTimeTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             holder.itemView.setSelected(true);
         }
+
+        ((DeadlinesActivity) mContext).scrollToPosition(holder.mDay);
     }
 
     @Override
@@ -98,6 +101,7 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
         super.onAttachedToRecyclerView(recyclerView);
         Log.d(getClass().getSimpleName(), "Attaching to recycler view");
         mLastSelectedViewHolder.mLastSelectedItem = mSharedPreferences.getLong(DEADLINES_LAST_SELECTED_ITEM_KEY, -1);
+
     }
 
     public static class DeadlineTasksLastSelectedItemViewHolder {

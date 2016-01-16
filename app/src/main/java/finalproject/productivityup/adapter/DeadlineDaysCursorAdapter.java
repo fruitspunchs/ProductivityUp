@@ -23,7 +23,6 @@ import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
-import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
 /**
@@ -39,7 +38,6 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
     private List<DeadlineTasksCursorAdapter> mDeadlineTasksCursorAdapterArrayList = new ArrayList<>();
     private boolean mGetNextDeadline = true;
     private long mNextDeadline = -1;
-    private int mScrollToPosition = -1;
     private DeadlineTasksCursorAdapter.DeadlineTasksLastSelectedItemViewHolder mDeadlineTasksLastSelectedItemViewHolder;
 
     public DeadlineDaysCursorAdapter(Context context, Cursor cursor, LoaderManager loaderManager) {
@@ -49,11 +47,6 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
         sTaskCursorLoaderId = DeadlinesActivityFragment.TASK_CURSOR_LOADER_START_ID;
         mDeadlineTasksLastSelectedItemViewHolder = new DeadlineTasksCursorAdapter.DeadlineTasksLastSelectedItemViewHolder();
     }
-
-    public void setScrollToPosition(int position) {
-        mScrollToPosition = position;
-    }
-
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
         long mUnixDate = cursor.getLong(cursor.getColumnIndex(DeadlineDaysColumns.DATE));
@@ -114,10 +107,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
         if (mDeadlineTasksCursorAdapterArrayList.size() >= loader.getId()) {
             if (mDeadlineTasksCursorAdapterArrayList.get(loader.getId() - 1) != null) {
                 mDeadlineTasksCursorAdapterArrayList.get(loader.getId() - 1).swapCursor(data);
-
             }
-
-            ((DeadlinesActivity) mContext).scrollToPosition(mScrollToPosition);
         }
 
     }

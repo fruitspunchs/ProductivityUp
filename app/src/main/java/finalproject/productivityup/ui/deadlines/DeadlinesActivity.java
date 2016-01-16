@@ -22,7 +22,7 @@ public class DeadlinesActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
-    public void scrollToPosition(int position) {
+    public void scrollToPosition(long position) {
         DeadlinesActivityFragment fragment = (DeadlinesActivityFragment) getSupportFragmentManager().findFragmentById(R.id.deadlines_fragment);
         fragment.scrollToPosition(position);
     }
