@@ -27,20 +27,14 @@ import finalproject.productivityup.ui.deadlines.EditDeadlineActivity;
  */
 public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<DeadlineTasksCursorAdapter.DeadlineTasksViewHolder> {
     private final String DEADLINES_LAST_SELECTED_ITEM_KEY = "DEADLINES_LAST_SELECTED_ITEM_KEY";
-    private ImageButton mLastSelectedEditButton;
-    private ImageButton mLastSelectedDeleteButton;
-    private View mLastSelectedView;
-    private TextView mLastSelectedTimeTextView;
-    private TextView mLastSelectedTaskTextView;
-    private int mLastSelectedTextColor;
+    private final DeadlineTasksLastSelectedItemViewHolder mLastSelectedViewHolder;
     private Context mContext;
     private SharedPreferences mSharedPreferences;
-    private long mLastSelectedItem = -1;
 
-
-    public DeadlineTasksCursorAdapter(Context context, Cursor cursor) {
+    public DeadlineTasksCursorAdapter(Context context, Cursor cursor, DeadlineTasksLastSelectedItemViewHolder lastSelectedViewHolder) {
         super(context, cursor);
         mContext = context;
+        mLastSelectedViewHolder = lastSelectedViewHolder;
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
     }
 
@@ -81,15 +75,15 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
         super.onViewAttachedToWindow(holder);
 
         Log.d(getClass().getSimpleName(), "Attaching to window: " + holder.mId);
-        if (mLastSelectedItem == holder.mId) {
+        if (mLastSelectedViewHolder.mLastSelectedItem == holder.mId) {
             Log.d(getClass().getSimpleName(), "Selection match: " + holder.mId);
 
-            mLastSelectedDeleteButton = holder.mDeleteButton;
-            mLastSelectedEditButton = holder.mEditButton;
-            mLastSelectedView = holder.itemView;
-            mLastSelectedTaskTextView = holder.mTaskTextView;
-            mLastSelectedTimeTextView = holder.mTimeTextView;
-            mLastSelectedTextColor = holder.mTaskTextView.getCurrentTextColor();
+            mLastSelectedViewHolder.mLastSelectedDeleteButton = holder.mDeleteButton;
+            mLastSelectedViewHolder.mLastSelectedEditButton = holder.mEditButton;
+            mLastSelectedViewHolder.mLastSelectedView = holder.itemView;
+            mLastSelectedViewHolder.mLastSelectedTaskTextView = holder.mTaskTextView;
+            mLastSelectedViewHolder.mLastSelectedTimeTextView = holder.mTimeTextView;
+            mLastSelectedViewHolder.mLastSelectedTextColor = holder.mTaskTextView.getCurrentTextColor();
 
             holder.mEditButton.setVisibility(View.VISIBLE);
             holder.mDeleteButton.setVisibility(View.VISIBLE);
@@ -103,7 +97,17 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         Log.d(getClass().getSimpleName(), "Attaching to recycler view");
-        mLastSelectedItem = mSharedPreferences.getLong(DEADLINES_LAST_SELECTED_ITEM_KEY, -1);
+        mLastSelectedViewHolder.mLastSelectedItem = mSharedPreferences.getLong(DEADLINES_LAST_SELECTED_ITEM_KEY, -1);
+    }
+
+    public static class DeadlineTasksLastSelectedItemViewHolder {
+        private ImageButton mLastSelectedEditButton;
+        private ImageButton mLastSelectedDeleteButton;
+        private View mLastSelectedView;
+        private TextView mLastSelectedTimeTextView;
+        private TextView mLastSelectedTaskTextView;
+        private int mLastSelectedTextColor;
+        private long mLastSelectedItem = -1;
     }
 
     public class DeadlineTasksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -135,6 +139,17 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
                         String[] dayArg = {String.valueOf(mDay)};
                         mContext.getContentResolver().delete(ProductivityProvider.DeadlineDays.CONTENT_URI, DeadlineDaysColumns.DATE + " = ?", dayArg);
                     }
+
+                    mDeleteButton.setVisibility(View.GONE);
+                    mEditButton.setVisibility(View.GONE);
+                    view.setSelected(false);
+
+                    mLastSelectedViewHolder.mLastSelectedDeleteButton = null;
+                    mLastSelectedViewHolder.mLastSelectedEditButton = null;
+                    mLastSelectedViewHolder.mLastSelectedView = null;
+                    mLastSelectedViewHolder.mLastSelectedTaskTextView = null;
+                    mLastSelectedViewHolder.mLastSelectedTimeTextView = null;
+                    mLastSelectedViewHolder.mLastSelectedTextColor = 0;
                 }
             });
 
@@ -154,27 +169,27 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
         @SuppressWarnings("deprecation")
         @Override
         public void onClick(View v) {
-            if (mLastSelectedView != null) {
-                mLastSelectedDeleteButton.setVisibility(View.GONE);
-                mLastSelectedEditButton.setVisibility(View.GONE);
-                mLastSelectedView.setSelected(false);
-                mLastSelectedTimeTextView.setTextColor(mLastSelectedTextColor);
-                mLastSelectedTaskTextView.setTextColor(mLastSelectedTextColor);
+            if (mLastSelectedViewHolder.mLastSelectedView != null) {
+                mLastSelectedViewHolder.mLastSelectedDeleteButton.setVisibility(View.GONE);
+                mLastSelectedViewHolder.mLastSelectedEditButton.setVisibility(View.GONE);
+                mLastSelectedViewHolder.mLastSelectedView.setSelected(false);
+                mLastSelectedViewHolder.mLastSelectedTimeTextView.setTextColor(mLastSelectedViewHolder.mLastSelectedTextColor);
+                mLastSelectedViewHolder.mLastSelectedTaskTextView.setTextColor(mLastSelectedViewHolder.mLastSelectedTextColor);
             }
 
-            mLastSelectedDeleteButton = mDeleteButton;
-            mLastSelectedEditButton = mEditButton;
-            mLastSelectedView = v;
-            mLastSelectedTaskTextView = mTaskTextView;
-            mLastSelectedTimeTextView = mTimeTextView;
-            mLastSelectedTextColor = mTaskTextView.getCurrentTextColor();
+            mLastSelectedViewHolder.mLastSelectedDeleteButton = mDeleteButton;
+            mLastSelectedViewHolder.mLastSelectedEditButton = mEditButton;
+            mLastSelectedViewHolder.mLastSelectedView = v;
+            mLastSelectedViewHolder.mLastSelectedTaskTextView = mTaskTextView;
+            mLastSelectedViewHolder.mLastSelectedTimeTextView = mTimeTextView;
+            mLastSelectedViewHolder.mLastSelectedTextColor = mTaskTextView.getCurrentTextColor();
 
             mEditButton.setVisibility(View.VISIBLE);
             mDeleteButton.setVisibility(View.VISIBLE);
             mTaskTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             mTimeTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             v.setSelected(true);
-            mLastSelectedItem = mId;
+            mLastSelectedViewHolder.mLastSelectedItem = mId;
             mSharedPreferences.edit().putLong(DEADLINES_LAST_SELECTED_ITEM_KEY, mId).apply();
         }
     }

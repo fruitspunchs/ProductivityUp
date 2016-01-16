@@ -40,12 +40,14 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
     private boolean mGetNextDeadline = true;
     private long mNextDeadline = -1;
     private int mScrollToPosition = -1;
+    private DeadlineTasksCursorAdapter.DeadlineTasksLastSelectedItemViewHolder mDeadlineTasksLastSelectedItemViewHolder;
 
     public DeadlineDaysCursorAdapter(Context context, Cursor cursor, LoaderManager loaderManager) {
         super(context, cursor);
         mContext = context;
         mLoaderManager = loaderManager;
         sTaskCursorLoaderId = DeadlinesActivityFragment.TASK_CURSOR_LOADER_START_ID;
+        mDeadlineTasksLastSelectedItemViewHolder = new DeadlineTasksCursorAdapter.DeadlineTasksLastSelectedItemViewHolder();
     }
 
     public void setScrollToPosition(int position) {
@@ -149,7 +151,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
             mView = view;
             mDateTextView = (TextView) view.findViewById(R.id.deadlines_card_date_text_view);
             mTasksRecyclerView = (RecyclerView) view.findViewById(R.id.deadlines_card_tasks_recycler_view);
-            mDeadlineTasksCursorAdapter = new DeadlineTasksCursorAdapter(mContext, null);
+            mDeadlineTasksCursorAdapter = new DeadlineTasksCursorAdapter(mContext, null, mDeadlineTasksLastSelectedItemViewHolder);
             mId = sTaskCursorLoaderId++;
         }
     }
