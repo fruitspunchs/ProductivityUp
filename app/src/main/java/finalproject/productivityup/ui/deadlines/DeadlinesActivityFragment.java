@@ -31,6 +31,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     private boolean mWillAutoScroll = true;
     private RecyclerView mRecyclerView;
 
+
     public DeadlinesActivityFragment() {
     }
 
@@ -56,6 +57,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
 
         int recentDeadlinePosition = -1;
 
+        data.moveToPosition(-1);
         while (data.moveToNext()) {
             recentDeadlinePosition = data.getPosition();
             if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) >= todayInSeconds) {
@@ -72,12 +74,6 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         mDeadlineDaysCursorAdapter.swapCursor(null);
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(DATE_CURSOR_LOADER_ID, null, this);
-    }
-
     public void scrollToPosition(int position) {
         if (mWillAutoScroll) {
             mWillAutoScroll = false;
@@ -86,9 +82,11 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         }
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(LOG_TAG, "onResume");
         getLoaderManager().restartLoader(DATE_CURSOR_LOADER_ID, null, this);
     }
 
@@ -97,7 +95,6 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_deadlines, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.deadlines_card_recycler_view);
-
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         mDeadlineDaysCursorAdapter = new DeadlineDaysCursorAdapter(getActivity(), null, getLoaderManager());
         mRecyclerView.setAdapter(mDeadlineDaysCursorAdapter);

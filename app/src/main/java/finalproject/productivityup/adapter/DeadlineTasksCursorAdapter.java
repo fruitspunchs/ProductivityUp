@@ -37,6 +37,7 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
     private SharedPreferences mSharedPreferences;
     private long mLastSelectedItem = -1;
 
+
     public DeadlineTasksCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor);
         mContext = context;
