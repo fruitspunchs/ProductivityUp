@@ -22,9 +22,9 @@ public class DeadlinesActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
-    public void scrollToDate(long unixDate) {
+    public void onViewAttachedToWindow(long unixDate) {
         DeadlinesActivityFragment fragment = (DeadlinesActivityFragment) getSupportFragmentManager().findFragmentById(R.id.deadlines_fragment);
-        fragment.scrollToDate(unixDate);
+        fragment.onViewAttachedToWindow(unixDate);
     }
 
     @Override

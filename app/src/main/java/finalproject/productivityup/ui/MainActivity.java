@@ -26,6 +26,7 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.ui.accountability.AccountabilityChartActivity;
 import finalproject.productivityup.ui.agenda.AgendaActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
+import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
 //TODO: Feature: ask if deadline was met, or reschedule or archive
 //TODO: Feature: add animations to card resize
@@ -67,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @OnClick(R.id.overview_card_deadlines)
     void clickDeadlinesCard() {
         Intent intent = new Intent(this, DeadlinesActivity.class);
+        intent.setAction(DeadlinesActivityFragment.ACTION_SCROLL_TO_NEAREST_DEADLINE);
         startActivity(intent);
-
     }
 
     @OnClick(R.id.overview_card_agenda)

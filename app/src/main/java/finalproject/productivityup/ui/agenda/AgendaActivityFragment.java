@@ -35,7 +35,6 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
     private RecyclerView mRecyclerView;
     private int mRecentDeadlinePosition;
     private long mRecentDeadlineValue;
-    private boolean didItemRangeChange = false;
     private boolean hasScrolled = false;
 
 
@@ -79,10 +78,10 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
     }
 
 
-    public void scrollToDate(long unixDate) {
+    public void onViewAttachedToWindow(long unixDate) {
         if (mWillAutoScroll && mRecentDeadlineValue >= unixDate && !hasScrolled) {
             mWillAutoScroll = false;
-            new CountDownTimer(100, 100) {
+            new CountDownTimer(200, 100) {
                 @Override
                 public void onTick(long millisUntilFinished) {
 
@@ -113,34 +112,6 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
         mAgendaDaysCursorAdapter = new AgendaDaysCursorAdapter(getActivity(), null, getLoaderManager());
         mRecyclerView.setAdapter(mAgendaDaysCursorAdapter);
 
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                Log.d(LOG_TAG, "Recycler view scrolled: " + dy);
-
-                if (dy == 0 && !didItemRangeChange) {
-                    didItemRangeChange = true;
-                } else if (dy == 0 && !hasScrolled) {
-                    hasScrolled = true;
-                } else if (dy != 0) {
-                    hasScrolled = true;
-                } else {
-                    new CountDownTimer(100, 100) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            Log.d(LOG_TAG, "Scrolling to position: " + mRecentDeadlinePosition);
-                            mRecyclerView.scrollToPosition(mRecentDeadlinePosition);
-                        }
-                    }.start();
-                }
-            }
-        });
         return rootView;
     }
 }

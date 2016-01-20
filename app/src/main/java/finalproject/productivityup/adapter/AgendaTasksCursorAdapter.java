@@ -95,7 +95,7 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
             holder.mCheckBox.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
         }
 
-        ((AgendaActivity) mContext).scrollToDate(holder.mDay);
+        ((AgendaActivity) mContext).onViewAttachedToWindow(holder.mDay);
     }
 
 

@@ -1,6 +1,7 @@
 package finalproject.productivityup.ui.deadlines;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -44,7 +45,10 @@ public class AddDeadlineActivity extends AppCompatActivity {
 
         if (task.length() == 0) {
             Log.d(LOG_TAG, "No task input, returning");
+
+            setResult(DeadlinesActivityFragment.RESULT_CANCEL);
             finish();
+
             return;
         }
 
@@ -70,6 +74,8 @@ public class AddDeadlineActivity extends AppCompatActivity {
         getContentResolver().insert(ProductivityProvider.DeadlineDays.CONTENT_URI, deadlineDays);
 
         getContentResolver().insert(ProductivityProvider.DeadlineTasks.CONTENT_URI, values);
+        Intent resultIntent = new Intent().putExtra(DeadlinesActivityFragment.UNIX_DATE_KEY, unixDate);
+        setResult(DeadlinesActivityFragment.RESULT_ADD, resultIntent);
         finish();
     }
 

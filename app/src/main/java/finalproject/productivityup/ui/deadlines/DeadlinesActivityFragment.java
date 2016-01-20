@@ -1,5 +1,6 @@
 package finalproject.productivityup.ui.deadlines;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -26,6 +27,13 @@ import finalproject.productivityup.data.ProductivityProvider;
  */
 public class DeadlinesActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final int TASK_CURSOR_LOADER_START_ID = 1;
+    public static final String ACTION_SCROLL_TO_NEAREST_DEADLINE = "ACTION_SCROLL_TO_NEAREST_DEADLINE";
+    public static final String ACTION_NONE = "ACTION_NONE";
+    public static final String UNIX_DATE_KEY = "UNIX_DATE_KEY";
+    public static final int RESULT_INVALID = -1;
+    public static final int RESULT_CANCEL = 0;
+    public static final int RESULT_ADD = 1;
+    public static final int RESULT_EDIT = 2;
     private static final int DATE_CURSOR_LOADER_ID = 0;
     private final String LOG_TAG = this.getClass().getSimpleName();
     private DeadlineDaysCursorAdapter mDeadlineDaysCursorAdapter;
@@ -33,9 +41,10 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     private RecyclerView mRecyclerView;
     private int mRecentDeadlinePosition;
     private long mRecentDeadlineValue;
-    private boolean didItemRangeChange = false;
-    private boolean hasScrolled = false;
-
+    private boolean mHasRequestedScroll = true;
+    private int mResultItemPosition;
+    private int result = RESULT_INVALID;
+    private long resultUnixDate;
     public DeadlinesActivityFragment() {
     }
 
@@ -51,7 +60,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
-        //Get most recent deadline and pass it to the tasks adapter.
+        //Get most recent deadline
         Calendar today = Calendar.getInstance();
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.set(Calendar.MINUTE, 0);
@@ -68,6 +77,15 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
             }
         }
 
+        if (result == RESULT_ADD || result == RESULT_EDIT) {
+            data.moveToPosition(-1);
+            while (data.moveToNext()) {
+                if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) == resultUnixDate) {
+                    mResultItemPosition = data.getPosition();
+                }
+            }
+        }
+
         mDeadlineDaysCursorAdapter.swapCursor(data);
     }
 
@@ -76,11 +94,41 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         mDeadlineDaysCursorAdapter.swapCursor(null);
     }
 
-    public void scrollToDate(long unixDate) {
-        if (mWillAutoScroll && mRecentDeadlineValue >= unixDate && !hasScrolled) {
-            mWillAutoScroll = false;
+    public void onViewAttachedToWindow(long unixDate) {
+        String action = ACTION_NONE;
 
-            new CountDownTimer(100, 100) {
+        Intent intent = getActivity().getIntent();
+        if (intent != null) {
+            if (intent.getAction() != null) {
+                action = intent.getAction();
+            }
+        }
+
+        if (action.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
+            if (mWillAutoScroll && mRecentDeadlineValue >= unixDate && mHasRequestedScroll) {
+                mWillAutoScroll = false;
+
+                if (intent != null) {
+                    intent.setAction(ACTION_NONE);
+                }
+
+                new CountDownTimer(200, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        Log.d(LOG_TAG, "Scrolling to position: " + mRecentDeadlinePosition);
+                        mRecyclerView.scrollToPosition(mRecentDeadlinePosition);
+                    }
+                }.start();
+            }
+        } else if (result == RESULT_ADD) {
+            result = RESULT_INVALID;
+
+            new CountDownTimer(200, 100) {
                 @Override
                 public void onTick(long millisUntilFinished) {
 
@@ -88,10 +136,13 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
 
                 @Override
                 public void onFinish() {
-                    Log.d(LOG_TAG, "Scrolling to position: " + mRecentDeadlinePosition);
-                    mRecyclerView.scrollToPosition(mRecentDeadlinePosition);
+                    Log.d(LOG_TAG, "Scrolling to position: " + mResultItemPosition);
+                    mRecyclerView.scrollToPosition(mResultItemPosition);
                 }
             }.start();
+
+        } else if (result == RESULT_EDIT) {
+            result = RESULT_INVALID;
         }
     }
 
@@ -110,35 +161,20 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         mDeadlineDaysCursorAdapter = new DeadlineDaysCursorAdapter(getActivity(), null, getLoaderManager());
         mRecyclerView.setAdapter(mDeadlineDaysCursorAdapter);
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                Log.d(LOG_TAG, "Recycler view scrolled: " + dy);
-
-                if (dy == 0 && !didItemRangeChange) {
-                    didItemRangeChange = true;
-                } else if (dy == 0 && !hasScrolled) {
-                    hasScrolled = true;
-                } else if (dy != 0) {
-                    hasScrolled = true;
-                } else {
-                    new CountDownTimer(100, 100) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            Log.d(LOG_TAG, "Scrolling to position: " + mRecentDeadlinePosition);
-                            mRecyclerView.scrollToPosition(mRecentDeadlinePosition);
-                        }
-                    }.start();
-                }
-            }
-        });
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        result = resultCode;
+        if (result == RESULT_ADD || result == RESULT_EDIT) {
+            mHasRequestedScroll = true;
+        }
+
+        if (data != null) {
+            resultUnixDate = data.getLongExtra(UNIX_DATE_KEY, 0);
+        }
     }
 }

@@ -96,8 +96,9 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
             holder.itemView.setSelected(false);
         }
 
-        ((DeadlinesActivity) mContext).scrollToDate(holder.mDay);
+        ((DeadlinesActivity) mContext).onViewAttachedToWindow(holder.mDay);
     }
+
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
