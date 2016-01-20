@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryLight"
     android:clipToPadding="false"
-    android:paddingBottom="@dimen/recycler_view_padding_bottom"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="16dp"
