@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,27 +18,23 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.data.AgendaDaysColumns;
 import finalproject.productivityup.data.AgendaTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
+import finalproject.productivityup.ui.agenda.AgendaActivity;
 import finalproject.productivityup.ui.agenda.EditAgendaActivity;
 
 /**
  * Cursor adapter used to display deadline tasks
  */
 public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTasksCursorAdapter.AgendaTasksViewHolder> {
-    private final String AGENDA_LAST_SELECTED_ITEM_KEY = "AGENDA_LAST_SELECTED_ITEM_KEY";
-    private ImageButton mLastSelectedEditButton;
-    private ImageButton mLastSelectedDeleteButton;
-    private View mLastSelectedView;
-    private TextView mLastSelectedTaskTextView;
-    private CheckBox mLastSelectedCheckBox;
+    public static final String AGENDA_LAST_SELECTED_ITEM_KEY = "AGENDA_LAST_SELECTED_ITEM_KEY";
+    private final AgendaTasksLastSelectedItemViewHolder mLastSelectedViewHolder;
+    private final SharedPreferences mSharedPreferences;
     private Context mContext;
-    private SharedPreferences mSharedPreferences;
 
-    private long mLastSelectedItem = -1;
-
-    public AgendaTasksCursorAdapter(Context context, Cursor cursor) {
+    public AgendaTasksCursorAdapter(Context context, Cursor cursor, AgendaTasksLastSelectedItemViewHolder lastSelectedViewHolder, SharedPreferences sharedPreferences) {
         super(context, cursor);
         mContext = context;
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        mLastSelectedViewHolder = lastSelectedViewHolder;
+        mSharedPreferences = sharedPreferences;
     }
 
     @SuppressWarnings("deprecation")
@@ -64,20 +59,28 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
         viewHolder.mTaskTextView.setText(cursor.getString(cursor.getColumnIndex(AgendaTasksColumns.TASK)));
     }
 
+
+    @Override
+    public AgendaTasksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_agenda_list, parent, false);
+        return new AgendaTasksViewHolder(itemView);
+    }
+
     @SuppressWarnings("deprecation")
     @Override
     public void onViewAttachedToWindow(AgendaTasksViewHolder holder) {
         super.onViewAttachedToWindow(holder);
 
         Log.d(getClass().getSimpleName(), "Attaching to window: " + holder.mId);
-        if (mLastSelectedItem == holder.mId) {
+        if (mLastSelectedViewHolder.mLastSelectedItem == holder.mId) {
             Log.d(getClass().getSimpleName(), "Selection match: " + holder.mId);
 
-            mLastSelectedDeleteButton = holder.mDeleteButton;
-            mLastSelectedEditButton = holder.mEditButton;
-            mLastSelectedView = holder.itemView;
-            mLastSelectedTaskTextView = holder.mTaskTextView;
-            mLastSelectedCheckBox = holder.mCheckBox;
+            mLastSelectedViewHolder.mLastSelectedDeleteButton = holder.mDeleteButton;
+            mLastSelectedViewHolder.mLastSelectedEditButton = holder.mEditButton;
+            mLastSelectedViewHolder.mLastSelectedView = holder.itemView;
+            mLastSelectedViewHolder.mLastSelectedTaskTextView = holder.mTaskTextView;
+            mLastSelectedViewHolder.mLastSelectedCheckBox = holder.mCheckBox;
 
             holder.mEditButton.setVisibility(View.VISIBLE);
             holder.mDeleteButton.setVisibility(View.VISIBLE);
@@ -91,21 +94,26 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
             holder.mTaskTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
             holder.mCheckBox.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
         }
+
+        ((AgendaActivity) mContext).scrollToDate(holder.mDay);
     }
 
-    @Override
-    public AgendaTasksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_agenda_list, parent, false);
-        return new AgendaTasksViewHolder(itemView);
-    }
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         Log.d(getClass().getSimpleName(), "Attaching to recycler view");
-        mLastSelectedItem = mSharedPreferences.getLong(AGENDA_LAST_SELECTED_ITEM_KEY, -1);
     }
+
+    public static class AgendaTasksLastSelectedItemViewHolder {
+        public long mLastSelectedItem = -1;
+        public ImageButton mLastSelectedEditButton;
+        public ImageButton mLastSelectedDeleteButton;
+        public View mLastSelectedView;
+        public TextView mLastSelectedTaskTextView;
+        public CheckBox mLastSelectedCheckBox;
+    }
+
 
     public class AgendaTasksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -136,6 +144,17 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
                         String[] dayArg = {String.valueOf(mDay)};
                         mContext.getContentResolver().delete(ProductivityProvider.AgendaDays.CONTENT_URI, AgendaDaysColumns.DATE + " = ?", dayArg);
                     }
+
+                    mDeleteButton.setVisibility(View.GONE);
+                    mEditButton.setVisibility(View.GONE);
+                    view.setSelected(false);
+
+                    mLastSelectedViewHolder.mLastSelectedDeleteButton = null;
+                    mLastSelectedViewHolder.mLastSelectedEditButton = null;
+                    mLastSelectedViewHolder.mLastSelectedView = null;
+                    mLastSelectedViewHolder.mLastSelectedTaskTextView = null;
+                    mLastSelectedViewHolder.mLastSelectedCheckBox = null;
+                    mLastSelectedViewHolder.mLastSelectedItem = -1;
                 }
             });
 
@@ -179,28 +198,25 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
         @SuppressWarnings("deprecation")
         @Override
         public void onClick(View v) {
-            if (mLastSelectedView != null) {
-                mLastSelectedDeleteButton.setVisibility(View.GONE);
-                mLastSelectedEditButton.setVisibility(View.GONE);
-                mLastSelectedView.setSelected(false);
-                mLastSelectedTaskTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
-                mLastSelectedCheckBox.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
+            if (mLastSelectedViewHolder.mLastSelectedView != null) {
+                mLastSelectedViewHolder.mLastSelectedDeleteButton.setVisibility(View.GONE);
+                mLastSelectedViewHolder.mLastSelectedEditButton.setVisibility(View.GONE);
+                mLastSelectedViewHolder.mLastSelectedView.setSelected(false);
+                mLastSelectedViewHolder.mLastSelectedTaskTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
+                mLastSelectedViewHolder.mLastSelectedCheckBox.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
             }
 
-            mLastSelectedDeleteButton = mDeleteButton;
-            mLastSelectedEditButton = mEditButton;
-            mLastSelectedView = v;
-            mLastSelectedTaskTextView = mTaskTextView;
-            mLastSelectedCheckBox = mCheckBox;
+            mLastSelectedViewHolder.mLastSelectedDeleteButton = mDeleteButton;
+            mLastSelectedViewHolder.mLastSelectedEditButton = mEditButton;
+            mLastSelectedViewHolder.mLastSelectedView = v;
+            mLastSelectedViewHolder.mLastSelectedTaskTextView = mTaskTextView;
+            mLastSelectedViewHolder.mLastSelectedCheckBox = mCheckBox;
 
             mEditButton.setVisibility(View.VISIBLE);
             mDeleteButton.setVisibility(View.VISIBLE);
             mTaskTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             mCheckBox.setBackgroundColor(mContext.getResources().getColor(R.color.white));
             v.setSelected(true);
-
-            Log.d(getClass().getSimpleName(), "Item selected: " + mId);
-            mLastSelectedItem = mId;
             mSharedPreferences.edit().putLong(AGENDA_LAST_SELECTED_ITEM_KEY, mId).apply();
         }
     }

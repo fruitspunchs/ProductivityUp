@@ -76,8 +76,8 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         mDeadlineDaysCursorAdapter.swapCursor(null);
     }
 
-    public void scrollToPosition(long position) {
-        if (mWillAutoScroll && mRecentDeadlineValue >= position && !hasScrolled) {
+    public void scrollToDate(long unixDate) {
+        if (mWillAutoScroll && mRecentDeadlineValue >= unixDate && !hasScrolled) {
             mWillAutoScroll = false;
 
             new CountDownTimer(100, 100) {

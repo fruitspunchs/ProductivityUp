@@ -22,9 +22,9 @@ public class AgendaActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
-    public void scrollToPosition(int position) {
+    public void scrollToDate(long unixDate) {
         AgendaActivityFragment fragment = (AgendaActivityFragment) getSupportFragmentManager().findFragmentById(R.id.agenda_fragment);
-        fragment.scrollToPosition(position);
+        fragment.scrollToDate(unixDate);
     }
 
     @Override
