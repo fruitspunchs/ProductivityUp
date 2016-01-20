@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -12,7 +13,7 @@ import butterknife.OnClick;
 import finalproject.productivityup.R;
 
 public class DeadlinesActivity extends AppCompatActivity {
-
+    private final String LOG_TAG = this.getClass().getSimpleName();
     @Bind(R.id.deadlines_add_fab)
     FloatingActionButton mAddFab;
 
@@ -37,4 +38,10 @@ public class DeadlinesActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(LOG_TAG, "onActivityResult");
+        DeadlinesActivityFragment fragment = (DeadlinesActivityFragment) getSupportFragmentManager().findFragmentById(R.id.deadlines_fragment);
+        fragment.onResult(requestCode, resultCode, data);
+    }
 }

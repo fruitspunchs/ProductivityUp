@@ -30,10 +30,10 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     public static final String ACTION_SCROLL_TO_NEAREST_DEADLINE = "ACTION_SCROLL_TO_NEAREST_DEADLINE";
     public static final String ACTION_NONE = "ACTION_NONE";
     public static final String UNIX_DATE_KEY = "UNIX_DATE_KEY";
-    public static final int RESULT_INVALID = -1;
-    public static final int RESULT_CANCEL = 0;
-    public static final int RESULT_ADD = 1;
-    public static final int RESULT_EDIT = 2;
+    public static final int RESULT_INVALID = 1;
+    public static final int RESULT_CANCEL = 2;
+    public static final int RESULT_ADD = 3;
+    public static final int RESULT_EDIT = 4;
     private static final int DATE_CURSOR_LOADER_ID = 0;
     private final String LOG_TAG = this.getClass().getSimpleName();
     private DeadlineDaysCursorAdapter mDeadlineDaysCursorAdapter;
@@ -41,10 +41,10 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     private RecyclerView mRecyclerView;
     private int mRecentDeadlinePosition;
     private long mRecentDeadlineValue;
-    private boolean mHasRequestedScroll = true;
     private int mResultItemPosition;
     private int result = RESULT_INVALID;
     private long resultUnixDate;
+
     public DeadlinesActivityFragment() {
     }
 
@@ -68,6 +68,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         long todayInSeconds = today.getTimeInMillis() / 1000;
 
         mRecentDeadlinePosition = -1;
+        data.moveToPosition(-1);
         while (data.moveToNext()) {
             mRecentDeadlinePosition = data.getPosition();
             if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) >= todayInSeconds) {
@@ -76,16 +77,6 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
                 break;
             }
         }
-
-        if (result == RESULT_ADD || result == RESULT_EDIT) {
-            data.moveToPosition(-1);
-            while (data.moveToNext()) {
-                if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) == resultUnixDate) {
-                    mResultItemPosition = data.getPosition();
-                }
-            }
-        }
-
         mDeadlineDaysCursorAdapter.swapCursor(data);
     }
 
@@ -105,14 +96,14 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         }
 
         if (action.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
-            if (mWillAutoScroll && mRecentDeadlineValue >= unixDate && mHasRequestedScroll) {
+            if (mWillAutoScroll && mRecentDeadlineValue >= unixDate) {
                 mWillAutoScroll = false;
 
                 if (intent != null) {
                     intent.setAction(ACTION_NONE);
                 }
 
-                new CountDownTimer(200, 100) {
+                new CountDownTimer(100, 100) {
                     @Override
                     public void onTick(long millisUntilFinished) {
 
@@ -128,7 +119,15 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         } else if (result == RESULT_ADD) {
             result = RESULT_INVALID;
 
-            new CountDownTimer(200, 100) {
+            Cursor data = mDeadlineDaysCursorAdapter.getCursor();
+            data.moveToPosition(-1);
+            while (data.moveToNext()) {
+                if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) == resultUnixDate) {
+                    mResultItemPosition = data.getPosition();
+                }
+            }
+
+            new CountDownTimer(100, 100) {
                 @Override
                 public void onTick(long millisUntilFinished) {
 
@@ -136,7 +135,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
 
                 @Override
                 public void onFinish() {
-                    Log.d(LOG_TAG, "Scrolling to position: " + mResultItemPosition);
+                    Log.d(LOG_TAG, "Scrolling to added item: " + mResultItemPosition);
                     mRecyclerView.scrollToPosition(mResultItemPosition);
                 }
             }.start();
@@ -165,13 +164,10 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         return rootView;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onResult(int requestCode, int resultCode, Intent data) {
+        Log.d(LOG_TAG, "onResult");
         super.onActivityResult(requestCode, resultCode, data);
         result = resultCode;
-        if (result == RESULT_ADD || result == RESULT_EDIT) {
-            mHasRequestedScroll = true;
-        }
 
         if (data != null) {
             resultUnixDate = data.getLongExtra(UNIX_DATE_KEY, 0);
