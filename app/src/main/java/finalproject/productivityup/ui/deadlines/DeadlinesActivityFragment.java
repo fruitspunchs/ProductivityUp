@@ -116,7 +116,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
                     }
                 }.start();
             }
-        } else if (result == RESULT_ADD) {
+        } else if (result == RESULT_ADD || result == RESULT_EDIT) {
             result = RESULT_INVALID;
 
             Cursor data = mDeadlineDaysCursorAdapter.getCursor();
@@ -140,8 +140,6 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
                 }
             }.start();
 
-        } else if (result == RESULT_EDIT) {
-            result = RESULT_INVALID;
         }
     }
 

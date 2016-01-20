@@ -1,5 +1,6 @@
 package finalproject.productivityup.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -168,7 +169,7 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
                     intent.putExtra(EditDeadlineActivity.TIME_KEY, mTime);
                     intent.putExtra(EditDeadlineActivity.DATE_KEY, mDay);
                     intent.putExtra(EditDeadlineActivity.TASK_KEY, mTask);
-                    mContext.startActivity(intent);
+                    ((Activity) mContext).startActivityForResult(intent, 0);
                 }
             });
         }
