@@ -36,13 +36,13 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     private static final int DATE_CURSOR_LOADER_ID = 0;
     private final String LOG_TAG = this.getClass().getSimpleName();
     private DeadlineDaysCursorAdapter mDeadlineDaysCursorAdapter;
-    private boolean mWillAutoScroll = true;
     private RecyclerView mRecyclerView;
     private int mRecentDeadlinePosition;
     private long mRecentDeadlineValue;
     private int mResultItemPosition;
-    private int result = RESULT_CANCEL;
-    private long resultUnixDate;
+    private int mResult = RESULT_CANCEL;
+    private long mResultUnixDate;
+    private String mAction = ACTION_NONE;
 
     public DeadlinesActivityFragment() {
     }
@@ -59,23 +59,26 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
-        //Get most recent deadline
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 0);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
-        long todayInSeconds = today.getTimeInMillis() / 1000;
+        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
+            //Get most recent deadline
+            Calendar today = Calendar.getInstance();
+            today.set(Calendar.HOUR_OF_DAY, 0);
+            today.set(Calendar.MINUTE, 0);
+            today.set(Calendar.SECOND, 0);
+            long todayInSeconds = today.getTimeInMillis() / 1000;
 
-        mRecentDeadlinePosition = -1;
-        data.moveToPosition(-1);
-        while (data.moveToNext()) {
-            mRecentDeadlinePosition = data.getPosition();
-            if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) >= todayInSeconds) {
-                mRecentDeadlineValue = data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE));
+            mRecentDeadlinePosition = -1;
+            data.moveToPosition(-1);
+            while (data.moveToNext()) {
                 mRecentDeadlinePosition = data.getPosition();
-                break;
+                if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) >= todayInSeconds) {
+                    mRecentDeadlineValue = data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE));
+                    mRecentDeadlinePosition = data.getPosition();
+                    break;
+                }
             }
         }
+
         mDeadlineDaysCursorAdapter.swapCursor(data);
     }
 
@@ -85,19 +88,10 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     }
 
     public void onViewAttachedToWindow(long unixDate) {
-        String action = ACTION_NONE;
-
-        Intent intent = getActivity().getIntent();
-        if (intent != null) {
-            if (intent.getAction() != null) {
-                action = intent.getAction();
-            }
-        }
-
-        if (action.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
-            if (mWillAutoScroll && mRecentDeadlineValue >= unixDate) {
-                mWillAutoScroll = false;
-
+        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
+            if (mRecentDeadlineValue >= unixDate) {
+                mAction = ACTION_NONE;
+                Intent intent = getActivity().getIntent();
                 if (intent != null) {
                     intent.setAction(ACTION_NONE);
                 }
@@ -115,13 +109,13 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
                     }
                 }.start();
             }
-        } else if (result == RESULT_ADD || result == RESULT_EDIT) {
-            result = RESULT_CANCEL;
+        } else if (mResult == RESULT_ADD || mResult == RESULT_EDIT) {
+            mResult = RESULT_CANCEL;
 
             Cursor data = mDeadlineDaysCursorAdapter.getCursor();
             data.moveToPosition(-1);
             while (data.moveToNext()) {
-                if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) == resultUnixDate) {
+                if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) == mResultUnixDate) {
                     mResultItemPosition = data.getPosition();
                 }
             }
@@ -153,6 +147,14 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_deadlines, container, false);
+
+        Intent intent = getActivity().getIntent();
+        if (intent != null) {
+            if (intent.getAction() != null) {
+                mAction = intent.getAction();
+            }
+        }
+
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.deadlines_card_recycler_view);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         mDeadlineDaysCursorAdapter = new DeadlineDaysCursorAdapter(getActivity(), null, getLoaderManager());
@@ -164,10 +166,10 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     public void onResult(int requestCode, int resultCode, Intent data) {
         Log.d(LOG_TAG, "onResult");
         super.onActivityResult(requestCode, resultCode, data);
-        result = resultCode;
+        mResult = resultCode;
 
         if (data != null) {
-            resultUnixDate = data.getLongExtra(UNIX_DATE_KEY, 0);
+            mResultUnixDate = data.getLongExtra(UNIX_DATE_KEY, 0);
         }
     }
 }
