@@ -30,10 +30,9 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     public static final String ACTION_SCROLL_TO_NEAREST_DEADLINE = "ACTION_SCROLL_TO_NEAREST_DEADLINE";
     public static final String ACTION_NONE = "ACTION_NONE";
     public static final String UNIX_DATE_KEY = "UNIX_DATE_KEY";
-    public static final int RESULT_INVALID = 1;
-    public static final int RESULT_CANCEL = 2;
-    public static final int RESULT_ADD = 3;
-    public static final int RESULT_EDIT = 4;
+    public static final int RESULT_CANCEL = 1;
+    public static final int RESULT_ADD = 2;
+    public static final int RESULT_EDIT = 3;
     private static final int DATE_CURSOR_LOADER_ID = 0;
     private final String LOG_TAG = this.getClass().getSimpleName();
     private DeadlineDaysCursorAdapter mDeadlineDaysCursorAdapter;
@@ -42,7 +41,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     private int mRecentDeadlinePosition;
     private long mRecentDeadlineValue;
     private int mResultItemPosition;
-    private int result = RESULT_INVALID;
+    private int result = RESULT_CANCEL;
     private long resultUnixDate;
 
     public DeadlinesActivityFragment() {
@@ -117,7 +116,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
                 }.start();
             }
         } else if (result == RESULT_ADD || result == RESULT_EDIT) {
-            result = RESULT_INVALID;
+            result = RESULT_CANCEL;
 
             Cursor data = mDeadlineDaysCursorAdapter.getCursor();
             data.moveToPosition(-1);
