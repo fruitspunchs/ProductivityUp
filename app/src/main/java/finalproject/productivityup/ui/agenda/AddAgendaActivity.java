@@ -1,6 +1,7 @@
 package finalproject.productivityup.ui.agenda;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +37,7 @@ public class AddAgendaActivity extends AppCompatActivity {
 
         if (task.length() == 0) {
             Log.d(LOG_TAG, "No task input, returning");
+            setResult(AgendaActivityFragment.RESULT_CANCEL);
             finish();
             return;
         }
@@ -56,6 +58,9 @@ public class AddAgendaActivity extends AppCompatActivity {
 
         getContentResolver().insert(ProductivityProvider.AgendaDays.CONTENT_URI, agendaDays);
         getContentResolver().insert(ProductivityProvider.AgendaTasks.CONTENT_URI, agendaTasks);
+
+        Intent resultIntent = new Intent().putExtra(AgendaActivityFragment.UNIX_DATE_KEY, unixDate);
+        setResult(AgendaActivityFragment.RESULT_ADD, resultIntent);
         finish();
     }
 

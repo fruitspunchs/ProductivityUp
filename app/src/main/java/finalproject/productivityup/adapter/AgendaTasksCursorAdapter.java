@@ -1,5 +1,6 @@
 package finalproject.productivityup.adapter;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -172,7 +173,7 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
                         checkValue = 0;
                     }
                     intent.putExtra(EditAgendaActivity.CHECK_VALUE_KEY, checkValue);
-                    mContext.startActivity(intent);
+                    ((Activity) mContext).startActivityForResult(intent, 0);
                 }
             });
 

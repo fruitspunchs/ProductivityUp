@@ -36,7 +36,6 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
     private final String LOG_TAG = this.getClass().getSimpleName();
     private final LoaderManager mLoaderManager;
     private final String UNIX_DATE_KEY = "UNIX_DATE_KEY";
-    private ViewHolder mVh;
     private Context mContext;
     private List<AgendaTasksCursorAdapter> mAgendaTasksCursorAdapterArrayList = new ArrayList<>();
     private boolean mGetNextDeadline = true;
@@ -79,9 +78,9 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
             viewHolder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
         }
 
+        Log.d(LOG_TAG, "Binding ViewHolder. Id: " + viewHolder.mId);
         viewHolder.mTasksRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
         viewHolder.mTasksRecyclerView.setAdapter(viewHolder.mAgendaTasksCursorAdapter);
-        Log.d(LOG_TAG, "Task cursor adapter items: " + viewHolder.mAgendaTasksCursorAdapter.getItemCount());
     }
 
     @Override
@@ -89,9 +88,8 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_agenda_card, parent, false);
         ViewHolder vh = new ViewHolder(itemView);
-        mVh = vh;
-        Log.d(LOG_TAG, "Creating viewholder. Id: " + mVh.mId);
-        mAgendaTasksCursorAdapterArrayList.add(mVh.mAgendaTasksCursorAdapter);
+        Log.d(LOG_TAG, "Creating viewholder. Id: " + vh.mId);
+        mAgendaTasksCursorAdapterArrayList.add(vh.mAgendaTasksCursorAdapter);
         return vh;
     }
 
@@ -112,7 +110,8 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.d(LOG_TAG, "Loader finished. Id: " + loader.getId());
         Log.d(LOG_TAG, "Cursor items: " + data.getCount());
-        if (mVh != null) {
+
+        if (mAgendaTasksCursorAdapterArrayList.size() >= loader.getId()) {
             if (mAgendaTasksCursorAdapterArrayList.get(loader.getId() - 1) != null) {
                 mAgendaTasksCursorAdapterArrayList.get(loader.getId() - 1).swapCursor(data);
             }
@@ -132,6 +131,7 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
     public void onLoaderReset(Loader<Cursor> loader) {
         mAgendaTasksCursorAdapterArrayList.get(loader.getId() - 1).swapCursor(null);
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mDateTextView;
         public RecyclerView mTasksRecyclerView;

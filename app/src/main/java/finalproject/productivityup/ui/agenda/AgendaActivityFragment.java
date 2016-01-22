@@ -1,5 +1,6 @@
 package finalproject.productivityup.ui.agenda;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -26,16 +27,23 @@ import finalproject.productivityup.data.ProductivityProvider;
  * A placeholder fragment containing a simple view.
  */
 public class AgendaActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-
     public static final int TASK_CURSOR_LOADER_START_ID = 1;
+    public static final int RESULT_CANCEL = 1;
+    public static final int RESULT_ADD = 2;
+    public static final int RESULT_EDIT = 3;
+    public static final String ACTION_SCROLL_TO_NEAREST_DEADLINE = "ACTION_SCROLL_TO_NEAREST_DEADLINE";
+    public static final String ACTION_NONE = "ACTION_NONE";
+    public static final String UNIX_DATE_KEY = "UNIX_DATE_KEY";
     private static final int DATE_CURSOR_LOADER_ID = 0;
     private final String LOG_TAG = this.getClass().getSimpleName();
-    private boolean mWillAutoScroll = true;
     private AgendaDaysCursorAdapter mAgendaDaysCursorAdapter;
     private RecyclerView mRecyclerView;
     private int mRecentDeadlinePosition;
     private long mRecentDeadlineValue;
-    private boolean hasScrolled = false;
+    private int mResultItemPosition;
+    private int mResult = RESULT_CANCEL;
+    private long mResultUnixDate;
+    private String mAction = ACTION_NONE;
 
 
     public AgendaActivityFragment() {
@@ -52,24 +60,26 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        //Get most recent deadline and pass it to the tasks adapter.
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 0);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
-        long todayInSeconds = today.getTimeInMillis() / 1000;
 
-        while (data.moveToNext()) {
-            mRecentDeadlinePosition = data.getPosition();
-            if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) >= todayInSeconds) {
-                mRecentDeadlineValue = data.getLong(data.getColumnIndex(AgendaDaysColumns.DATE));
+        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
+            //Get most recent deadline
+            Calendar today = Calendar.getInstance();
+            today.set(Calendar.HOUR_OF_DAY, 0);
+            today.set(Calendar.MINUTE, 0);
+            today.set(Calendar.SECOND, 0);
+            long todayInSeconds = today.getTimeInMillis() / 1000;
+
+            while (data.moveToNext()) {
                 mRecentDeadlinePosition = data.getPosition();
-                break;
+                if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) >= todayInSeconds) {
+                    mRecentDeadlineValue = data.getLong(data.getColumnIndex(AgendaDaysColumns.DATE));
+                    mRecentDeadlinePosition = data.getPosition();
+                    break;
+                }
             }
         }
+
         mAgendaDaysCursorAdapter.swapCursor(data);
-
-
     }
 
     @Override
@@ -79,9 +89,39 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
 
 
     public void onViewAttachedToWindow(long unixDate) {
-        if (mWillAutoScroll && mRecentDeadlineValue >= unixDate && !hasScrolled) {
-            mWillAutoScroll = false;
-            new CountDownTimer(200, 100) {
+        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
+            if (mRecentDeadlineValue >= unixDate) {
+                mAction = ACTION_NONE;
+                Intent intent = getActivity().getIntent();
+                if (intent != null) {
+                    intent.setAction(ACTION_NONE);
+                }
+
+                new CountDownTimer(100, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        Log.d(LOG_TAG, "Scrolling to position: " + mRecentDeadlinePosition);
+                        mRecyclerView.scrollToPosition(mRecentDeadlinePosition);
+                    }
+                }.start();
+            }
+        } else if (mResult == RESULT_ADD || mResult == RESULT_EDIT) {
+            mResult = RESULT_CANCEL;
+
+            Cursor data = mAgendaDaysCursorAdapter.getCursor();
+            data.moveToPosition(-1);
+            while (data.moveToNext()) {
+                if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) == mResultUnixDate) {
+                    mResultItemPosition = data.getPosition();
+                }
+            }
+
+            new CountDownTimer(100, 100) {
                 @Override
                 public void onTick(long millisUntilFinished) {
 
@@ -89,10 +129,11 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
 
                 @Override
                 public void onFinish() {
-                    Log.d(LOG_TAG, "Scrolling to position: " + mRecentDeadlinePosition);
-                    mRecyclerView.scrollToPosition(mRecentDeadlinePosition);
+                    Log.d(LOG_TAG, "Scrolling to added item: " + mResultItemPosition);
+                    mRecyclerView.scrollToPosition(mResultItemPosition);
                 }
             }.start();
+
         }
     }
 
@@ -105,13 +146,30 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_deadlines, container, false);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.deadlines_card_recycler_view);
+        View rootView = inflater.inflate(R.layout.fragment_agenda, container, false);
 
+        Intent intent = getActivity().getIntent();
+        if (intent != null) {
+            if (intent.getAction() != null) {
+                mAction = intent.getAction();
+            }
+        }
+
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.agenda_card_recycler_view);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         mAgendaDaysCursorAdapter = new AgendaDaysCursorAdapter(getActivity(), null, getLoaderManager());
         mRecyclerView.setAdapter(mAgendaDaysCursorAdapter);
 
         return rootView;
+    }
+
+    public void onResult(int requestCode, int resultCode, Intent data) {
+        Log.d(LOG_TAG, "onResult");
+        super.onActivityResult(requestCode, resultCode, data);
+        mResult = resultCode;
+
+        if (data != null) {
+            mResultUnixDate = data.getLongExtra(UNIX_DATE_KEY, 0);
+        }
     }
 }

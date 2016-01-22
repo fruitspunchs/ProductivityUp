@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @OnClick(R.id.overview_card_agenda)
     void clickAgendaCard() {
         Intent intent = new Intent(this, AgendaActivity.class);
+        intent.setAction(DeadlinesActivityFragment.ACTION_SCROLL_TO_NEAREST_DEADLINE);
         startActivity(intent);
     }
 
