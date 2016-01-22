@@ -38,11 +38,12 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     private DeadlineDaysCursorAdapter mDeadlineDaysCursorAdapter;
     private RecyclerView mRecyclerView;
     private int mRecentDeadlinePosition;
-    private long mRecentDeadlineValue;
     private int mResultItemPosition;
     private int mResult = RESULT_CANCEL;
     private long mResultUnixDate;
     private String mAction = ACTION_NONE;
+
+    // TODO: 1/22/2016 add extra empty item to prevent fab blocking
 
     public DeadlinesActivityFragment() {
     }
@@ -72,8 +73,6 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
             while (data.moveToNext()) {
                 mRecentDeadlinePosition = data.getPosition();
                 if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) >= todayInSeconds) {
-                    mRecentDeadlineValue = data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE));
-                    mRecentDeadlinePosition = data.getPosition();
                     break;
                 }
             }
@@ -89,26 +88,24 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
 
     public void onViewAttachedToWindow(long unixDate) {
         if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
-            if (mRecentDeadlineValue >= unixDate) {
-                mAction = ACTION_NONE;
-                Intent intent = getActivity().getIntent();
-                if (intent != null) {
-                    intent.setAction(ACTION_NONE);
+            mAction = ACTION_NONE;
+            Intent intent = getActivity().getIntent();
+            if (intent != null) {
+                intent.setAction(ACTION_NONE);
+            }
+
+            new CountDownTimer(100, 100) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
                 }
 
-                new CountDownTimer(100, 100) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        Log.d(LOG_TAG, "Scrolling to position: " + mRecentDeadlinePosition);
-                        mRecyclerView.scrollToPosition(mRecentDeadlinePosition);
-                    }
-                }.start();
-            }
+                @Override
+                public void onFinish() {
+                    Log.d(LOG_TAG, "Scrolling to position: " + mRecentDeadlinePosition);
+                    mRecyclerView.scrollToPosition(mRecentDeadlinePosition);
+                }
+            }.start();
         } else if (mResult == RESULT_ADD || mResult == RESULT_EDIT) {
             mResult = RESULT_CANCEL;
 

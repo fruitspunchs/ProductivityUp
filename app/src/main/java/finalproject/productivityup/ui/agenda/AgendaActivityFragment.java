@@ -19,7 +19,6 @@ import java.util.Calendar;
 
 import finalproject.productivityup.R;
 import finalproject.productivityup.adapter.AgendaDaysCursorAdapter;
-import finalproject.productivityup.data.AgendaDaysColumns;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 
@@ -39,7 +38,6 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
     private AgendaDaysCursorAdapter mAgendaDaysCursorAdapter;
     private RecyclerView mRecyclerView;
     private int mRecentDeadlinePosition;
-    private long mRecentDeadlineValue;
     private int mResultItemPosition;
     private int mResult = RESULT_CANCEL;
     private long mResultUnixDate;
@@ -69,11 +67,11 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
             today.set(Calendar.SECOND, 0);
             long todayInSeconds = today.getTimeInMillis() / 1000;
 
+            mRecentDeadlinePosition = -1;
+            data.moveToPosition(-1);
             while (data.moveToNext()) {
                 mRecentDeadlinePosition = data.getPosition();
                 if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) >= todayInSeconds) {
-                    mRecentDeadlineValue = data.getLong(data.getColumnIndex(AgendaDaysColumns.DATE));
-                    mRecentDeadlinePosition = data.getPosition();
                     break;
                 }
             }
@@ -90,26 +88,25 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
 
     public void onViewAttachedToWindow(long unixDate) {
         if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
-            if (mRecentDeadlineValue >= unixDate) {
-                mAction = ACTION_NONE;
-                Intent intent = getActivity().getIntent();
-                if (intent != null) {
-                    intent.setAction(ACTION_NONE);
+            mAction = ACTION_NONE;
+            Intent intent = getActivity().getIntent();
+            if (intent != null) {
+                intent.setAction(ACTION_NONE);
+            }
+
+            new CountDownTimer(100, 100) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
                 }
 
-                new CountDownTimer(100, 100) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
+                @Override
+                public void onFinish() {
+                    Log.d(LOG_TAG, "Scrolling to position: " + mRecentDeadlinePosition);
+                    mRecyclerView.scrollToPosition(mRecentDeadlinePosition);
+                }
+            }.start();
 
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        Log.d(LOG_TAG, "Scrolling to position: " + mRecentDeadlinePosition);
-                        mRecyclerView.scrollToPosition(mRecentDeadlinePosition);
-                    }
-                }.start();
-            }
         } else if (mResult == RESULT_ADD || mResult == RESULT_EDIT) {
             mResult = RESULT_CANCEL;
 
