@@ -2,6 +2,8 @@ package finalproject.productivityup.ui.deadlines;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.MergeCursor;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -78,7 +80,13 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
             }
         }
 
-        mDeadlineDaysCursorAdapter.swapCursor(data);
+        //Add an empty item at the end so we can scroll the last item over the fab
+        MatrixCursor matrixCursor = new MatrixCursor(new String[]{DeadlineDaysColumns._ID, DeadlineDaysColumns.DATE});
+        matrixCursor.addRow(new Object[]{-1, -1});
+
+        MergeCursor mergeCursor = new MergeCursor(new Cursor[]{data, matrixCursor});
+        Log.d(LOG_TAG, "Merge cursor items: " + mergeCursor.getCount());
+        mDeadlineDaysCursorAdapter.swapCursor(mergeCursor);
     }
 
     @Override

@@ -80,6 +80,13 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
         Log.d(LOG_TAG, "Binding ViewHolder. Id: " + viewHolder.mId);
         viewHolder.mTasksRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
         viewHolder.mTasksRecyclerView.setAdapter(viewHolder.mDeadlineTasksCursorAdapter);
+
+        //Set placeholder view at the end of the list as invisible
+        if (viewHolder.mUnixDate == -1) {
+            viewHolder.mView.setVisibility(View.INVISIBLE);
+        } else {
+            viewHolder.mView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
