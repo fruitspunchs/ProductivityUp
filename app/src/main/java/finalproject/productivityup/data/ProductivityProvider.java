@@ -23,35 +23,46 @@ public final class ProductivityProvider {
     }
 
     interface Path {
-        String DEADLINE_TASKS = "deadline_tasks";
-        String DEADLINE_DAYS = "deadline_days";
-        String AGENDA_TASKS = "agenda_tasks";
-        String AGENDA_DAYS = "agenda_days";
+        String DEADLINE_DAYS = ProductivityDatabase.DEADLINE_DAYS;
+        String DEADLINE_TASKS = ProductivityDatabase.DEADLINE_TASKS;
+        String AGENDA_DAYS = ProductivityDatabase.AGENDA_DAYS;
+        String AGENDA_TASKS = ProductivityDatabase.AGENDA_TASKS;
+        String ACCOUNTABILITY_CHART_DAYS = ProductivityDatabase.ACCOUNTABILITY_CHART_DAYS;
+        String ACCOUNTABILITY_CHART_TASKS = ProductivityDatabase.ACCOUNTABILITY_CHART_TASKS;
+    }
+    @TableEndpoint(table = ProductivityDatabase.DEADLINE_DAYS)
+    public static class DeadlineDays {
+        @ContentUri(path = Path.DEADLINE_DAYS, type = "vnd.android.cursor.dir/" + Path.DEADLINE_DAYS, defaultSort = DeadlineDaysColumns.DATE + " ASC")
+        public static final Uri CONTENT_URI = buildUri(Path.DEADLINE_DAYS);
     }
 
     @TableEndpoint(table = ProductivityDatabase.DEADLINE_TASKS)
     public static class DeadlineTasks {
-        @ContentUri(path = Path.DEADLINE_TASKS, type = "vnd.android.cursor.dir/deadline_tasks", defaultSort = DeadlineTasksColumns.DATE + " ASC")
+        @ContentUri(path = Path.DEADLINE_TASKS, type = "vnd.android.cursor.dir/" + Path.DEADLINE_TASKS, defaultSort = DeadlineTasksColumns.DATE + " ASC")
         public static final Uri CONTENT_URI = buildUri(Path.DEADLINE_TASKS);
-    }
-
-    @TableEndpoint(table = ProductivityDatabase.DEADLINE_DAYS)
-    public static class DeadlineDays {
-        @ContentUri(path = Path.DEADLINE_DAYS, type = "vnd.android.cursor.dir/deadline_days", defaultSort = DeadlineDaysColumns.DATE + " ASC")
-        public static final Uri CONTENT_URI = buildUri(Path.DEADLINE_DAYS);
-    }
-
-    @TableEndpoint(table = ProductivityDatabase.AGENDA_TASKS)
-    public static class AgendaTasks {
-        @ContentUri(path = Path.AGENDA_TASKS, type = "vnd.android.cursor.dir/agenda_tasks", defaultSort = AgendaTasksColumns.DATE + " ASC")
-        public static final Uri CONTENT_URI = buildUri(Path.AGENDA_TASKS);
     }
 
     @TableEndpoint(table = ProductivityDatabase.AGENDA_DAYS)
     public static class AgendaDays {
-        @ContentUri(path = Path.AGENDA_DAYS, type = "vnd.android.cursor.dir/agenda_tasks", defaultSort = AgendaDaysColumns.DATE + " ASC")
+        @ContentUri(path = Path.AGENDA_DAYS, type = "vnd.android.cursor.dir/" + Path.AGENDA_DAYS, defaultSort = AgendaDaysColumns.DATE + " ASC")
         public static final Uri CONTENT_URI = buildUri(Path.AGENDA_DAYS);
     }
 
+    @TableEndpoint(table = ProductivityDatabase.AGENDA_TASKS)
+    public static class AgendaTasks {
+        @ContentUri(path = Path.AGENDA_TASKS, type = "vnd.android.cursor.dir/" + Path.AGENDA_TASKS, defaultSort = AgendaTasksColumns.DATE + " ASC")
+        public static final Uri CONTENT_URI = buildUri(Path.AGENDA_TASKS);
+    }
 
+    @TableEndpoint(table = ProductivityDatabase.ACCOUNTABILITY_CHART_DAYS)
+    public static class AccountabilityChartDays {
+        @ContentUri(path = Path.ACCOUNTABILITY_CHART_DAYS, type = "vnd.android.cursor.dir/" + Path.ACCOUNTABILITY_CHART_DAYS, defaultSort = AccountabilityChartDaysColumns.DATE + " ASC")
+        public static final Uri CONTENT_URI = buildUri(Path.ACCOUNTABILITY_CHART_DAYS);
+    }
+
+    @TableEndpoint(table = ProductivityDatabase.ACCOUNTABILITY_CHART_TASKS)
+    public static class AccountabilityChartTasks {
+        @ContentUri(path = Path.ACCOUNTABILITY_CHART_TASKS, type = "vnd.android.cursor.dir/" + Path.ACCOUNTABILITY_CHART_TASKS, defaultSort = AccountabilityChartTasksColumns.DATE + " ASC")
+        public static final Uri CONTENT_URI = buildUri(Path.ACCOUNTABILITY_CHART_TASKS);
+    }
 }
