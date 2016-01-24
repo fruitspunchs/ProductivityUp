@@ -24,6 +24,8 @@ import finalproject.productivityup.adapter.DeadlineDaysCursorAdapter;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 
+// FIXME: 1/24/2016 card does not resize if text wraps when clicked
+
 /**
  * Displays deadline tasks in a list.
  */
@@ -44,8 +46,6 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     private int mResult = RESULT_CANCEL;
     private long mResultUnixDate;
     private String mAction = ACTION_NONE;
-
-    // TODO: 1/22/2016 add extra empty item to prevent fab blocking
 
     public DeadlinesActivityFragment() {
     }

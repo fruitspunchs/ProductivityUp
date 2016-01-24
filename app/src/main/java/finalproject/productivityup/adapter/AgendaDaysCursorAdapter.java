@@ -66,7 +66,7 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
 
-        // TODO: Feature: 1/12/2016 if no today or tomorrow add blank card, only today is red text
+        // TODO: 1/12/2016 if no today or tomorrow add blank card, only today is red text
         //Set text colors for easier reading
         if (mUnixDate == mNextDeadline) {
             viewHolder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorAccent));

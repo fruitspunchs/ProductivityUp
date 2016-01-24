@@ -28,8 +28,8 @@ import finalproject.productivityup.ui.agenda.AgendaActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
-//TODO: Feature: ask if deadline was met, or reschedule or archive
-//TODO: Feature: add animations to card resize
+// TODO: 1/24/2016 ask if deadline was met, or reschedule or archive
+// TODO: 1/24/2016 add animations to card resize
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final int DEADLINE_TASKS_CURSOR_LOADER_ID = 0;
