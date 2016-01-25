@@ -27,6 +27,8 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int DEADLINE_TASKS_CURSOR_LOADER_ID = 0;
     private static final int NEXT_DEADLINE_CURSOR_LOADER_ID = 1;
+    private static CountDownTimer sDeadlinesCountdownTimer;
+    private static CountDownTimer sDeadlineTimeUpDelayCountDownTimer;
     private final String LOG_TAG = getClass().getSimpleName();
     private final Context mContext;
     private final LoaderManager mLoaderManager;
@@ -38,8 +40,6 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
     private boolean mIsShowingCardTitles = true;
     private OverviewDeadlinesCursorAdapter mCursorAdapter;
     private long mNextDeadlineUnixTime = -1;
-    private CountDownTimer mDeadlinesCountdownTimer;
-    private CountDownTimer mDeadlineTimeUpDelayCountDownTimer;
 
     public DeadlinesCard(Context context, LoaderManager loaderManager, RecyclerView recyclerView, TextView timeLeftTextView, TextView noItemTextView, LinearLayout layoutContainer) {
         mContext = context;
@@ -109,11 +109,11 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
                 long timeUntilNextDeadline = mNextDeadlineUnixTime * 1000 - System.currentTimeMillis();
 
-                if (null != mDeadlinesCountdownTimer) {
-                    mDeadlinesCountdownTimer.cancel();
+                if (null != sDeadlinesCountdownTimer) {
+                    sDeadlinesCountdownTimer.cancel();
                 }
 
-                mDeadlinesCountdownTimer = new CountDownTimer(timeUntilNextDeadline, 1000) {
+                sDeadlinesCountdownTimer = new CountDownTimer(timeUntilNextDeadline, 1000) {
 
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -166,13 +166,13 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
     private void restartDeadlinesLoader() {
         Log.d(LOG_TAG, "Waiting a few seconds before restarting loader");
 
-        if (null != mDeadlineTimeUpDelayCountDownTimer) {
-            mDeadlineTimeUpDelayCountDownTimer.cancel();
+        if (null != sDeadlineTimeUpDelayCountDownTimer) {
+            sDeadlineTimeUpDelayCountDownTimer.cancel();
         }
 
         final DeadlinesCard thisClass = this;
 
-        mDeadlineTimeUpDelayCountDownTimer = new CountDownTimer(15000, 1000) {
+        sDeadlineTimeUpDelayCountDownTimer = new CountDownTimer(15000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
