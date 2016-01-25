@@ -23,7 +23,7 @@
 
 
     <TextView
-        android:id="@+id/deadlines_task_text_view"
+        android:id="@+id/deadlines_task_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
