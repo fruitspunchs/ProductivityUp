@@ -130,7 +130,7 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
 
         public DeadlineTasksViewHolder(final View view) {
             super(view);
-            mTaskTextView = (TextView) view.findViewById(R.id.deadlines_task_text_view);
+            mTaskTextView = (TextView) view.findViewById(R.id.deadlines_task_recycler_view);
             mTimeTextView = (TextView) view.findViewById(R.id.deadlines_time_text_view);
             mEditButton = (ImageButton) view.findViewById(R.id.deadlines_edit_button);
             mDeleteButton = (ImageButton) view.findViewById(R.id.deadlines_delete_button);

@@ -45,7 +45,7 @@ public class OverviewDeadlinesCursorAdapter extends CursorRecyclerViewAdapter<Ov
 
         public ViewHolder(View view) {
             super(view);
-            mTaskTextView = (TextView) view.findViewById(R.id.deadlines_task_text_view);
+            mTaskTextView = (TextView) view.findViewById(R.id.deadlines_task_recycler_view);
         }
     }
 }
