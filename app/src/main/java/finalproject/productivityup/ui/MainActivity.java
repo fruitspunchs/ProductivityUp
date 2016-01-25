@@ -1,10 +1,7 @@
 package finalproject.productivityup.ui;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -30,12 +27,9 @@ import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
 // TODO: 1/24/2016 ask if deadline was met, or reschedule or archive
 // TODO: 1/24/2016 add animations to card resize
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-
-    public static final int DEADLINE_TASKS_CURSOR_LOADER_ID = 0;
-    public static final int NEXT_DEADLINE_CURSOR_LOADER_ID = 1;
-
+public class MainActivity extends AppCompatActivity {
     private final String LOG_TAG = this.getClass().getSimpleName();
+
     @Bind(R.id.overview_card_deadlines)
     CardView mDeadlinesCardView;
     @Bind(R.id.overview_card_agenda)
@@ -95,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         ButterKnife.bind(this);
 
-        mDeadlinesCard = new DeadlinesCard(this, mDeadlinesTaskRecyclerView, mDeadlinesTimeLeftTextView, mDeadlinesNoItemTextView, mDeadlinesCardContainer);
+        mDeadlinesCard = new DeadlinesCard(this, getSupportLoaderManager(), mDeadlinesTaskRecyclerView, mDeadlinesTimeLeftTextView, mDeadlinesNoItemTextView, mDeadlinesCardContainer);
         mDeadlinesCard.onCreate();
 
         UltradianRhythmTimerCard ultradianRhythmTimerCard = new UltradianRhythmTimerCard(this, mUltradianRhythmWorkRestButton, mUltradianRhythmTimerTextView);
@@ -153,25 +147,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return mDeadlinesCard.onCreateLoader(id);
-        // TODO: 1/11/2016 if null check next card loader
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.d(LOG_TAG, "Loader finished. Id: " + loader.getId());
-        mDeadlinesCard.onLoadFinished(loader, data);
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         mPomodoroTimerCard.onPause();
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        mDeadlinesCard.onLoaderReset();
     }
 }

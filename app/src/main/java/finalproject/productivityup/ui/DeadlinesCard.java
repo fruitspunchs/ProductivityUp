@@ -1,7 +1,10 @@
 package finalproject.productivityup.ui;
 
+import android.content.Context;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
@@ -20,40 +23,42 @@ import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 
-public class DeadlinesCard {
+public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final int DEADLINE_TASKS_CURSOR_LOADER_ID = 0;
+    private static final int NEXT_DEADLINE_CURSOR_LOADER_ID = 1;
     private final String LOG_TAG = getClass().getSimpleName();
-
-    private final MainActivity mMainActivity;
-    private final RecyclerView mDeadlinesTaskRecyclerView;
-    private final TextView mDeadlinesTimeLeftTextView;
-    private final TextView mDeadlinesNoItemTextView;
-    private final LinearLayout mDeadlinesCardContainer;
-    private OverviewDeadlinesCursorAdapter mOverviewDeadlinesCursorAdapter;
-    private boolean mHasDeadlines = true;
+    private final Context mContext;
+    private final LoaderManager mLoaderManager;
+    private final RecyclerView mRecyclerView;
+    private final TextView mNoItemTextView;
+    private final LinearLayout mLayoutContainer;
+    private final TextView mTimeLeftTextView;
+    private boolean mHasItems = true;
+    private boolean mIsShowingCardTitles = true;
+    private OverviewDeadlinesCursorAdapter mCursorAdapter;
     private long mNextDeadlineUnixTime = -1;
     private CountDownTimer mDeadlinesCountdownTimer;
     private CountDownTimer mDeadlineTimeUpDelayCountDownTimer;
-    private boolean mIsShowingCardTitles = true;
 
-    public DeadlinesCard(MainActivity mainActivity, RecyclerView deadlinesTaskRecyclerView, TextView deadlinesTimeLeftTextView, TextView deadlinesNoItemTextView, LinearLayout deadlinesCardContainer) {
-
-        mMainActivity = mainActivity;
-        mDeadlinesTaskRecyclerView = deadlinesTaskRecyclerView;
-        mDeadlinesTimeLeftTextView = deadlinesTimeLeftTextView;
-        mDeadlinesNoItemTextView = deadlinesNoItemTextView;
-        mDeadlinesCardContainer = deadlinesCardContainer;
+    public DeadlinesCard(Context context, LoaderManager loaderManager, RecyclerView recyclerView, TextView timeLeftTextView, TextView noItemTextView, LinearLayout layoutContainer) {
+        mContext = context;
+        mLoaderManager = loaderManager;
+        mRecyclerView = recyclerView;
+        mTimeLeftTextView = timeLeftTextView;
+        mNoItemTextView = noItemTextView;
+        mLayoutContainer = layoutContainer;
     }
 
     public void onCreate() {
-        mMainActivity.getSupportLoaderManager().initLoader(MainActivity.DEADLINE_TASKS_CURSOR_LOADER_ID, null, mMainActivity);
-        mDeadlinesTaskRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mMainActivity));
-        mOverviewDeadlinesCursorAdapter = new OverviewDeadlinesCursorAdapter(mMainActivity, null);
-        mDeadlinesTaskRecyclerView.setAdapter(mOverviewDeadlinesCursorAdapter);
+        mLoaderManager.initLoader(DEADLINE_TASKS_CURSOR_LOADER_ID, null, this);
+        mRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
+        mCursorAdapter = new OverviewDeadlinesCursorAdapter(mContext, null);
+        mRecyclerView.setAdapter(mCursorAdapter);
     }
 
     public void onStart() {
-        mMainActivity.getSupportLoaderManager().restartLoader(MainActivity.DEADLINE_TASKS_CURSOR_LOADER_ID, null, mMainActivity);
+        mLoaderManager.restartLoader(DEADLINE_TASKS_CURSOR_LOADER_ID, null, this);
         adjustDeadlinesLayout(mIsShowingCardTitles);
     }
 
@@ -62,21 +67,22 @@ public class DeadlinesCard {
         adjustDeadlinesLayout(isShowingCardTitles);
     }
 
-    public CursorLoader onCreateLoader(int id) {
-        if (id == MainActivity.DEADLINE_TASKS_CURSOR_LOADER_ID) {
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        if (id == DEADLINE_TASKS_CURSOR_LOADER_ID) {
             Calendar currentTime = Calendar.getInstance();
             long currentTimeInSeconds = currentTime.getTimeInMillis() / 1000;
             String[] selectionArgs = {String.valueOf(currentTimeInSeconds)};
 
-            return new CursorLoader(mMainActivity, ProductivityProvider.DeadlineTasks.CONTENT_URI,
+            return new CursorLoader(mContext, ProductivityProvider.DeadlineTasks.CONTENT_URI,
                     null,
                     DeadlineTasksColumns.TIME + " > ?",
                     selectionArgs,
                     DeadlineTasksColumns.TIME + " ASC");
-        } else if (id == MainActivity.NEXT_DEADLINE_CURSOR_LOADER_ID) {
+        } else if (id == NEXT_DEADLINE_CURSOR_LOADER_ID) {
             String[] selectionArgs = {String.valueOf(mNextDeadlineUnixTime)};
 
-            return new CursorLoader(mMainActivity, ProductivityProvider.DeadlineTasks.CONTENT_URI,
+            return new CursorLoader(mContext, ProductivityProvider.DeadlineTasks.CONTENT_URI,
                     null,
                     DeadlineTasksColumns.TIME + " = ?",
                     selectionArgs,
@@ -86,17 +92,18 @@ public class DeadlinesCard {
         return null;
     }
 
+    @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (loader.getId() == MainActivity.NEXT_DEADLINE_CURSOR_LOADER_ID) {
-            mOverviewDeadlinesCursorAdapter.swapCursor(data);
-        } else if (loader.getId() == MainActivity.DEADLINE_TASKS_CURSOR_LOADER_ID) {
+        if (loader.getId() == NEXT_DEADLINE_CURSOR_LOADER_ID) {
+            mCursorAdapter.swapCursor(data);
+        } else if (loader.getId() == DEADLINE_TASKS_CURSOR_LOADER_ID) {
             if (data.moveToNext()) {
 
-                mHasDeadlines = true;
+                mHasItems = true;
 
-                mDeadlinesTimeLeftTextView.setVisibility(View.VISIBLE);
-                mDeadlinesTaskRecyclerView.setVisibility(View.VISIBLE);
-                mDeadlinesNoItemTextView.setVisibility(View.GONE);
+                mTimeLeftTextView.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+                mNoItemTextView.setVisibility(View.GONE);
 
                 mNextDeadlineUnixTime = data.getLong(data.getColumnIndex(DeadlineTasksColumns.TIME));
 
@@ -110,27 +117,27 @@ public class DeadlinesCard {
 
                     @Override
                     public void onTick(long millisUntilFinished) {
-                        mDeadlinesTimeLeftTextView.setText(Utility.formatTimeLeft(mMainActivity, millisUntilFinished / 1000));
+                        mTimeLeftTextView.setText(Utility.formatTimeLeft(mContext, millisUntilFinished / 1000));
                     }
 
                     @Override
                     public void onFinish() {
-                        mDeadlinesTimeLeftTextView.setText(mMainActivity.getString(R.string.time_up));
+                        mTimeLeftTextView.setText(mContext.getString(R.string.time_up));
                         restartDeadlinesLoader();
                         Log.d(LOG_TAG, "Countdown finished");
                     }
                 }.start();
 
-                mMainActivity.getSupportLoaderManager().restartLoader(MainActivity.NEXT_DEADLINE_CURSOR_LOADER_ID, null, mMainActivity);
+                mLoaderManager.restartLoader(NEXT_DEADLINE_CURSOR_LOADER_ID, null, this);
 
                 adjustDeadlinesLayout(mIsShowingCardTitles);
 
             } else {
-                mDeadlinesTimeLeftTextView.setVisibility(View.GONE);
-                mDeadlinesTaskRecyclerView.setVisibility(View.GONE);
-                mDeadlinesNoItemTextView.setVisibility(View.VISIBLE);
+                mTimeLeftTextView.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.GONE);
+                mNoItemTextView.setVisibility(View.VISIBLE);
 
-                mHasDeadlines = false;
+                mHasItems = false;
 
                 adjustDeadlinesLayout(mIsShowingCardTitles);
 
@@ -138,17 +145,22 @@ public class DeadlinesCard {
         }
     }
 
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mCursorAdapter.swapCursor(null);
+    }
+
     private void adjustDeadlinesLayout(boolean isShowingCardTitles) {
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-        if (isShowingCardTitles || mHasDeadlines) {
-            layoutParams.setMargins(0, 0, 0, mMainActivity.getResources().getDimensionPixelSize(R.dimen.card_padding_bottom));
+        if (isShowingCardTitles || mHasItems) {
+            layoutParams.setMargins(0, 0, 0, mContext.getResources().getDimensionPixelSize(R.dimen.card_padding_bottom));
         } else {
             layoutParams.setMargins(0, 0, 0, 0);
         }
 
-        mDeadlinesCardContainer.setLayoutParams(layoutParams);
+        mLayoutContainer.setLayoutParams(layoutParams);
     }
 
     private void restartDeadlinesLoader() {
@@ -158,6 +170,8 @@ public class DeadlinesCard {
             mDeadlineTimeUpDelayCountDownTimer.cancel();
         }
 
+        final DeadlinesCard thisClass = this;
+
         mDeadlineTimeUpDelayCountDownTimer = new CountDownTimer(15000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -166,12 +180,8 @@ public class DeadlinesCard {
 
             @Override
             public void onFinish() {
-                mMainActivity.getSupportLoaderManager().restartLoader(MainActivity.DEADLINE_TASKS_CURSOR_LOADER_ID, null, mMainActivity);
+                mLoaderManager.restartLoader(DEADLINE_TASKS_CURSOR_LOADER_ID, null, thisClass);
             }
         }.start();
-    }
-
-    public void onLoaderReset() {
-        mOverviewDeadlinesCursorAdapter.swapCursor(null);
     }
 }
