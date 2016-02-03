@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.overview_card_deadlines)
     CardView mDeadlinesCardView;
     @Bind(R.id.overview_card_agenda)
-    CardView mAgendaCard;
+    CardView mAgendaCardView;
     @Bind(R.id.overview_card_accountability_chart)
     CardView mAccountabilityChartCard;
     @Bind({R.id.deadlines_title_text_view, R.id.accountability_chart_title1_text_view, R.id.accountability_chart_title2_text_view, R.id.agenda_title_text_view, R.id.ultradian_rhythm_title_text_view, R.id.pomodoro_timer_title_text_view})
@@ -55,9 +55,13 @@ public class MainActivity extends AppCompatActivity {
     TextView mPomodoroTimerTextView;
     @Bind(R.id.pomodoro_timer_start_pause_button)
     ImageButton mPomodoroTimerStartPauseImageButton;
+    @Bind(R.id.agenda_card_recycler_view)
+    RecyclerView mAgendaCardRecyclerView;
+    @Bind(R.id.agenda_no_item_text_view)
+    TextView mAgendaNoItemTextView;
     private PomodoroTimerCard mPomodoroTimerCard;
-
     private DeadlinesCard mDeadlinesCard;
+    private AgendaCard mAgendaCard;
 
     @OnClick(R.id.overview_card_deadlines)
     void clickDeadlinesCard() {
@@ -97,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
 
         mPomodoroTimerCard = new PomodoroTimerCard(this, mPomodoroTimerStartPauseImageButton, mPomodoroTimerTextView);
         mPomodoroTimerCard.initialize();
+
+        mAgendaCard = new AgendaCard(this, getSupportLoaderManager(), mAgendaCardRecyclerView, mAgendaNoItemTextView);
+        mAgendaCard.onCreate();
     }
 
     @Override
@@ -104,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         Log.d(LOG_TAG, "Restarting loader");
         mDeadlinesCard.onStart();
+        mAgendaCard.onStart();
     }
 
     @Override

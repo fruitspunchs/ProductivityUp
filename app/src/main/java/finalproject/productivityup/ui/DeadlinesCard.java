@@ -59,12 +59,12 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public void onStart() {
         mLoaderManager.restartLoader(DEADLINE_TASKS_CURSOR_LOADER_ID, null, this);
-        adjustDeadlinesLayout(mIsShowingCardTitles);
+        adjustLayout(mIsShowingCardTitles);
     }
 
     public void toggleCardTitles(boolean isShowingCardTitles) {
         mIsShowingCardTitles = isShowingCardTitles;
-        adjustDeadlinesLayout(isShowingCardTitles);
+        adjustLayout(isShowingCardTitles);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
                 mLoaderManager.restartLoader(NEXT_DEADLINE_CURSOR_LOADER_ID, null, this);
 
-                adjustDeadlinesLayout(mIsShowingCardTitles);
+                adjustLayout(mIsShowingCardTitles);
 
             } else {
                 mTimeLeftTextView.setVisibility(View.GONE);
@@ -139,7 +139,7 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
                 mHasItems = false;
 
-                adjustDeadlinesLayout(mIsShowingCardTitles);
+                adjustLayout(mIsShowingCardTitles);
 
             }
         }
@@ -150,7 +150,7 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
         mCursorAdapter.swapCursor(null);
     }
 
-    private void adjustDeadlinesLayout(boolean isShowingCardTitles) {
+    private void adjustLayout(boolean isShowingCardTitles) {
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 

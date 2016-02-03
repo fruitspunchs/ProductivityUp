@@ -323,7 +323,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/card_padding_bottom"
-                    android:layout_marginTop="@dimen/card_padding_top"
                     android:orientation="vertical"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp">
@@ -333,20 +332,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="24dp"
+                        android:layout_marginTop="@dimen/card_padding_top"
                         android:text="@string/agenda_title_card"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="24dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="24dp">
+                        android:layout_marginTop="@dimen/card_padding_top">
 
                         <TextView
-                            android:id="@+id/agenda_no_item"
+                            android:id="@+id/agenda_no_item_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
@@ -358,10 +354,9 @@
                             />
 
                         <android.support.v7.widget.RecyclerView
-                            android:id="@+id/agenda_task_recycler_view"
+                            android:id="@+id/agenda_card_recycler_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/colorPrimaryText"
                             tools:text="Finish mock"/>
