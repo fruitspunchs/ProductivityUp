@@ -1,7 +1,6 @@
-package finalproject.productivityup.ui.deadlines;
+package finalproject.productivityup.ui.accountability;
 
 import android.content.ContentValues;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -20,15 +19,17 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import finalproject.productivityup.R;
-import finalproject.productivityup.data.DeadlineDaysColumns;
-import finalproject.productivityup.data.DeadlineTasksColumns;
+import finalproject.productivityup.data.AccountabilityChartDaysColumns;
+import finalproject.productivityup.data.AccountabilityChartTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
+import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
-public class AddDeadlineActivity extends AppCompatActivity {
+public class AddAccountabilityActivity extends AppCompatActivity {
+
     private final String LOG_TAG = getClass().getSimpleName();
     @Bind(R.id.task_edit_text)
     EditText mTaskEditText;
-    @Bind(R.id.add_deadline_done_fab)
+    @Bind(R.id.done_fab)
     FloatingActionButton mDoneFab;
     @Bind(R.id.calendar_view)
     CalendarView mCalendarView;
@@ -36,9 +37,9 @@ public class AddDeadlineActivity extends AppCompatActivity {
     TimePicker mTimePicker;
     @Bind(R.id.date_time_image_button)
     ImageButton mDateTimeButton;
-    private int mMode = MODE.DATE;
+    private int mMode = MODE.TIME;
 
-    @OnClick(R.id.add_deadline_done_fab)
+    @OnClick(R.id.done_fab)
     void clickDoneFab() {
         String task = mTaskEditText.getText().toString().trim();
         Log.d(LOG_TAG, "Task number of trimmed chars: " + task.length());
@@ -62,20 +63,22 @@ public class AddDeadlineActivity extends AppCompatActivity {
         long unixMinutes = mTimePicker.getCurrentMinute() * 60;
         Log.d(LOG_TAG, "UnixMinutes: " + unixMinutes);
 
-        values.put(DeadlineTasksColumns.DATE, unixDate);
+        values.put(AccountabilityChartTasksColumns.DATE, unixDate);
         Log.d(LOG_TAG, "Date: " + unixDate);
-        values.put(DeadlineTasksColumns.TIME, unixDate + unixHours + unixMinutes);
+        values.put(AccountabilityChartTasksColumns.TIME, unixDate + unixHours + unixMinutes);
         long time = unixDate + unixHours + unixMinutes;
         Log.d(LOG_TAG, "Time: " + time);
-        values.put(DeadlineTasksColumns.TASK, task);
+        values.put(AccountabilityChartTasksColumns.TASK, task);
         Log.d(LOG_TAG, "Task: " + task);
 
-        deadlineDays.put(DeadlineDaysColumns.DATE, unixDate);
-        getContentResolver().insert(ProductivityProvider.DeadlineDays.CONTENT_URI, deadlineDays);
+        deadlineDays.put(AccountabilityChartDaysColumns.DATE, unixDate);
+        getContentResolver().insert(ProductivityProvider.AccountabilityChartDays.CONTENT_URI, deadlineDays);
 
-        getContentResolver().insert(ProductivityProvider.DeadlineTasks.CONTENT_URI, values);
-        Intent resultIntent = new Intent().putExtra(DeadlinesActivityFragment.UNIX_DATE_KEY, unixDate);
-        setResult(DeadlinesActivityFragment.RESULT_ADD, resultIntent);
+        getContentResolver().insert(ProductivityProvider.AccountabilityChartTasks.CONTENT_URI, values);
+
+        // TODO: 2/10/2016
+        //Intent resultIntent = new Intent().putExtra(DeadlinesActivityFragment.UNIX_DATE_KEY, unixDate);
+        //setResult(DeadlinesActivityFragment.RESULT_ADD, resultIntent);
         finish();
     }
 
@@ -109,7 +112,7 @@ public class AddDeadlineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_deadline);
+        setContentView(R.layout.activity_add_accountability);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

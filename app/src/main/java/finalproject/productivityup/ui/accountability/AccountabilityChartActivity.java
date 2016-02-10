@@ -1,15 +1,27 @@
 package finalproject.productivityup.ui.accountability;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import finalproject.productivityup.R;
 
 public class AccountabilityChartActivity extends AppCompatActivity {
+
+    private final String LOG_TAG = this.getClass().getSimpleName();
+    @Bind(R.id.add_fab)
+    FloatingActionButton mAddFab;
+
+    @OnClick(R.id.add_fab)
+    void clickAddFab() {
+        Intent intent = new Intent(this, AddAccountabilityActivity.class);
+        startActivityForResult(intent, 0);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,16 +29,8 @@ public class AccountabilityChartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_accountability_chart);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ButterKnife.bind(this);
     }
 
 }

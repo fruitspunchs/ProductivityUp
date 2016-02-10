@@ -47,4 +47,8 @@
     <string name="cd_edit">edit</string>
     <string name="title_activity_edit_agenda">Edit Agenda</string>
 
+    <!-- Hints-->
+    <string name="hint_task">Enter task here</string>
+    <string name="title_activity_add_accountability">AddAccountabilityActivity</string>
+
 </resources>

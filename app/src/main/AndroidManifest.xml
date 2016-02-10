@@ -95,6 +95,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="finalproject.productivityup.ui.agenda.AddAgendaActivity"/>
         </activity>
+        <activity
+            android:name=".ui.accountability.AddAccountabilityActivity"
+            android:label="@string/title_activity_add_accountability"
+            android:parentActivityName=".ui.accountability.AccountabilityChartActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="finalproject.productivityup.ui.accountability.AccountabilityChartActivity"/>
+        </activity>
     </application>
 
 </manifest>

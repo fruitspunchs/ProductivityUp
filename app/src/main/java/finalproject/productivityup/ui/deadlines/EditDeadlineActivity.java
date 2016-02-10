@@ -31,15 +31,15 @@ public class EditDeadlineActivity extends AppCompatActivity {
     public static final String DATE_KEY = "DATE_KEY";
     public static final String TIME_KEY = "TIME_KEY";
     private final String LOG_TAG = getClass().getSimpleName();
-    @Bind(R.id.add_deadline_task_edit_text)
+    @Bind(R.id.task_edit_text)
     EditText mTaskEditText;
     @Bind(R.id.add_deadline_done_fab)
     FloatingActionButton mDoneFab;
-    @Bind(R.id.add_deadline_calendar_view)
+    @Bind(R.id.calendar_view)
     CalendarView mCalendarView;
-    @Bind(R.id.add_deadline_time_picker)
+    @Bind(R.id.time_picker)
     TimePicker mTimePicker;
-    @Bind(R.id.add_deadline_date_time_image_button)
+    @Bind(R.id.date_time_image_button)
     ImageButton mDateTimeButton;
     private int mMode = MODE.DATE;
     private long mId;
@@ -99,7 +99,7 @@ public class EditDeadlineActivity extends AppCompatActivity {
         finish();
     }
 
-    @OnClick(R.id.add_deadline_date_time_image_button)
+    @OnClick(R.id.date_time_image_button)
     void clickDateTimeButton() {
         switch (mMode) {
             case MODE.DATE:
@@ -117,7 +117,7 @@ public class EditDeadlineActivity extends AppCompatActivity {
         }
     }
 
-    @OnTextChanged(R.id.add_deadline_task_edit_text)
+    @OnTextChanged(R.id.task_edit_text)
     void taskTextChanged() {
         if (mTaskEditText.getText().toString().trim().length() > 0) {
             mDoneFab.setImageResource(R.drawable.ic_done_white_48dp);
