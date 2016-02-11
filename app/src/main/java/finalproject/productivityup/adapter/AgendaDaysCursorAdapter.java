@@ -40,8 +40,8 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
     private final String UNIX_DATE_KEY = "UNIX_DATE_KEY";
     private Context mContext;
     private List<AgendaTasksCursorAdapter> mAgendaTasksCursorAdapterArrayList = new ArrayList<>();
-    private boolean mGetNextDeadline = true;
-    private long mNextDeadline = -1;
+    private boolean mGetNextItem = true;
+    private long mNextItem = -1;
     private AgendaTasksCursorAdapter.AgendaTasksLastSelectedItemViewHolder mAgendaTasksLastSelectedItemViewHolder;
     private SharedPreferences mSharedPreferences;
 
@@ -68,14 +68,14 @@ public class AgendaDaysCursorAdapter extends CursorRecyclerViewAdapter<AgendaDay
 
         // TODO: 1/12/2016 if no today or tomorrow add blank card, only today is red text
         //Set text colors for easier reading
-        if (mUnixDate == mNextDeadline) {
+        if (mUnixDate == mNextItem) {
             viewHolder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
         } else if (mUnixDate < today.getTimeInMillis() / 1000) {
             viewHolder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorSecondaryText));
-        } else if (mGetNextDeadline) {
+        } else if (mGetNextItem) {
             viewHolder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
-            mGetNextDeadline = false;
-            mNextDeadline = mUnixDate;
+            mGetNextItem = false;
+            mNextItem = mUnixDate;
         } else {
             viewHolder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
         }
