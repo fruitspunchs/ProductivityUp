@@ -39,9 +39,9 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     public static final int RESULT_EDIT = 3;
     private static final int DATE_CURSOR_LOADER_ID = 0;
     private final String LOG_TAG = this.getClass().getSimpleName();
-    private DeadlineDaysCursorAdapter mDeadlineDaysCursorAdapter;
+    private DeadlineDaysCursorAdapter mCursorAdapter;
     private RecyclerView mRecyclerView;
-    private int mRecentDeadlinePosition;
+    private int mRecentItemPosition;
     private int mResultItemPosition;
     private int mResult = RESULT_CANCEL;
     private long mResultUnixDate;
@@ -70,10 +70,10 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
             today.set(Calendar.SECOND, 0);
             long todayInSeconds = today.getTimeInMillis() / 1000;
 
-            mRecentDeadlinePosition = -1;
+            mRecentItemPosition = -1;
             data.moveToPosition(-1);
             while (data.moveToNext()) {
-                mRecentDeadlinePosition = data.getPosition();
+                mRecentItemPosition = data.getPosition();
                 if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) >= todayInSeconds) {
                     break;
                 }
@@ -86,12 +86,12 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
 
         MergeCursor mergeCursor = new MergeCursor(new Cursor[]{data, matrixCursor});
         Log.d(LOG_TAG, "Merge cursor items: " + mergeCursor.getCount());
-        mDeadlineDaysCursorAdapter.swapCursor(mergeCursor);
+        mCursorAdapter.swapCursor(mergeCursor);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mDeadlineDaysCursorAdapter.swapCursor(null);
+        mCursorAdapter.swapCursor(null);
     }
 
     public void onViewAttachedToWindow(long unixDate) {
@@ -110,14 +110,14 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
 
                 @Override
                 public void onFinish() {
-                    Log.d(LOG_TAG, "Scrolling to position: " + mRecentDeadlinePosition);
-                    mRecyclerView.scrollToPosition(mRecentDeadlinePosition);
+                    Log.d(LOG_TAG, "Scrolling to position: " + mRecentItemPosition);
+                    mRecyclerView.scrollToPosition(mRecentItemPosition);
                 }
             }.start();
         } else if (mResult == RESULT_ADD || mResult == RESULT_EDIT) {
             mResult = RESULT_CANCEL;
 
-            Cursor data = mDeadlineDaysCursorAdapter.getCursor();
+            Cursor data = mCursorAdapter.getCursor();
             data.moveToPosition(-1);
             while (data.moveToNext()) {
                 if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) == mResultUnixDate) {
@@ -162,8 +162,8 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.deadlines_card_recycler_view);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        mDeadlineDaysCursorAdapter = new DeadlineDaysCursorAdapter(getActivity(), null, getLoaderManager());
-        mRecyclerView.setAdapter(mDeadlineDaysCursorAdapter);
+        mCursorAdapter = new DeadlineDaysCursorAdapter(getActivity(), null, getLoaderManager());
+        mRecyclerView.setAdapter(mCursorAdapter);
 
         return rootView;
     }
