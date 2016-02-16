@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.overview_card_accountability_chart)
     void clickAccountabilityChartCard() {
         Intent intent = new Intent(this, AccountabilityChartActivity.class);
+        intent.setAction(DeadlinesActivityFragment.ACTION_SCROLL_TO_NEAREST_DEADLINE);
         startActivity(intent);
     }
 

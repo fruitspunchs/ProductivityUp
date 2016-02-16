@@ -160,7 +160,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
             }
         }
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.deadlines_card_recycler_view);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         mCursorAdapter = new DeadlineDaysCursorAdapter(getActivity(), null, getLoaderManager());
         mRecyclerView.setAdapter(mCursorAdapter);
