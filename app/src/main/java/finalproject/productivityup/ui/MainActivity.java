@@ -28,8 +28,8 @@ import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 // TODO: 1/24/2016 ask if deadline was met, or reschedule or archive
 // TODO: 1/24/2016 add animations to card resize
 public class MainActivity extends AppCompatActivity {
+    public static final long CALENDAR_MIN_DATE = 1451606400000L;
     private final String LOG_TAG = this.getClass().getSimpleName();
-
     @Bind(R.id.overview_card_deadlines)
     CardView mDeadlinesCardView;
     @Bind(R.id.overview_card_agenda)

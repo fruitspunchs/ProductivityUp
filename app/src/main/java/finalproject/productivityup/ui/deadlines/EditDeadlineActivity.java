@@ -24,6 +24,7 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
+import finalproject.productivityup.ui.MainActivity;
 
 public class EditDeadlineActivity extends AppCompatActivity {
     public static final String TASK_KEY = "TASK_KEY";
@@ -149,6 +150,7 @@ public class EditDeadlineActivity extends AppCompatActivity {
         long time = getIntent().getLongExtra(TIME_KEY, -1);
 
         mTaskEditText.setText(task);
+        mCalendarView.setMinDate(MainActivity.CALENDAR_MIN_DATE);
         mCalendarView.setDate(mDate * 1000);
 
         long daySeconds = time - mDate;

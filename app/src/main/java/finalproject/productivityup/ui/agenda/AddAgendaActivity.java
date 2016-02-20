@@ -20,6 +20,7 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.data.AgendaTasksColumns;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.ProductivityProvider;
+import finalproject.productivityup.ui.MainActivity;
 
 public class AddAgendaActivity extends AppCompatActivity {
     private final String LOG_TAG = getClass().getSimpleName();
@@ -89,6 +90,7 @@ public class AddAgendaActivity extends AppCompatActivity {
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
+        mCalendarView.setMinDate(MainActivity.CALENDAR_MIN_DATE);
         mCalendarView.setDate(today.getTimeInMillis());
 
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {

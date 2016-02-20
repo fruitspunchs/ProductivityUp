@@ -22,6 +22,7 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.data.AccountabilityDaysColumns;
 import finalproject.productivityup.data.AccountabilityTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
+import finalproject.productivityup.ui.MainActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
 public class AddAccountabilityActivity extends AppCompatActivity {
@@ -124,6 +125,7 @@ public class AddAccountabilityActivity extends AppCompatActivity {
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
+        mCalendarView.setMinDate(MainActivity.CALENDAR_MIN_DATE);
         mCalendarView.setDate(today.getTimeInMillis());
 
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
