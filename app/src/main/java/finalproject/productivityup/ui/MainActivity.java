@@ -20,7 +20,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import finalproject.productivityup.R;
-import finalproject.productivityup.ui.accountability.AccountabilityChartActivity;
+import finalproject.productivityup.ui.accountability.AccountabilityActivity;
 import finalproject.productivityup.ui.agenda.AgendaActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.overview_card_accountability_chart)
     void clickAccountabilityChartCard() {
-        Intent intent = new Intent(this, AccountabilityChartActivity.class);
+        Intent intent = new Intent(this, AccountabilityActivity.class);
         intent.setAction(DeadlinesActivityFragment.ACTION_SCROLL_TO_NEAREST_DEADLINE);
         startActivity(intent);
     }

@@ -19,8 +19,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import finalproject.productivityup.R;
-import finalproject.productivityup.data.AccountabilityChartDaysColumns;
-import finalproject.productivityup.data.AccountabilityChartTasksColumns;
+import finalproject.productivityup.data.AccountabilityDaysColumns;
+import finalproject.productivityup.data.AccountabilityTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
@@ -63,15 +63,15 @@ public class AddAccountabilityActivity extends AppCompatActivity {
         long unixMinutes = mTimePicker.getCurrentMinute() * 60;
         Log.d(LOG_TAG, "UnixMinutes: " + unixMinutes);
 
-        values.put(AccountabilityChartTasksColumns.DATE, unixDate);
+        values.put(AccountabilityTasksColumns.DATE, unixDate);
         Log.d(LOG_TAG, "Date: " + unixDate);
-        values.put(AccountabilityChartTasksColumns.TIME, unixDate + unixHours + unixMinutes);
+        values.put(AccountabilityTasksColumns.TIME, unixDate + unixHours + unixMinutes);
         long time = unixDate + unixHours + unixMinutes;
         Log.d(LOG_TAG, "Time: " + time);
-        values.put(AccountabilityChartTasksColumns.TASK, task);
+        values.put(AccountabilityTasksColumns.TASK, task);
         Log.d(LOG_TAG, "Task: " + task);
 
-        deadlineDays.put(AccountabilityChartDaysColumns.DATE, unixDate);
+        deadlineDays.put(AccountabilityDaysColumns.DATE, unixDate);
         getContentResolver().insert(ProductivityProvider.AccountabilityChartDays.CONTENT_URI, deadlineDays);
 
         getContentResolver().insert(ProductivityProvider.AccountabilityChartTasks.CONTENT_URI, values);

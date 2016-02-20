@@ -21,9 +21,9 @@ public class ProductivityDatabase {
     @Table(AgendaTasksColumns.class)
     public static final String AGENDA_TASKS = "agenda_tasks";
 
-    @Table(AccountabilityChartDaysColumns.class)
+    @Table(AccountabilityDaysColumns.class)
     public static final String ACCOUNTABILITY_CHART_DAYS = "accountability_chart_days";
 
-    @Table(AccountabilityChartTasksColumns.class)
+    @Table(AccountabilityTasksColumns.class)
     public static final String ACCOUNTABILITY_CHART_TASKS = "accountability_chart_tasks";
 }

@@ -56,13 +56,13 @@ public final class ProductivityProvider {
 
     @TableEndpoint(table = ProductivityDatabase.ACCOUNTABILITY_CHART_DAYS)
     public static class AccountabilityChartDays {
-        @ContentUri(path = Path.ACCOUNTABILITY_CHART_DAYS, type = "vnd.android.cursor.dir/" + Path.ACCOUNTABILITY_CHART_DAYS, defaultSort = AccountabilityChartDaysColumns.DATE + " ASC")
+        @ContentUri(path = Path.ACCOUNTABILITY_CHART_DAYS, type = "vnd.android.cursor.dir/" + Path.ACCOUNTABILITY_CHART_DAYS, defaultSort = AccountabilityDaysColumns.DATE + " ASC")
         public static final Uri CONTENT_URI = buildUri(Path.ACCOUNTABILITY_CHART_DAYS);
     }
 
     @TableEndpoint(table = ProductivityDatabase.ACCOUNTABILITY_CHART_TASKS)
     public static class AccountabilityChartTasks {
-        @ContentUri(path = Path.ACCOUNTABILITY_CHART_TASKS, type = "vnd.android.cursor.dir/" + Path.ACCOUNTABILITY_CHART_TASKS, defaultSort = AccountabilityChartTasksColumns.DATE + " ASC")
+        @ContentUri(path = Path.ACCOUNTABILITY_CHART_TASKS, type = "vnd.android.cursor.dir/" + Path.ACCOUNTABILITY_CHART_TASKS, defaultSort = AccountabilityTasksColumns.DATE + " ASC")
         public static final Uri CONTENT_URI = buildUri(Path.ACCOUNTABILITY_CHART_TASKS);
     }
 }

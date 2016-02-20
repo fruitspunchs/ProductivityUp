@@ -28,7 +28,7 @@ import finalproject.productivityup.data.ProductivityProvider;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class AccountabilityChartActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AccountabilityActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final int TASK_CURSOR_LOADER_START_ID = 1;
     public static final String ACTION_SCROLL_TO_NEAREST_DEADLINE = "ACTION_SCROLL_TO_NEAREST_DEADLINE";
     public static final String ACTION_NONE = "ACTION_NONE";
@@ -46,7 +46,7 @@ public class AccountabilityChartActivityFragment extends Fragment implements Loa
     private long mResultUnixDate;
     private String mAction = ACTION_NONE;
 
-    public AccountabilityChartActivityFragment() {
+    public AccountabilityActivityFragment() {
     }
 
     @Override

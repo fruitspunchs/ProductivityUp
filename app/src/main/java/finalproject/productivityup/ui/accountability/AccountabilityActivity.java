@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import finalproject.productivityup.R;
 
-public class AccountabilityChartActivity extends AppCompatActivity {
+public class AccountabilityActivity extends AppCompatActivity {
 
     private final String LOG_TAG = this.getClass().getSimpleName();
     @Bind(R.id.add_fab)

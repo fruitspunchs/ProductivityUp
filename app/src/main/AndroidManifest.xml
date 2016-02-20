@@ -41,7 +41,7 @@
                 android:value=".ui.MainActivity"/>
         </activity>
         <activity
-            android:name=".ui.accountability.AccountabilityChartActivity"
+            android:name=".ui.accountability.AccountabilityActivity"
             android:label="@string/title_activity_accountability_chart"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -98,11 +98,11 @@
         <activity
             android:name=".ui.accountability.AddAccountabilityActivity"
             android:label="@string/title_activity_add_accountability"
-            android:parentActivityName=".ui.accountability.AccountabilityChartActivity"
+            android:parentActivityName=".ui.accountability.AccountabilityActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="finalproject.productivityup.ui.accountability.AccountabilityChartActivity"/>
+                android:value=".ui.accountability.AccountabilityActivity"/>
         </activity>
     </application>
 

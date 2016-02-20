@@ -12,7 +12,7 @@ import static net.simonvt.schematic.annotation.DataType.Type.INTEGER;
 /**
  * Created by User on 1/11/2016.
  */
-public class AccountabilityChartDaysColumns {
+public class AccountabilityDaysColumns {
     @DataType(INTEGER)
     @PrimaryKey
     @AutoIncrement
