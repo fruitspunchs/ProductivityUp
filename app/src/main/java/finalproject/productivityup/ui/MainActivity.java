@@ -1,7 +1,9 @@
 package finalproject.productivityup.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +31,7 @@ import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 // TODO: 1/24/2016 add animations to card resize
 public class MainActivity extends AppCompatActivity {
     public static final long CALENDAR_MIN_DATE = 1451606400000L;
+    public static final String CARD_TITLE_TOGGLE_KEY = "CARD_TITLE_TOGGLE_KEY";
     private final String LOG_TAG = this.getClass().getSimpleName();
     @Bind(R.id.overview_card_deadlines)
     CardView mDeadlinesCardView;
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView mAgendaCardRecyclerView;
     @Bind(R.id.agenda_no_item_text_view)
     TextView mAgendaNoItemTextView;
+    SharedPreferences mSharedPreferences;
     private PomodoroTimerCard mPomodoroTimerCard;
     private DeadlinesCard mDeadlinesCard;
     private AgendaCard mAgendaCard;
@@ -105,6 +109,23 @@ public class MainActivity extends AppCompatActivity {
 
         mAgendaCard = new AgendaCard(this, getSupportLoaderManager(), mAgendaCardRecyclerView, mAgendaNoItemTextView);
         mAgendaCard.onCreate();
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mIsShowingCardTitles = mSharedPreferences.getBoolean(CARD_TITLE_TOGGLE_KEY, true);
+
+        if (mIsShowingCardTitles) {
+            Log.d(LOG_TAG, "Showing card titles");
+            for (TextView textView : mCardTitles) {
+                textView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            Log.d(LOG_TAG, "Hiding card titles");
+            for (TextView textView : mCardTitles) {
+                textView.setVisibility(View.GONE);
+            }
+        }
+        mDeadlinesCard.toggleCardTitles(mIsShowingCardTitles);
+
     }
 
     @Override
@@ -119,8 +140,17 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem cardTitleToggleIcon = menu.findItem(R.id.action_toggle_card_title);
+
+        if (mIsShowingCardTitles) {
+            cardTitleToggleIcon.setIcon(R.drawable.ic_hide_card_title);
+        } else {
+            cardTitleToggleIcon.setIcon(R.drawable.ic_show_card_title);
+        }
+
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -133,31 +163,35 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_toggle_card_title) {
-            if (mIsShowingCardTitles) {
-                Log.d(LOG_TAG, "Hiding card titles");
-                for (TextView textView : mCardTitles) {
-                    textView.setVisibility(View.GONE);
-                }
-                item.setIcon(R.drawable.ic_show_card_title);
-                mIsShowingCardTitles = false;
-            } else {
-                Log.d(LOG_TAG, "Showing card titles");
-                for (TextView textView : mCardTitles) {
-                    textView.setVisibility(View.VISIBLE);
-                }
-                item.setIcon(R.drawable.ic_hide_card_title);
-                mIsShowingCardTitles = true;
-            }
-
-            mDeadlinesCard.toggleCardTitles(mIsShowingCardTitles);
+            toggleCardTitles(item);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void toggleCardTitles(MenuItem item) {
+        if (mIsShowingCardTitles) {
+            Log.d(LOG_TAG, "Hiding card titles");
+            for (TextView textView : mCardTitles) {
+                textView.setVisibility(View.GONE);
+            }
+            item.setIcon(R.drawable.ic_show_card_title);
+            mIsShowingCardTitles = false;
+        } else {
+            Log.d(LOG_TAG, "Showing card titles");
+            for (TextView textView : mCardTitles) {
+                textView.setVisibility(View.VISIBLE);
+            }
+            item.setIcon(R.drawable.ic_hide_card_title);
+            mIsShowingCardTitles = true;
+        }
+        mDeadlinesCard.toggleCardTitles(mIsShowingCardTitles);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mPomodoroTimerCard.onPause();
+        mSharedPreferences.edit().putBoolean(CARD_TITLE_TOGGLE_KEY, mIsShowingCardTitles).apply();
     }
 }
