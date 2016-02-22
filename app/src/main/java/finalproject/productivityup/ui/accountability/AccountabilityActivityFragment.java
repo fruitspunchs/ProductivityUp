@@ -150,7 +150,7 @@ public class AccountabilityActivityFragment extends Fragment implements LoaderMa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_accountability_chart, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_accountability, container, false);
 
         Intent intent = getActivity().getIntent();
         if (intent != null) {

@@ -30,7 +30,7 @@ import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 /**
  * Adapter for deadline cards and loads deadline card items.
  */
-public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<AccountabilityDaysCursorAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AccountabilityHoursCursorAdapter extends CursorRecyclerViewAdapter<AccountabilityHoursCursorAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static int sTaskCursorLoaderId;
     private final String LOG_TAG = this.getClass().getSimpleName();
@@ -44,7 +44,7 @@ public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<A
 
     private SharedPreferences mSharedPreferences;
 
-    public AccountabilityDaysCursorAdapter(Context context, Cursor cursor, LoaderManager loaderManager) {
+    public AccountabilityHoursCursorAdapter(Context context, Cursor cursor, LoaderManager loaderManager) {
         super(context, cursor);
         mContext = context;
         mLoaderManager = loaderManager;

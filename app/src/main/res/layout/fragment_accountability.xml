@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="16dp"
     tools:context=".ui.accountability.AccountabilityActivityFragment"
-    tools:showIn="@layout/activity_accountability_chart">
+    tools:showIn="@layout/activity_accountability">
 
 
 </android.support.v7.widget.RecyclerView>
