@@ -168,9 +168,14 @@ public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<A
                         matrixCursor.addRow(new Object[]{id++, threshold});
                         threshold += SECONDS_IN_TWO_HOURS;
                     } else {
+
+
                         if (time >= threshold) {
-                            matrixCursor.addRow(new Object[]{id++, threshold});
-                            threshold += SECONDS_IN_TWO_HOURS;
+                            while (time >= threshold) {
+                                threshold += SECONDS_IN_TWO_HOURS;
+                            }
+
+                            matrixCursor.addRow(new Object[]{id++, threshold - SECONDS_IN_TWO_HOURS});
                         }
                     }
                 }
