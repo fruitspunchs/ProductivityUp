@@ -20,6 +20,7 @@ import java.util.Calendar;
 import finalproject.productivityup.R;
 import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
+import finalproject.productivityup.libs.Utility;
 import finalproject.productivityup.ui.accountability.AccountabilityActivityFragment;
 
 // FIXME: 1/23/2016 onLoadFinished doesn't get called sometimes because the loader is restarted too quickly
@@ -54,13 +55,15 @@ public class AccountabilityHoursCursorAdapter extends CursorRecyclerViewAdapter<
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
-        long timeSpan = cursor.getLong(cursor.getColumnIndex(AccountabilityHoursColumns.START));
-        viewHolder.mHoursTextView.setText(String.valueOf(timeSpan));
+        long timeSpanStart = cursor.getLong(cursor.getColumnIndex(AccountabilityHoursColumns.START));
 
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 0);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
+        Calendar tmpCalendar = Calendar.getInstance();
+        tmpCalendar.setTimeInMillis(timeSpanStart * 1000);
+        tmpCalendar.add(Calendar.MINUTE, 90);
+        long timeSpanEnd = tmpCalendar.getTimeInMillis() / 1000;
+
+        String timeSpanString = Utility.formatTime(timeSpanStart) + " - " + Utility.formatTime(timeSpanEnd);
+        viewHolder.mHoursTextView.setText(timeSpanString);
 
         Log.d(LOG_TAG, "Binding ViewHolder. Id: " + viewHolder.mId);
 //        viewHolder.mTasksRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
