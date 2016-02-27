@@ -24,7 +24,7 @@ public class DeadlinesActivity extends AppCompatActivity {
     }
 
     public void onViewAttachedToWindow(long unixDate) {
-        DeadlinesActivityFragment fragment = (DeadlinesActivityFragment) getSupportFragmentManager().findFragmentById(R.id.deadlines_fragment);
+        DeadlinesActivityFragment fragment = (DeadlinesActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         fragment.onViewAttachedToWindow(unixDate);
     }
 
@@ -41,7 +41,7 @@ public class DeadlinesActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(LOG_TAG, "onActivityResult");
-        DeadlinesActivityFragment fragment = (DeadlinesActivityFragment) getSupportFragmentManager().findFragmentById(R.id.deadlines_fragment);
+        DeadlinesActivityFragment fragment = (DeadlinesActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         fragment.onResult(requestCode, resultCode, data);
     }
 }
