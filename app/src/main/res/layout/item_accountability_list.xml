@@ -1,25 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="8dp"
-    android:layout_marginTop="8dp"
-    android:orientation="vertical">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/selector_row"
+              android:minHeight="48dp"
+              android:orientation="horizontal"
+              android:paddingLeft="8dp"
+              android:paddingRight="8dp">
 
     <TextView
-        android:id="@+id/hours_text_view"
-        android:layout_width="wrap_content"
+        android:id="@+id/task_text_view"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:text="9 am to 10:30 am"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorPrimaryText"
+        tools:text="Task name"/>
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cat videos\nResearch features\nDraw draft on paper"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <ImageButton
+        android:id="@+id/delete_button"
+        android:layout_width="28dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/cd_delete"
+        android:src="@drawable/ic_delete_white_18dp"
+        android:visibility="gone"/>
 
+    <ImageButton
+        android:id="@+id/edit_button"
+        android:layout_width="28dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/cd_edit"
+        android:src="@drawable/ic_mode_edit_white_18dp"
+        android:visibility="gone"/>
 </LinearLayout>

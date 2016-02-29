@@ -32,7 +32,7 @@ public class AccountabilityActivityFragment extends Fragment implements LoaderMa
     public static final int HOURS_CURSOR_LOADER_START_ID = 1;
     public static final int TASK_CURSOR_LOADER_START_ID = 1001;
 
-    public static final String ACTION_SCROLL_TO_NEAREST_DEADLINE = "ACTION_SCROLL_TO_NEAREST_DEADLINE";
+    public static final String ACTION_SCROLL_TO_NEAREST_DAY = "ACTION_SCROLL_TO_NEAREST_DAY";
     public static final String ACTION_NONE = "ACTION_NONE";
     public static final String UNIX_DATE_KEY = "UNIX_DATE_KEY";
     public static final int RESULT_CANCEL = 1;
@@ -63,7 +63,7 @@ public class AccountabilityActivityFragment extends Fragment implements LoaderMa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
-        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
+        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DAY)) {
             //Get most recent deadline
             Calendar today = Calendar.getInstance();
             today.set(Calendar.HOUR_OF_DAY, 0);
@@ -96,7 +96,7 @@ public class AccountabilityActivityFragment extends Fragment implements LoaderMa
     }
 
     public void onViewAttachedToWindow(long unixDate) {
-        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
+        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DAY)) {
             mAction = ACTION_NONE;
             Intent intent = getActivity().getIntent();
             if (intent != null) {

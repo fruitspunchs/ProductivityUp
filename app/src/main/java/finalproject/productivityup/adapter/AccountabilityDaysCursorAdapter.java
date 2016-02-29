@@ -1,11 +1,9 @@
 package finalproject.productivityup.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -31,7 +29,7 @@ import finalproject.productivityup.ui.accountability.AccountabilityActivityFragm
 // FIXME: 1/23/2016 onLoadFinished doesn't get called sometimes because the loader is restarted too quickly
 
 /**
- * Adapter for accountability cards and loads accountability card hours.
+ * Adapter for accountability cards and loads accountability card hours and tasks.
  */
 public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<AccountabilityDaysCursorAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -40,21 +38,18 @@ public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<A
     private final LoaderManager mLoaderManager;
     private final String UNIX_DATE_KEY = "UNIX_DATE_KEY";
     private Context mContext;
-    private List<AccountabilityHoursCursorAdapter> mCursorAdapterArrayList = new ArrayList<>();
+    private List<AccountabilityHoursCursorAdapter> mHoursCursorAdapterList = new ArrayList<>();
     private boolean mGetNextImmediateDay = true;
     private long mNextImmediateDay = -1;
-    //private DeadlineTasksCursorAdapter.DeadlineTasksLastSelectedItemViewHolder mViewHolder;
-
-    private SharedPreferences mSharedPreferences;
+    //private DeadlineTasksCursorAdapter.LastSelectedItemViewHolder mViewHolder;
 
     public AccountabilityDaysCursorAdapter(Context context, Cursor cursor, LoaderManager loaderManager) {
         super(context, cursor);
         mContext = context;
         mLoaderManager = loaderManager;
         sHoursCursorLoaderId = AccountabilityActivityFragment.HOURS_CURSOR_LOADER_START_ID;
-        //mViewHolder = new DeadlineTasksCursorAdapter.DeadlineTasksLastSelectedItemViewHolder();
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        //mViewHolder.mLastSelectedItem = mSharedPreferences.getLong(DeadlineTasksCursorAdapter.DEADLINES_LAST_SELECTED_ITEM_KEY, -1);
+        //mViewHolder = new DeadlineTasksCursorAdapter.LastSelectedItemViewHolder();
+        //mViewHolder.mLastSelectedItem = mSharedPreferences.getLong(DeadlineTasksCursorAdapter.ACCOUNTABILITY_LAST_SELECTED_ITEM_KEY, -1);
     }
 
     @Override
@@ -83,7 +78,7 @@ public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<A
 
         Log.d(LOG_TAG, "Binding ViewHolder. Id: " + viewHolder.mId);
         viewHolder.mHoursRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
-        viewHolder.mHoursRecyclerView.setAdapter(viewHolder.mCursorAdapter);
+        viewHolder.mHoursRecyclerView.setAdapter(viewHolder.mHoursCursorAdapter);
 
         //Set placeholder view at the end of the list as invisible
         if (viewHolder.mUnixDate == -1) {
@@ -99,7 +94,7 @@ public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<A
                 .inflate(R.layout.item_accountability_card, parent, false);
         ViewHolder vh = new ViewHolder(itemView);
         Log.d(LOG_TAG, "Creating ViewHolder. Id: " + vh.mId);
-        mCursorAdapterArrayList.add(vh.mCursorAdapter);
+        mHoursCursorAdapterList.add(vh.mHoursCursorAdapter);
         return vh;
     }
 
@@ -121,68 +116,79 @@ public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<A
         Log.d(LOG_TAG, "Loader finished. Id: " + loader.getId());
         Log.d(LOG_TAG, "Cursor items: " + data.getCount());
 
-        if (mCursorAdapterArrayList.size() >= loader.getId()) {
-            if (mCursorAdapterArrayList.get(loader.getId() - 1) != null) {
+        if (mHoursCursorAdapterList.size() >= loader.getId()) {
+            if (mHoursCursorAdapterList.get(loader.getId() - 1) != null) {
 
-                int SECONDS_IN_ONE_POINT_FIVE_HOUR = 5400;
                 int SECONDS_IN_HALF_HOUR = 1800;
                 int SECONDS_IN_TWO_HOURS = 7200;
 
                 // TODO: 2/22/2016 collect tasks for each time slot
-
-                //iterate dates
-                //add date block to cursor
+                // create task matrix cursor array
+                // create task cursor adapter for each time slot
+                // override swapCursor to use collected task cursor adapter
+                // swap cursor to recycler view
 
                 //Create cursor to store time slots
-                MatrixCursor matrixCursor = new MatrixCursor(new String[]{AccountabilityHoursCursorAdapter.AccountabilityHoursColumns._ID,
+                MatrixCursor timeSlotCursor = new MatrixCursor(new String[]{AccountabilityHoursCursorAdapter.AccountabilityHoursColumns._ID,
                         AccountabilityHoursCursorAdapter.AccountabilityHoursColumns.START});
 
-                //get first date
-                //round to nearest 30 minute
-                //add to cursor
-                //next threshold = first date + 7200
-
-                //get next date
-                //if date >= next threshold
-                //add to cursor
-                //next threshold += 7200
-
+                List<MatrixCursor> taskCursorList = new ArrayList<>();
 
                 boolean firstItem = true;
                 long threshold = 0;
-                int id = 0;
+                int timeSlotId = 0;
+                int taskCursorListIndex = 0;
 
                 while (data.moveToNext()) {
-                    long time = data.getLong(data.getColumnIndex(AccountabilityTasksColumns.TIME));
+                    long timeSpanStart = data.getLong(data.getColumnIndex(AccountabilityTasksColumns.TIME));
 
                     if (firstItem) {
                         firstItem = false;
 
-                        long round = time % SECONDS_IN_HALF_HOUR;
+                        long round = timeSpanStart % SECONDS_IN_HALF_HOUR;
                         if (round >= SECONDS_IN_HALF_HOUR / 2) {
-                            threshold = time + round;
+                            threshold = timeSpanStart + round;
                         } else {
-                            threshold = time - round;
+                            threshold = timeSpanStart - round;
                         }
 
-                        matrixCursor.addRow(new Object[]{id++, threshold});
+                        timeSlotCursor.addRow(new Object[]{timeSlotId++, threshold});
                         threshold += SECONDS_IN_TWO_HOURS;
+
+                        MatrixCursor tmpMatrixCursor = new MatrixCursor(new String[]{AccountabilityTasksColumns._ID, AccountabilityTasksColumns.DATE, AccountabilityTasksColumns.TIME, AccountabilityTasksColumns.TASK});
+                        taskCursorList.add(tmpMatrixCursor);
+                        long id = data.getLong(data.getColumnIndex(AccountabilityTasksColumns._ID));
+                        long date = data.getLong(data.getColumnIndex(AccountabilityTasksColumns.DATE));
+                        long time = data.getLong(data.getColumnIndex(AccountabilityTasksColumns.TIME));
+                        String task = data.getString(data.getColumnIndex(AccountabilityTasksColumns.TASK));
+
+                        taskCursorList.get(taskCursorListIndex).addRow(new Object[]{id, date, time, task});
+
                     } else {
-
-
-                        if (time >= threshold) {
-                            while (time >= threshold) {
+                        if (timeSpanStart >= threshold) {
+                            while (timeSpanStart >= threshold) {
                                 threshold += SECONDS_IN_TWO_HOURS;
                             }
 
-                            matrixCursor.addRow(new Object[]{id++, threshold - SECONDS_IN_TWO_HOURS});
+                            timeSlotCursor.addRow(new Object[]{timeSlotId++, threshold - SECONDS_IN_TWO_HOURS});
+
+                            taskCursorListIndex++;
+                            MatrixCursor tmpMatrixCursor = new MatrixCursor(new String[]{AccountabilityTasksColumns._ID, AccountabilityTasksColumns.DATE, AccountabilityTasksColumns.TIME, AccountabilityTasksColumns.TASK});
+                            taskCursorList.add(tmpMatrixCursor);
                         }
+
+                        long id = data.getLong(data.getColumnIndex(AccountabilityTasksColumns._ID));
+                        long date = data.getLong(data.getColumnIndex(AccountabilityTasksColumns.DATE));
+                        long time = data.getLong(data.getColumnIndex(AccountabilityTasksColumns.TIME));
+                        String task = data.getString(data.getColumnIndex(AccountabilityTasksColumns.TASK));
+
+                        taskCursorList.get(taskCursorListIndex).addRow(new Object[]{id, date, time, task});
                     }
+
                 }
 
-                mCursorAdapterArrayList.get(loader.getId() - 1).swapCursor(matrixCursor);
-
-
+                mHoursCursorAdapterList.get(loader.getId() - 1).swapCursor(timeSlotCursor);
+                mHoursCursorAdapterList.get(loader.getId() - 1).setTaskCursorList(taskCursorList);
             }
         }
 
@@ -201,7 +207,8 @@ public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<A
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mCursorAdapterArrayList.get(loader.getId() - 1).swapCursor(null);
+        mHoursCursorAdapterList.get(loader.getId() - 1).swapCursor(null);
+        mHoursCursorAdapterList.get(loader.getId() - 1).setTaskCursorList(null);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -210,14 +217,14 @@ public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<A
         public View mView;
         public int mId;
         public long mUnixDate;
-        public AccountabilityHoursCursorAdapter mCursorAdapter;
+        public AccountabilityHoursCursorAdapter mHoursCursorAdapter;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mDateTextView = (TextView) view.findViewById(R.id.date_text_view);
             mHoursRecyclerView = (RecyclerView) view.findViewById(R.id.hours_recycler_view);
-            mCursorAdapter = new AccountabilityHoursCursorAdapter(mContext, null, mLoaderManager);
+            mHoursCursorAdapter = new AccountabilityHoursCursorAdapter(mContext, null);
             mId = sHoursCursorLoaderId++;
         }
     }

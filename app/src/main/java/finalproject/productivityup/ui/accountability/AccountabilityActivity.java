@@ -23,6 +23,11 @@ public class AccountabilityActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
+    public void onViewAttachedToWindow(long unixDate) {
+        AccountabilityActivityFragment fragment = (AccountabilityActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        fragment.onViewAttachedToWindow(unixDate);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
