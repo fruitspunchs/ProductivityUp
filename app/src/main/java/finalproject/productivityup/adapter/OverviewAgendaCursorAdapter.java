@@ -1,5 +1,6 @@
 package finalproject.productivityup.adapter;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import finalproject.productivityup.R;
 import finalproject.productivityup.data.AgendaTasksColumns;
+import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.ui.agenda.AgendaActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
@@ -29,6 +31,7 @@ public class OverviewAgendaCursorAdapter extends CursorRecyclerViewAdapter<Overv
     @Override
     public void onBindViewHolder(OverviewAgendaCursorAdapter.ViewHolder viewHolder, Cursor cursor) {
         viewHolder.mTaskTextView.setText(cursor.getString(cursor.getColumnIndex(AgendaTasksColumns.TASK)));
+        viewHolder.mId = cursor.getLong(cursor.getColumnIndex(AgendaTasksColumns._ID));
 
         int checkValue = cursor.getInt(cursor.getColumnIndex(AgendaTasksColumns.IS_CHECKED));
         boolean isChecked;
@@ -55,11 +58,31 @@ public class OverviewAgendaCursorAdapter extends CursorRecyclerViewAdapter<Overv
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView mTaskTextView;
         public CheckBox mCheckBox;
+        public long mId;
 
         public ViewHolder(View view) {
             super(view);
             mTaskTextView = (TextView) view.findViewById(R.id.task_text_view);
             mCheckBox = (CheckBox) view.findViewById(R.id.check_box);
+
+            mCheckBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String[] taskArg = {String.valueOf(mId)};
+                    ContentValues checkValues = new ContentValues();
+                    int checkValue;
+
+                    if (mCheckBox.isChecked()) {
+                        checkValue = 1;
+                    } else {
+                        checkValue = 0;
+                    }
+
+                    checkValues.put(AgendaTasksColumns.IS_CHECKED, checkValue);
+                    mContext.getContentResolver().update(ProductivityProvider.AgendaTasks.CONTENT_URI, checkValues, AgendaTasksColumns._ID + " = ?", taskArg);
+                }
+            });
+
             view.setOnClickListener(this);
         }
 
