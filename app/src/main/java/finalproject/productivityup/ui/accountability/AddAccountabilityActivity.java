@@ -1,6 +1,7 @@
 package finalproject.productivityup.ui.accountability;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -77,9 +78,9 @@ public class AddAccountabilityActivity extends AppCompatActivity {
 
         getContentResolver().insert(ProductivityProvider.AccountabilityChartTasks.CONTENT_URI, values);
 
-        // TODO: 2/10/2016
-        //Intent resultIntent = new Intent().putExtra(DeadlinesActivityFragment.UNIX_DATE_KEY, unixDate);
-        //setResult(DeadlinesActivityFragment.RESULT_ADD, resultIntent);
+
+        Intent resultIntent = new Intent().putExtra(AccountabilityActivityFragment.UNIX_DATE_KEY, unixDate);
+        setResult(AccountabilityActivityFragment.RESULT_ADD, resultIntent);
         finish();
     }
 

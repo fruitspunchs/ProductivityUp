@@ -30,7 +30,6 @@ import finalproject.productivityup.data.ProductivityProvider;
  */
 public class AccountabilityActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final int HOURS_CURSOR_LOADER_START_ID = 1;
-    public static final int TASK_CURSOR_LOADER_START_ID = 1001;
 
     public static final String ACTION_SCROLL_TO_NEAREST_DAY = "ACTION_SCROLL_TO_NEAREST_DAY";
     public static final String ACTION_NONE = "ACTION_NONE";
