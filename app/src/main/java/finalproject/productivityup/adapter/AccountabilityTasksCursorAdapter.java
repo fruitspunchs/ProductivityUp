@@ -118,11 +118,11 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
                 @Override
                 public void onClick(View v) {
                     String[] taskArg = {String.valueOf(mId)};
-                    mContext.getContentResolver().delete(ProductivityProvider.DeadlineTasks.CONTENT_URI, AccountabilityTasksColumns._ID + " = ?", taskArg);
+                    mContext.getContentResolver().delete(ProductivityProvider.AccountabilityChartTasks.CONTENT_URI, AccountabilityTasksColumns._ID + " = ?", taskArg);
 
                     if (getItemCount() == 1) {
                         String[] dayArg = {String.valueOf(mDay)};
-                        mContext.getContentResolver().delete(ProductivityProvider.DeadlineDays.CONTENT_URI, AccountabilityDaysColumns.DATE + " = ?", dayArg);
+                        mContext.getContentResolver().delete(ProductivityProvider.AccountabilityChartDays.CONTENT_URI, AccountabilityDaysColumns.DATE + " = ?", dayArg);
                     }
 
                     mDeleteButton.setVisibility(View.GONE);
