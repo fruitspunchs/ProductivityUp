@@ -18,9 +18,7 @@ import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 
 // FIXME: 1/23/2016 onLoadFinished doesn't get called sometimes because the loader is restarted too quickly
-// TODO: 2/22/2016 check if and prevent if loader id overlap possible
 // TODO: 2/22/2016 auto scroll to most immediate task item
-// TODO: 2/22/2016 adjust loader logic to start id
 
 /**
  * Adapter for deadline cards and loads deadline card items.

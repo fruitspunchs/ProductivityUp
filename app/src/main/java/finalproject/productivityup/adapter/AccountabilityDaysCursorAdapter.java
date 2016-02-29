@@ -128,12 +128,6 @@ public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<A
                 int SECONDS_IN_HALF_HOUR = 1800;
                 int SECONDS_IN_TWO_HOURS = 7200;
 
-                // TODO: 2/22/2016 collect tasks for each time slot
-                // create task matrix cursor array
-                // create task cursor adapter for each time slot
-                // override swapCursor to use collected task cursor adapter
-                // swap cursor to recycler view
-
                 //Create cursor to store time slots
                 MatrixCursor timeSlotCursor = new MatrixCursor(new String[]{AccountabilityHoursCursorAdapter.AccountabilityHoursColumns._ID,
                         AccountabilityHoursCursorAdapter.AccountabilityHoursColumns.START});

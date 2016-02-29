@@ -29,8 +29,6 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
     private final SharedPreferences mSharedPreferences;
     private Context mContext;
 
-    // TODO: 2/29/2016 fix auto scroll to recent day
-
     public AccountabilityTasksCursorAdapter(Context context, Cursor cursor, LastSelectedItemViewHolder lastSelectedViewHolder, SharedPreferences sharedPreferences) {
         super(context, cursor);
         mContext = context;
