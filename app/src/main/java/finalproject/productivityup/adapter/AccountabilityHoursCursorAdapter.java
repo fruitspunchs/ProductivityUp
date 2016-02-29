@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.MatrixCursor;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,19 +28,16 @@ import finalproject.productivityup.libs.Utility;
 public class AccountabilityHoursCursorAdapter extends CursorRecyclerViewAdapter<AccountabilityHoursCursorAdapter.ViewHolder> {
 
     private final String LOG_TAG = this.getClass().getSimpleName();
+    private final AccountabilityTasksCursorAdapter.LastSelectedItemViewHolder mViewHolder;
+    private final SharedPreferences mSharedPreferences;
     private Context mContext;
-
     private List<MatrixCursor> mTaskCursorList;
-    private AccountabilityTasksCursorAdapter.LastSelectedItemViewHolder mViewHolder;
 
-    private SharedPreferences mSharedPreferences;
-
-    public AccountabilityHoursCursorAdapter(Context context, Cursor cursor) {
+    public AccountabilityHoursCursorAdapter(Context context, Cursor cursor, AccountabilityTasksCursorAdapter.LastSelectedItemViewHolder viewHolder, SharedPreferences sharedPreferences) {
         super(context, cursor);
         mContext = context;
-        mViewHolder = new AccountabilityTasksCursorAdapter.LastSelectedItemViewHolder();
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        mViewHolder.mLastSelectedItem = mSharedPreferences.getLong(AccountabilityTasksCursorAdapter.ACCOUNTABILITY_LAST_SELECTED_ITEM_KEY, -1);
+        mViewHolder = viewHolder;
+        mSharedPreferences = sharedPreferences;
     }
 
     @Override

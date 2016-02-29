@@ -29,6 +29,8 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
     private final SharedPreferences mSharedPreferences;
     private Context mContext;
 
+    // TODO: 2/29/2016 fix auto scroll to recent day
+
     public AccountabilityTasksCursorAdapter(Context context, Cursor cursor, LastSelectedItemViewHolder lastSelectedViewHolder, SharedPreferences sharedPreferences) {
         super(context, cursor);
         mContext = context;
@@ -66,6 +68,7 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
             mLastSelectedViewHolder.mLastSelectedDeleteButton = holder.mDeleteButton;
             mLastSelectedViewHolder.mLastSelectedEditButton = holder.mEditButton;
             mLastSelectedViewHolder.mLastSelectedView = holder.itemView;
+            mLastSelectedViewHolder.mLastSelectedTaskTextView = holder.mTaskTextView;
 
             holder.mEditButton.setVisibility(View.VISIBLE);
             holder.mDeleteButton.setVisibility(View.VISIBLE);
@@ -75,6 +78,7 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
             holder.mEditButton.setVisibility(View.GONE);
             holder.mDeleteButton.setVisibility(View.GONE);
             holder.itemView.setSelected(false);
+            holder.mTaskTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
         }
 
         ((AccountabilityActivity) mContext).onViewAttachedToWindow(holder.mDay);
@@ -89,6 +93,7 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
 
     public static class LastSelectedItemViewHolder {
         public long mLastSelectedItem = -1;
+        public TextView mLastSelectedTaskTextView;
         private ImageButton mLastSelectedEditButton;
         private ImageButton mLastSelectedDeleteButton;
         private View mLastSelectedView;
@@ -129,6 +134,7 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
                     mLastSelectedViewHolder.mLastSelectedDeleteButton = null;
                     mLastSelectedViewHolder.mLastSelectedEditButton = null;
                     mLastSelectedViewHolder.mLastSelectedView = null;
+                    mLastSelectedViewHolder.mLastSelectedTaskTextView = null;
                     mLastSelectedViewHolder.mLastSelectedItem = -1;
                 }
             });
@@ -154,11 +160,13 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
                 mLastSelectedViewHolder.mLastSelectedDeleteButton.setVisibility(View.GONE);
                 mLastSelectedViewHolder.mLastSelectedEditButton.setVisibility(View.GONE);
                 mLastSelectedViewHolder.mLastSelectedView.setSelected(false);
+                mLastSelectedViewHolder.mLastSelectedTaskTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
             }
 
             mLastSelectedViewHolder.mLastSelectedDeleteButton = mDeleteButton;
             mLastSelectedViewHolder.mLastSelectedEditButton = mEditButton;
             mLastSelectedViewHolder.mLastSelectedView = v;
+            mLastSelectedViewHolder.mLastSelectedTaskTextView = mTaskTextView;
 
             mEditButton.setVisibility(View.VISIBLE);
             mDeleteButton.setVisibility(View.VISIBLE);

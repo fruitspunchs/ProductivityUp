@@ -1,9 +1,11 @@
 package finalproject.productivityup.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -41,15 +43,19 @@ public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<A
     private List<AccountabilityHoursCursorAdapter> mHoursCursorAdapterList = new ArrayList<>();
     private boolean mGetNextImmediateDay = true;
     private long mNextImmediateDay = -1;
-    //private DeadlineTasksCursorAdapter.LastSelectedItemViewHolder mViewHolder;
+
+    private AccountabilityTasksCursorAdapter.LastSelectedItemViewHolder mViewHolder;
+    private SharedPreferences mSharedPreferences;
 
     public AccountabilityDaysCursorAdapter(Context context, Cursor cursor, LoaderManager loaderManager) {
         super(context, cursor);
         mContext = context;
         mLoaderManager = loaderManager;
         sHoursCursorLoaderId = AccountabilityActivityFragment.HOURS_CURSOR_LOADER_START_ID;
-        //mViewHolder = new DeadlineTasksCursorAdapter.LastSelectedItemViewHolder();
-        //mViewHolder.mLastSelectedItem = mSharedPreferences.getLong(DeadlineTasksCursorAdapter.ACCOUNTABILITY_LAST_SELECTED_ITEM_KEY, -1);
+
+        mViewHolder = new AccountabilityTasksCursorAdapter.LastSelectedItemViewHolder();
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        mViewHolder.mLastSelectedItem = mSharedPreferences.getLong(AccountabilityTasksCursorAdapter.ACCOUNTABILITY_LAST_SELECTED_ITEM_KEY, -1);
     }
 
     @Override
@@ -224,7 +230,7 @@ public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<A
             mView = view;
             mDateTextView = (TextView) view.findViewById(R.id.date_text_view);
             mHoursRecyclerView = (RecyclerView) view.findViewById(R.id.hours_recycler_view);
-            mHoursCursorAdapter = new AccountabilityHoursCursorAdapter(mContext, null);
+            mHoursCursorAdapter = new AccountabilityHoursCursorAdapter(mContext, null, mViewHolder, mSharedPreferences);
             mId = sHoursCursorLoaderId++;
         }
     }
