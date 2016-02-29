@@ -14,7 +14,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import finalproject.productivityup.R;
-import finalproject.productivityup.data.AccountabilityDaysColumns;
 import finalproject.productivityup.data.AccountabilityTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.ui.accountability.AccountabilityActivity;
@@ -120,10 +119,7 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
                     String[] taskArg = {String.valueOf(mId)};
                     mContext.getContentResolver().delete(ProductivityProvider.AccountabilityChartTasks.CONTENT_URI, AccountabilityTasksColumns._ID + " = ?", taskArg);
 
-                    if (getItemCount() == 1) {
-                        String[] dayArg = {String.valueOf(mDay)};
-                        mContext.getContentResolver().delete(ProductivityProvider.AccountabilityChartDays.CONTENT_URI, AccountabilityDaysColumns.DATE + " = ?", dayArg);
-                    }
+                    // TODO: 3/1/2016 delete time span if cursor is empty
 
                     mDeleteButton.setVisibility(View.GONE);
                     mEditButton.setVisibility(View.GONE);
