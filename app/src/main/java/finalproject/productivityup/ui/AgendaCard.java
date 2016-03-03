@@ -23,7 +23,7 @@ import finalproject.productivityup.libs.CustomLinearLayoutManager;
  * Created by User on 1/25/2016.
  */
 public class AgendaCard implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final int AGENDA_CURSOR_LOADER_ID = 2;
+    private static final int CURSOR_LOADER_ID = MainActivity.LOADER_ID.AGENDA_CURSOR_LOADER_ID;
     private static CountDownTimer sNextDayCountdownTimer;
     private final String LOG_TAG = getClass().getSimpleName();
     private final Context mContext;
@@ -40,19 +40,19 @@ public class AgendaCard implements LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     public void onCreate() {
-        mLoaderManager.initLoader(AGENDA_CURSOR_LOADER_ID, null, this);
+        mLoaderManager.initLoader(CURSOR_LOADER_ID, null, this);
         mRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
         mCursorAdapter = new OverviewAgendaCursorAdapter(mContext, null);
         mRecyclerView.setAdapter(mCursorAdapter);
     }
 
     public void onStart() {
-        mLoaderManager.restartLoader(AGENDA_CURSOR_LOADER_ID, null, this);
+        mLoaderManager.restartLoader(CURSOR_LOADER_ID, null, this);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if (id == AGENDA_CURSOR_LOADER_ID) {
+        if (id == CURSOR_LOADER_ID) {
             Calendar today = Calendar.getInstance();
             today.set(Calendar.HOUR_OF_DAY, 0);
             today.set(Calendar.MINUTE, 0);
@@ -73,7 +73,7 @@ public class AgendaCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (loader.getId() == AGENDA_CURSOR_LOADER_ID) {
+        if (loader.getId() == CURSOR_LOADER_ID) {
             if (data.moveToNext()) {
                 Log.d(LOG_TAG, "Has items");
                 mRecyclerView.setVisibility(View.VISIBLE);
@@ -112,7 +112,7 @@ public class AgendaCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
                 @Override
                 public void onFinish() {
-                    mLoaderManager.restartLoader(AGENDA_CURSOR_LOADER_ID, null, thisClass);
+                    mLoaderManager.restartLoader(CURSOR_LOADER_ID, null, thisClass);
                 }
             }.start();
         }
@@ -120,7 +120,7 @@ public class AgendaCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        if (loader.getId() == AGENDA_CURSOR_LOADER_ID) {
+        if (loader.getId() == CURSOR_LOADER_ID) {
             mCursorAdapter.swapCursor(null);
         }
     }

@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -193,5 +191,11 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         mPomodoroTimerCard.onPause();
         mSharedPreferences.edit().putBoolean(CARD_TITLE_TOGGLE_KEY, mIsShowingCardTitles).apply();
+    }
+
+    public interface LOADER_ID {
+        int DEADLINE_TASKS_CURSOR_LOADER_ID = 0;
+        int NEXT_DEADLINE_CURSOR_LOADER_ID = 1;
+        int AGENDA_CURSOR_LOADER_ID = 2;
     }
 }

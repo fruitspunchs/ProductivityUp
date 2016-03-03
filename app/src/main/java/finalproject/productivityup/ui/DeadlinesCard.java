@@ -25,8 +25,8 @@ import finalproject.productivityup.libs.Utility;
 
 public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int DEADLINE_TASKS_CURSOR_LOADER_ID = 0;
-    private static final int NEXT_DEADLINE_CURSOR_LOADER_ID = 1;
+    private static final int TASKS_CURSOR_LOADER_ID = MainActivity.LOADER_ID.DEADLINE_TASKS_CURSOR_LOADER_ID;
+    private static final int NEXT_DEADLINE_CURSOR_LOADER_ID = MainActivity.LOADER_ID.NEXT_DEADLINE_CURSOR_LOADER_ID;
     private static CountDownTimer sDeadlinesCountdownTimer;
     private static CountDownTimer sDeadlineTimeUpDelayCountDownTimer;
     private final String LOG_TAG = getClass().getSimpleName();
@@ -51,14 +51,14 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     public void onCreate() {
-        mLoaderManager.initLoader(DEADLINE_TASKS_CURSOR_LOADER_ID, null, this);
+        mLoaderManager.initLoader(TASKS_CURSOR_LOADER_ID, null, this);
         mRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
         mCursorAdapter = new OverviewDeadlinesCursorAdapter(mContext, null);
         mRecyclerView.setAdapter(mCursorAdapter);
     }
 
     public void onStart() {
-        mLoaderManager.restartLoader(DEADLINE_TASKS_CURSOR_LOADER_ID, null, this);
+        mLoaderManager.restartLoader(TASKS_CURSOR_LOADER_ID, null, this);
         adjustLayout(mIsShowingCardTitles);
     }
 
@@ -69,7 +69,7 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if (id == DEADLINE_TASKS_CURSOR_LOADER_ID) {
+        if (id == TASKS_CURSOR_LOADER_ID) {
             Calendar currentTime = Calendar.getInstance();
             long currentTimeInSeconds = currentTime.getTimeInMillis() / 1000;
             String[] selectionArgs = {String.valueOf(currentTimeInSeconds)};
@@ -96,7 +96,7 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (loader.getId() == NEXT_DEADLINE_CURSOR_LOADER_ID) {
             mCursorAdapter.swapCursor(data);
-        } else if (loader.getId() == DEADLINE_TASKS_CURSOR_LOADER_ID) {
+        } else if (loader.getId() == TASKS_CURSOR_LOADER_ID) {
             if (data.moveToNext()) {
 
                 mHasItems = true;
@@ -180,7 +180,7 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
             @Override
             public void onFinish() {
-                mLoaderManager.restartLoader(DEADLINE_TASKS_CURSOR_LOADER_ID, null, thisClass);
+                mLoaderManager.restartLoader(TASKS_CURSOR_LOADER_ID, null, thisClass);
             }
         }.start();
     }
