@@ -25,8 +25,8 @@ import finalproject.productivityup.libs.Utility;
 
 public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int TASKS_CURSOR_LOADER_ID = MainActivity.LOADER_ID.DEADLINE_TASKS_CURSOR_LOADER_ID;
-    private static final int NEXT_DEADLINE_CURSOR_LOADER_ID = MainActivity.LOADER_ID.NEXT_DEADLINE_CURSOR_LOADER_ID;
+    private static final int TASKS_CURSOR_LOADER_ID = MainActivity.CURSOR_LOADER_ID.DEADLINE_TASKS;
+    private static final int NEXT_DEADLINE_CURSOR_LOADER_ID = MainActivity.CURSOR_LOADER_ID.NEXT_DEADLINE;
     private static CountDownTimer sDeadlinesCountdownTimer;
     private static CountDownTimer sDeadlineTimeUpDelayCountDownTimer;
     private final String LOG_TAG = getClass().getSimpleName();

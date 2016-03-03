@@ -23,7 +23,7 @@ import finalproject.productivityup.libs.CustomLinearLayoutManager;
  * Created by User on 1/25/2016.
  */
 public class AgendaCard implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final int CURSOR_LOADER_ID = MainActivity.LOADER_ID.AGENDA_CURSOR_LOADER_ID;
+    private static final int CURSOR_LOADER_ID = MainActivity.CURSOR_LOADER_ID.AGENDA;
     private static CountDownTimer sNextDayCountdownTimer;
     private final String LOG_TAG = getClass().getSimpleName();
     private final Context mContext;

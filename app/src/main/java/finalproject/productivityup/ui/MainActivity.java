@@ -193,9 +193,9 @@ public class MainActivity extends AppCompatActivity {
         mSharedPreferences.edit().putBoolean(CARD_TITLE_TOGGLE_KEY, mIsShowingCardTitles).apply();
     }
 
-    public interface LOADER_ID {
-        int DEADLINE_TASKS_CURSOR_LOADER_ID = 0;
-        int NEXT_DEADLINE_CURSOR_LOADER_ID = 1;
-        int AGENDA_CURSOR_LOADER_ID = 2;
+    public interface CURSOR_LOADER_ID {
+        int DEADLINE_TASKS = 0;
+        int NEXT_DEADLINE = 1;
+        int AGENDA = 2;
     }
 }
