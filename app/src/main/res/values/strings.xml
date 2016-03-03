@@ -50,5 +50,6 @@
     <!-- Hints-->
     <string name="hint_task">Enter task here</string>
     <string name="add_agenda_edit_text_hint">Enter task here</string>
+    <string name="title_activity_edit_accountability">EditAccountabilityActivity</string>
 
 </resources>

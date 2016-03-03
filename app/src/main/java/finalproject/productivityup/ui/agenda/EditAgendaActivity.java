@@ -31,11 +31,11 @@ public class EditAgendaActivity extends AppCompatActivity {
     public static final String CHECK_VALUE_KEY = "CHECK_VALUE_KEY";
 
     private final String LOG_TAG = getClass().getSimpleName();
-    @Bind(R.id.add_agenda_task_edit_text)
+    @Bind(R.id.edit_text)
     EditText mTaskEditText;
     @Bind(R.id.add_agenda_done_fab)
     FloatingActionButton mDoneFab;
-    @Bind(R.id.add_agenda_calendar_view)
+    @Bind(R.id.calendar_view)
     CalendarView mCalendarView;
 
     private long mId;
@@ -87,7 +87,7 @@ public class EditAgendaActivity extends AppCompatActivity {
         finish();
     }
 
-    @OnTextChanged(R.id.add_agenda_task_edit_text)
+    @OnTextChanged(R.id.edit_text)
     void taskTextChanged() {
         if (mTaskEditText.getText().toString().trim().length() > 0) {
             mDoneFab.setImageResource(R.drawable.ic_done_white_48dp);

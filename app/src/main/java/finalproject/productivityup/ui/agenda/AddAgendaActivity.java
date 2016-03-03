@@ -24,11 +24,11 @@ import finalproject.productivityup.ui.MainActivity;
 
 public class AddAgendaActivity extends AppCompatActivity {
     private final String LOG_TAG = getClass().getSimpleName();
-    @Bind(R.id.add_agenda_task_edit_text)
+    @Bind(R.id.edit_text)
     EditText mTaskEditText;
     @Bind(R.id.add_agenda_done_fab)
     FloatingActionButton mDoneFab;
-    @Bind(R.id.add_agenda_calendar_view)
+    @Bind(R.id.calendar_view)
     CalendarView mCalendarView;
 
     @OnClick(R.id.add_agenda_done_fab)
@@ -65,7 +65,7 @@ public class AddAgendaActivity extends AppCompatActivity {
         finish();
     }
 
-    @OnTextChanged(R.id.add_agenda_task_edit_text)
+    @OnTextChanged(R.id.edit_text)
     void taskTextChanged() {
         if (mTaskEditText.getText().toString().trim().length() > 0) {
             mDoneFab.setImageResource(R.drawable.ic_done_white_48dp);
