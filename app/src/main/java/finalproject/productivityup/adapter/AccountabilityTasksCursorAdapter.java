@@ -17,7 +17,7 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.data.AccountabilityTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.ui.accountability.AccountabilityActivity;
-import finalproject.productivityup.ui.deadlines.EditDeadlineActivity;
+import finalproject.productivityup.ui.accountability.EditAccountabilityActivity;
 
 /**
  * Cursor adapter used to display deadline tasks
@@ -121,6 +121,10 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
 
                     // TODO: 3/1/2016 delete time span if cursor is empty
 
+                    // TODO: 3/3/2016 query day if empty. if true, delete day
+
+                    //// TODO: 3/3/2016 close all matrix cursors to fix leaks
+
                     mDeleteButton.setVisibility(View.GONE);
                     mEditButton.setVisibility(View.GONE);
                     view.setSelected(false);
@@ -136,12 +140,11 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
             mEditButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //// TODO: 2/28/2016 change to edit accountability
-                    Intent intent = new Intent(mContext, EditDeadlineActivity.class);
-                    intent.putExtra(EditDeadlineActivity.ID_KEY, mId);
-                    intent.putExtra(EditDeadlineActivity.TIME_KEY, mTime);
-                    intent.putExtra(EditDeadlineActivity.DATE_KEY, mDay);
-                    intent.putExtra(EditDeadlineActivity.TASK_KEY, mTask);
+                    Intent intent = new Intent(mContext, EditAccountabilityActivity.class);
+                    intent.putExtra(EditAccountabilityActivity.ID_KEY, mId);
+                    intent.putExtra(EditAccountabilityActivity.TIME_KEY, mTime);
+                    intent.putExtra(EditAccountabilityActivity.DATE_KEY, mDay);
+                    intent.putExtra(EditAccountabilityActivity.TASK_KEY, mTask);
                     ((Activity) mContext).startActivityForResult(intent, 0);
                 }
             });

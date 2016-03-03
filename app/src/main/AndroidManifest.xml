@@ -104,6 +104,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.accountability.AccountabilityActivity"/>
         </activity>
+        <activity
+            android:name=".ui.accountability.EditAccountabilityActivity"
+            android:label="@string/title_activity_edit_accountability"
+            android:parentActivityName=".ui.accountability.AccountabilityActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="finalproject.productivityup.ui.accountability.AccountabilityActivity"/>
+        </activity>
     </application>
 
 </manifest>
