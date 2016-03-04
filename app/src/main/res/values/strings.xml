@@ -13,12 +13,16 @@
     <string name="title_activity_edit_deadline">Edit Deadline</string>
     <string name="title_activity_add_agenda">Add Agenda</string>
     <string name="title_activity_add_accountability">Add Accountability</string>
+    <string name="title_activity_edit_agenda">Edit Agenda</string>
+    <string name="title_activity_edit_accountability">Edit Accountability</string>
 
     <!-- Overview card titles-->
     <string name="deadlines_title_card">Next deadline</string>
     <string name="ultradian_rhythm_title_card">Ultradian rhythm</string>
     <string name="pomodoro_timer_title_card">Pomodoro timer</string>
     <string name="agenda_title_card">Today\'s agenda</string>
+    <string name="accountability_title1_card">Accountability</string>
+    <string name="accountability_title2_card">chart</string>
 
     <!--Used to format time left for next deadline-->
     <string name="year">y</string>
@@ -37,6 +41,7 @@
 
     <string name="no_deadlines">Add a deadline</string>
     <string name="no_agenda">Add agenda</string>
+    <string name="no_accountability">Add accountability</string>
 
     <string name="minute_letter">m</string>
 
@@ -45,11 +50,9 @@
     <!-- Content descriptions-->
     <string name="cd_delete">delete</string>
     <string name="cd_edit">edit</string>
-    <string name="title_activity_edit_agenda">Edit Agenda</string>
 
     <!-- Hints-->
     <string name="hint_task">Enter task here</string>
     <string name="add_agenda_edit_text_hint">Enter task here</string>
-    <string name="title_activity_edit_accountability">Edit Accountability</string>
 
 </resources>

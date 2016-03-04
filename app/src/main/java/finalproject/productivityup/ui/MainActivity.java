@@ -62,10 +62,16 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView mAgendaCardRecyclerView;
     @Bind(R.id.agenda_no_item_text_view)
     TextView mAgendaNoItemTextView;
+    @Bind(R.id.accountability_card_recycler_view)
+    RecyclerView mAccountabilityCardRecyclerView;
+    @Bind(R.id.accountability_no_item_text_view)
+    TextView mAccountabilityNoItemTextView;
+
     SharedPreferences mSharedPreferences;
     private PomodoroTimerCard mPomodoroTimerCard;
     private DeadlinesCard mDeadlinesCard;
     private AgendaCard mAgendaCard;
+    private AccountabilityCard mAccountabilityCard;
 
     @OnClick(R.id.overview_card_deadlines)
     void clickDeadlinesCard() {
@@ -109,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
         mAgendaCard = new AgendaCard(this, getSupportLoaderManager(), mAgendaCardRecyclerView, mAgendaNoItemTextView);
         mAgendaCard.onCreate();
 
+        mAccountabilityCard = new AccountabilityCard(this, getSupportLoaderManager(), mAccountabilityCardRecyclerView, mAccountabilityNoItemTextView);
+        mAccountabilityCard.onCreate();
+
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mIsShowingCardTitles = mSharedPreferences.getBoolean(CARD_TITLE_TOGGLE_KEY, true);
 
@@ -133,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Restarting loader");
         mDeadlinesCard.onStart();
         mAgendaCard.onStart();
+        mAccountabilityCard.onStart();
     }
 
     @Override
@@ -197,5 +207,6 @@ public class MainActivity extends AppCompatActivity {
         int DEADLINE_TASKS = 0;
         int NEXT_DEADLINE = 1;
         int AGENDA = 2;
+        int ACCOUNTABILITY = 3;
     }
 }

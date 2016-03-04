@@ -145,7 +145,7 @@
                 </LinearLayout>
             </finalproject.productivityup.libs.InterceptTouchCardView>
 
-            <android.support.v7.widget.CardView
+            <finalproject.productivityup.libs.InterceptTouchCardView
                 android:id="@+id/overview_card_accountability_chart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -164,7 +164,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/card_padding_top"
-                        android:text="Accountability"
+                        android:text="@string/accountability_title1_card"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
                     <TextView
@@ -174,84 +174,38 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:text="chart"
+                        android:text="@string/accountability_title2_card"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="24dp"
-                        android:text="9 am to 10:30 am"
-                        android:textColor="@color/colorPrimaryText"/>
+                        android:layout_marginTop="@dimen/card_padding_top">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:text="Cat videos"
-                        android:textColor="@color/colorPrimaryText"/>
+                        <TextView
+                            android:id="@+id/accountability_no_item_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:text="@string/no_accountability"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/colorPrimaryText"
+                            android:visibility="gone"
+                            />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:text="Research features"
-                        android:textColor="@color/colorPrimaryText"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:text="Draw draft on paper"
-                        android:textColor="@color/colorPrimaryText"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="24dp"
-                        android:text="11 am to 12:30 am"
-                        android:textColor="@color/colorPrimaryText"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:text="League of Legends"
-                        android:textColor="@color/colorPrimaryText"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:text="Eat lunch"
-                        android:textColor="@color/colorPrimaryText"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:text="Fire lasers"
-                        android:textColor="@color/colorPrimaryText"/>
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/accountability_card_recycler_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/colorPrimaryText"
+                            tools:text="Finish mock"/>
+                    </FrameLayout>
 
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </finalproject.productivityup.libs.InterceptTouchCardView>
         </LinearLayout>
 
 
