@@ -119,8 +119,6 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
                     String[] taskArg = {String.valueOf(mId)};
                     mContext.getContentResolver().delete(ProductivityProvider.AccountabilityChartTasks.CONTENT_URI, AccountabilityTasksColumns._ID + " = ?", taskArg);
 
-                    // TODO: 3/1/2016 delete time span if cursor is empty
-
                     // Delete date entry if there are no corresponding tasks
                     String[] dateSelectionArgs = {String.valueOf(mDay)};
                     Cursor cursor = mContext.getContentResolver().query(ProductivityProvider.AccountabilityChartTasks.CONTENT_URI, null, AccountabilityTasksColumns.DATE + " = ?", dateSelectionArgs, null);

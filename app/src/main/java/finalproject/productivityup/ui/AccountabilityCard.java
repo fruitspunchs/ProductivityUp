@@ -104,7 +104,7 @@ public class AccountabilityCard implements LoaderManager.LoaderCallbacks<Cursor>
 
                         long round = timeSpanStart % SECONDS_IN_HALF_HOUR;
                         if (round >= SECONDS_IN_HALF_HOUR / 2) {
-                            threshold = timeSpanStart + round;
+                            threshold = timeSpanStart + SECONDS_IN_HALF_HOUR - round;
                         } else {
                             threshold = timeSpanStart - round;
                         }
