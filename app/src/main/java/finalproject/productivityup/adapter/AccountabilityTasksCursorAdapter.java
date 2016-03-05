@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import finalproject.productivityup.R;
+import finalproject.productivityup.data.AccountabilityDaysColumns;
 import finalproject.productivityup.data.AccountabilityTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.ui.accountability.AccountabilityActivity;
@@ -116,18 +119,12 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
             mDeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String[] taskArg = {String.valueOf(mId)};
-                    mContext.getContentResolver().delete(ProductivityProvider.AccountabilityChartTasks.CONTENT_URI, AccountabilityTasksColumns._ID + " = ?", taskArg);
 
-                    // Delete date entry if there are no corresponding tasks
-                    String[] dateSelectionArgs = {String.valueOf(mDay)};
-                    Cursor cursor = mContext.getContentResolver().query(ProductivityProvider.AccountabilityChartTasks.CONTENT_URI, null, AccountabilityTasksColumns.DATE + " = ?", dateSelectionArgs, null);
-                    if (cursor != null) {
-                        if (cursor.getCount() < 1) {
-                            mContext.getContentResolver().delete(ProductivityProvider.AccountabilityChartDays.CONTENT_URI, AccountabilityTasksColumns.DATE + " = ?", dateSelectionArgs);
-                        }
-                        cursor.close();
-                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(DeleteTask.ID_KEY, mId);
+                    bundle.putLong(DeleteTask.DAY_KEY, mDay);
+
+                    new DeleteTask().execute(bundle);
 
                     //// TODO: 3/3/2016 check if matrix cursor needs to be closed
 
@@ -177,6 +174,29 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
             v.setSelected(true);
             mLastSelectedViewHolder.mLastSelectedItem = mId;
             mSharedPreferences.edit().putLong(ACCOUNTABILITY_LAST_SELECTED_ITEM_KEY, mId).apply();
+        }
+    }
+
+    private class DeleteTask extends AsyncTask<Bundle, Void, Void> {
+        private static final String ID_KEY = "ID_KEY";
+        private static final String DAY_KEY = "DAY_KEY";
+
+        protected Void doInBackground(Bundle... bundles) {
+
+            String[] taskArg = {String.valueOf(bundles[0].getLong(ID_KEY))};
+            mContext.getContentResolver().delete(ProductivityProvider.AccountabilityChartTasks.CONTENT_URI, AccountabilityTasksColumns._ID + " = ?", taskArg);
+
+            // Delete date entry if there are no corresponding tasks
+            String[] dateSelectionArgs = {String.valueOf(bundles[0].getLong(DAY_KEY))};
+            Cursor cursor = mContext.getContentResolver().query(ProductivityProvider.AccountabilityChartTasks.CONTENT_URI, null, AccountabilityTasksColumns.DATE + " = ?", dateSelectionArgs, null);
+            if (cursor != null) {
+                if (cursor.getCount() < 1) {
+                    mContext.getContentResolver().delete(ProductivityProvider.AccountabilityChartDays.CONTENT_URI, AccountabilityDaysColumns.DATE + " = ?", dateSelectionArgs);
+                }
+                cursor.close();
+            }
+
+            return null;
         }
     }
 }
