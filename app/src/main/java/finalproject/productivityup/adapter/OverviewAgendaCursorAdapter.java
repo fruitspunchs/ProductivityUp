@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,8 +70,6 @@ public class OverviewAgendaCursorAdapter extends CursorRecyclerViewAdapter<Overv
             mCheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String[] taskArg = {String.valueOf(mId)};
-                    ContentValues checkValues = new ContentValues();
                     int checkValue;
 
                     if (mCheckBox.isChecked()) {
@@ -78,8 +78,11 @@ public class OverviewAgendaCursorAdapter extends CursorRecyclerViewAdapter<Overv
                         checkValue = 0;
                     }
 
-                    checkValues.put(AgendaTasksColumns.IS_CHECKED, checkValue);
-                    mContext.getContentResolver().update(ProductivityProvider.AgendaTasks.CONTENT_URI, checkValues, AgendaTasksColumns._ID + " = ?", taskArg);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(UpdateCheckTask.ID_KEY, mId);
+                    bundle.putInt(UpdateCheckTask.CHECK_VALUE_KEY, checkValue);
+
+                    new UpdateCheckTask().execute(bundle);
                 }
             });
 
@@ -91,6 +94,21 @@ public class OverviewAgendaCursorAdapter extends CursorRecyclerViewAdapter<Overv
             Intent intent = new Intent(mContext, AgendaActivity.class);
             intent.setAction(DeadlinesActivityFragment.ACTION_SCROLL_TO_NEAREST_DEADLINE);
             mContext.startActivity(intent);
+        }
+    }
+
+    private class UpdateCheckTask extends AsyncTask<Bundle, Void, Void> {
+        private static final String ID_KEY = "ID_KEY";
+        private static final String CHECK_VALUE_KEY = "CHECK_VALUE_KEY";
+
+        protected Void doInBackground(Bundle... bundles) {
+
+            String[] taskArg = {String.valueOf(bundles[0].getLong(ID_KEY))};
+            ContentValues checkValues = new ContentValues();
+            checkValues.put(AgendaTasksColumns.IS_CHECKED, bundles[0].getInt(CHECK_VALUE_KEY));
+            mContext.getContentResolver().update(ProductivityProvider.AgendaTasks.CONTENT_URI, checkValues, AgendaTasksColumns._ID + " = ?", taskArg);
+
+            return null;
         }
     }
 }
