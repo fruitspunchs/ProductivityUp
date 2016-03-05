@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -138,13 +140,12 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
             mDeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String[] taskArg = {String.valueOf(mId)};
-                    mContext.getContentResolver().delete(ProductivityProvider.AgendaTasks.CONTENT_URI, AgendaTasksColumns._ID + " = ?", taskArg);
 
-                    if (getItemCount() == 1) {
-                        String[] dayArg = {String.valueOf(mDay)};
-                        mContext.getContentResolver().delete(ProductivityProvider.AgendaDays.CONTENT_URI, AgendaDaysColumns.DATE + " = ?", dayArg);
-                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(DeleteTask.ID_KEY, mId);
+                    bundle.putLong(DeleteTask.DAY_KEY, mDay);
+
+                    new DeleteTask().execute(bundle);
 
                     mDeleteButton.setVisibility(View.GONE);
                     mEditButton.setVisibility(View.GONE);
@@ -180,8 +181,6 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
             mCheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String[] taskArg = {String.valueOf(mId)};
-                    ContentValues checkValues = new ContentValues();
                     int checkValue;
 
                     if (mCheckBox.isChecked()) {
@@ -190,8 +189,11 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
                         checkValue = 0;
                     }
 
-                    checkValues.put(AgendaTasksColumns.IS_CHECKED, checkValue);
-                    mContext.getContentResolver().update(ProductivityProvider.AgendaTasks.CONTENT_URI, checkValues, AgendaTasksColumns._ID + " = ?", taskArg);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(UpdateCheckTask.ID_KEY, mId);
+                    bundle.putInt(UpdateCheckTask.CHECK_VALUE_KEY, checkValue);
+
+                    new UpdateCheckTask().execute(bundle);
                 }
             });
         }
@@ -219,6 +221,40 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
             mCheckBox.setBackgroundColor(mContext.getResources().getColor(R.color.white));
             v.setSelected(true);
             mSharedPreferences.edit().putLong(AGENDA_LAST_SELECTED_ITEM_KEY, mId).apply();
+        }
+    }
+
+    private class DeleteTask extends AsyncTask<Bundle, Void, Void> {
+        private static final String ID_KEY = "ID_KEY";
+        private static final String DAY_KEY = "DAY_KEY";
+
+        protected Void doInBackground(Bundle... bundles) {
+
+
+            String[] taskArg = {String.valueOf(bundles[0].getLong(ID_KEY))};
+            mContext.getContentResolver().delete(ProductivityProvider.AgendaTasks.CONTENT_URI, AgendaTasksColumns._ID + " = ?", taskArg);
+
+            if (getItemCount() == 1) {
+                String[] dayArg = {String.valueOf(bundles[0].getLong(DAY_KEY))};
+                mContext.getContentResolver().delete(ProductivityProvider.AgendaDays.CONTENT_URI, AgendaDaysColumns.DATE + " = ?", dayArg);
+            }
+
+            return null;
+        }
+    }
+
+    private class UpdateCheckTask extends AsyncTask<Bundle, Void, Void> {
+        private static final String ID_KEY = "ID_KEY";
+        private static final String CHECK_VALUE_KEY = "CHECK_VALUE_KEY";
+
+        protected Void doInBackground(Bundle... bundles) {
+
+            String[] taskArg = {String.valueOf(bundles[0].getLong(ID_KEY))};
+            ContentValues checkValues = new ContentValues();
+            checkValues.put(AgendaTasksColumns.IS_CHECKED, bundles[0].getInt(CHECK_VALUE_KEY));
+            mContext.getContentResolver().update(ProductivityProvider.AgendaTasks.CONTENT_URI, checkValues, AgendaTasksColumns._ID + " = ?", taskArg);
+
+            return null;
         }
     }
 }
