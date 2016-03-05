@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -139,13 +141,11 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
             mDeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String[] taskArg = {String.valueOf(mId)};
-                    mContext.getContentResolver().delete(ProductivityProvider.DeadlineTasks.CONTENT_URI, DeadlineTasksColumns._ID + " = ?", taskArg);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(DeleteTask.ID_KEY, mId);
+                    bundle.putLong(DeleteTask.DAY_KEY, mDay);
 
-                    if (getItemCount() == 1) {
-                        String[] dayArg = {String.valueOf(mDay)};
-                        mContext.getContentResolver().delete(ProductivityProvider.DeadlineDays.CONTENT_URI, DeadlineDaysColumns.DATE + " = ?", dayArg);
-                    }
+                    new DeleteTask().execute(bundle);
 
                     mDeleteButton.setVisibility(View.GONE);
                     mEditButton.setVisibility(View.GONE);
@@ -199,6 +199,25 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
             v.setSelected(true);
             mLastSelectedViewHolder.mLastSelectedItem = mId;
             mSharedPreferences.edit().putLong(DEADLINES_LAST_SELECTED_ITEM_KEY, mId).apply();
+        }
+    }
+
+    private class DeleteTask extends AsyncTask<Bundle, Void, Void> {
+        private static final String ID_KEY = "ID_KEY";
+        private static final String DAY_KEY = "DAY_KEY";
+
+        protected Void doInBackground(Bundle... bundles) {
+
+
+            String[] taskArg = {String.valueOf(bundles[0].getLong(ID_KEY))};
+            mContext.getContentResolver().delete(ProductivityProvider.DeadlineTasks.CONTENT_URI, DeadlineTasksColumns._ID + " = ?", taskArg);
+
+            if (getItemCount() == 1) {
+                String[] dayArg = {String.valueOf(bundles[0].getLong(DAY_KEY))};
+                mContext.getContentResolver().delete(ProductivityProvider.DeadlineDays.CONTENT_URI, DeadlineDaysColumns.DATE + " = ?", dayArg);
+            }
+
+            return null;
         }
     }
 }
