@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import finalproject.productivityup.R;
+import finalproject.productivityup.libs.Utility;
 
 /**
  * Created by User on 1/9/2016.
@@ -80,7 +81,7 @@ public class PomodoroTimerCard {
                 }
 
                 mSharedPreferences.edit()
-                        .putLong(POMODORO_TIMER_START_TIME_KEY, getCurrentTimeInSeconds())
+                        .putLong(POMODORO_TIMER_START_TIME_KEY, Utility.getCurrentTimeInSeconds())
                         .putInt(POMODORO_TIMER_START_PAUSE_KEY, mStartPauseState)
                         .putLong(POMODORO_TIMER_TIME_LEFT_KEY, mTimeLeft)
                         .apply();
@@ -100,10 +101,6 @@ public class PomodoroTimerCard {
         mContext.startService(intent);
     }
 
-    public long getCurrentTimeInSeconds() {
-        return System.currentTimeMillis() / 1000;
-    }
-
     public void initialize() {
         if (sCountDownTimer != null) {
             sCountDownTimer.cancel();
@@ -112,7 +109,7 @@ public class PomodoroTimerCard {
         Log.d(LOG_TAG, "Pomodoro timer initialized");
 
         long startTime;
-        long currentTime = getCurrentTimeInSeconds();
+        long currentTime = Utility.getCurrentTimeInSeconds();
         if (mSharedPreferences.contains(POMODORO_TIMER_START_TIME_KEY)) {
             Log.d(LOG_TAG, "Found preferences");
             startTime = mSharedPreferences.getLong(POMODORO_TIMER_START_TIME_KEY, currentTime);
@@ -156,7 +153,7 @@ public class PomodoroTimerCard {
 
     public void onPause() {
         mSharedPreferences.edit()
-                .putLong(POMODORO_TIMER_START_TIME_KEY, getCurrentTimeInSeconds())
+                .putLong(POMODORO_TIMER_START_TIME_KEY, Utility.getCurrentTimeInSeconds())
                 .putInt(POMODORO_TIMER_START_PAUSE_KEY, mStartPauseState)
                 .putLong(POMODORO_TIMER_TIME_LEFT_KEY, mTimeLeft)
                 .apply();

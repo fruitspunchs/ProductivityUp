@@ -113,6 +113,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="finalproject.productivityup.ui.accountability.AccountabilityActivity"/>
         </activity>
-    </application>
 
+        <!-- Widget-->
+        <receiver
+            android:name=".widget.TimerAppWidgetProvider"
+            android:enabled="true"
+            android:label="ProductivityUp">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/timer_appwidget_info"/>
+        </receiver>
+
+    </application>
 </manifest>

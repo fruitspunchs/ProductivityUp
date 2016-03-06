@@ -9,14 +9,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import finalproject.productivityup.R;
+import finalproject.productivityup.libs.Utility;
 
 /**
  * Created by User on 1/9/2016.
  */
 public class UltradianRhythmTimerCard {
 
-    private final static String ULTRADIAN_RHYTHM_START_TIME_KEY = "ULTRADIAN_RHYTHM_START_TIME_KEY";
-    private final static String ULTRADIAN_RHYTHM_WORK_REST_KEY = "ULTRADIAN_RHYTHM_WORK_REST_KEY";
+    public final static String ULTRADIAN_RHYTHM_START_TIME_KEY = "ULTRADIAN_RHYTHM_START_TIME_KEY";
+    public final static String ULTRADIAN_RHYTHM_WORK_REST_KEY = "ULTRADIAN_RHYTHM_WORK_REST_KEY";
     private final static int WORK = 0;
     private final static int REST = 1;
     private final static int WORK_DURATION = 90 * 60;
@@ -48,7 +49,7 @@ public class UltradianRhythmTimerCard {
                 }
 
                 prefs.edit()
-                        .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, getCurrentTimeInSeconds())
+                        .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, Utility.getCurrentTimeInSeconds())
                         .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
                         .apply();
 
@@ -57,28 +58,24 @@ public class UltradianRhythmTimerCard {
         });
     }
 
-    public long getCurrentTimeInSeconds() {
-        return System.currentTimeMillis() / 1000;
-    }
-
     public void startTimer() {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
         long startTime;
 
         if (prefs.contains(ULTRADIAN_RHYTHM_START_TIME_KEY)) {
-            startTime = prefs.getLong(ULTRADIAN_RHYTHM_START_TIME_KEY, getCurrentTimeInSeconds());
+            startTime = prefs.getLong(ULTRADIAN_RHYTHM_START_TIME_KEY, Utility.getCurrentTimeInSeconds());
             mRhythmState = prefs.getInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, WORK);
         } else {
-            startTime = getCurrentTimeInSeconds();
+            startTime = Utility.getCurrentTimeInSeconds();
             mRhythmState = WORK;
             prefs.edit()
-                    .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, getCurrentTimeInSeconds())
+                    .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, Utility.getCurrentTimeInSeconds())
                     .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
                     .apply();
         }
 
-        long timeElapsed = getCurrentTimeInSeconds() - startTime;
+        long timeElapsed = Utility.getCurrentTimeInSeconds() - startTime;
 
         if (mRhythmState == REST) {
             if (timeElapsed >= REST_DURATION) {

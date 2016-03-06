@@ -190,4 +190,8 @@ public class Utility {
         float scale = context.getResources().getDisplayMetrics().density;
         return (int) Math.ceil(pixels * scale);
     }
+
+    public static long getCurrentTimeInSeconds() {
+        return System.currentTimeMillis() / 1000;
+    }
 }

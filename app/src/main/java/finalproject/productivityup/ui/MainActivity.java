@@ -27,7 +27,7 @@ import finalproject.productivityup.ui.agenda.AgendaActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
-// TODO: 3/5/2016 create widget
+// TODO: 3/5/2016 create timer_appwidget
 
 // TODO: 1/24/2016 ask if deadline was met, or reschedule or archive
 // TODO: 1/24/2016 add animations to card resize
