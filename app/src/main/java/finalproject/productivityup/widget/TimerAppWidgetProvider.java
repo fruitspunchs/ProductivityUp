@@ -8,16 +8,16 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import finalproject.productivityup.R;
+import finalproject.productivityup.service.TimerService;
 import finalproject.productivityup.ui.MainActivity;
-import finalproject.productivityup.ui.UltradianRhythmTimerCard;
 
 public class TimerAppWidgetProvider extends AppWidgetProvider {
 
-    private final static String ULTRADIAN_RHYTHM_START_TIME_KEY = UltradianRhythmTimerCard.ULTRADIAN_RHYTHM_START_TIME_KEY;
-    private final static String ULTRADIAN_RHYTHM_WORK_REST_KEY = UltradianRhythmTimerCard.ULTRADIAN_RHYTHM_WORK_REST_KEY;
-
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        final int N = appWidgetIds.length;
+        Intent serviceIntent = new Intent(context, TimerService.class);
+        serviceIntent.setAction(TimerService.ACTION_ON_UPDATE);
+        serviceIntent.putExtra(TimerService.APP_WIDGET_IDS_KEY, appWidgetIds);
+        context.startService(serviceIntent);
 
         // Perform this loop procedure for each App Widget that belongs to this provider
         for (int appWidgetId : appWidgetIds) {
@@ -30,7 +30,6 @@ public class TimerAppWidgetProvider extends AppWidgetProvider {
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.timer_appwidget);
             views.setOnClickPendingIntent(R.id.layout_container, pendingIntent);
-
 
             // Tell the AppWidgetManager to perform an update on the current app timer_appwidget
             appWidgetManager.updateAppWidget(appWidgetId, views);

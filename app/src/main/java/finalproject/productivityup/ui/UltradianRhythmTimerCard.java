@@ -14,14 +14,17 @@ import finalproject.productivityup.libs.Utility;
 /**
  * Created by User on 1/9/2016.
  */
+
+// TODO: 3/6/2016 move timer to service
+
 public class UltradianRhythmTimerCard {
 
     public final static String ULTRADIAN_RHYTHM_START_TIME_KEY = "ULTRADIAN_RHYTHM_START_TIME_KEY";
     public final static String ULTRADIAN_RHYTHM_WORK_REST_KEY = "ULTRADIAN_RHYTHM_WORK_REST_KEY";
-    private final static int WORK = 0;
-    private final static int REST = 1;
-    private final static int WORK_DURATION = 90 * 60;
-    private final static int REST_DURATION = 30 * 60;
+    public final static int WORK = 0;
+    public final static int REST = 1;
+    public final static int WORK_DURATION = 90 * 60;
+    public final static int REST_DURATION = 30 * 60;
     private final Context mContext;
     private final ImageButton mWorkRestImageButton;
     private final TextView mTimerTextView;

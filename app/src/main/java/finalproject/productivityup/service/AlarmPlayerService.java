@@ -1,4 +1,4 @@
-package finalproject.productivityup.ui;
+package finalproject.productivityup.service;
 
 import android.app.Service;
 import android.content.Intent;
