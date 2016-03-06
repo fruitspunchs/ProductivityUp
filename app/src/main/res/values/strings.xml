@@ -45,7 +45,10 @@
 
     <string name="minute_letter">m</string>
 
-    <string name="timer_zero">0:00</string>
+    <string name="timer_zero">00:00</string>
+
+    <string name="widget_ultradian_timer_default">90</string>
+    <string name="widget_pomodoro_timer_default">25:00</string>
 
     <!-- Content descriptions-->
     <string name="cd_delete">delete</string>

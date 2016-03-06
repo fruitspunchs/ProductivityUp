@@ -76,7 +76,7 @@ public class PomodoroTimerCard {
 
                         mTimeLeft = TIMER_MAX_DURATION;
 
-                        String minutesString = formatTime(mTimeLeft);
+                        String minutesString = Utility.formatPomodoroTimer(mTimeLeft);
                         mTimerTextView.setText(minutesString);
 
                         break;
@@ -135,14 +135,14 @@ public class PomodoroTimerCard {
         } else if (mStartPauseState == PAUSE) {
             Log.d(LOG_TAG, "Loaded timer paused");
             mWorkRestImageButton.setImageResource(R.drawable.ic_play_arrow_white_24dp);
-            String minutesString = formatTime(mTimeLeft);
+            String minutesString = Utility.formatPomodoroTimer(mTimeLeft);
             mTimerTextView.setText(minutesString);
         } else if (mStartPauseState == START) {
             Log.d(LOG_TAG, "Loaded timer started");
             mTimeLeft = mTimeLeft - (currentTime - startTime);
             Log.d(LOG_TAG, "Time left: " + mTimeLeft);
             mWorkRestImageButton.setImageResource(R.drawable.ic_pause_white_24dp);
-            String minutesString = formatTime(mTimeLeft);
+            String minutesString = Utility.formatPomodoroTimer(mTimeLeft);
             mTimerTextView.setText(minutesString);
             startTimer();
         } else if (mStartPauseState == STOP) {
@@ -170,7 +170,7 @@ public class PomodoroTimerCard {
         sCountDownTimer = new CountDownTimer(mTimeLeft * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                mTimerTextView.setText(formatTime(millisUntilFinished / 1000));
+                mTimerTextView.setText(Utility.formatPomodoroTimer(millisUntilFinished / 1000));
                 mTimeLeft = millisUntilFinished / 1000;
             }
 
@@ -186,14 +186,4 @@ public class PomodoroTimerCard {
         }.start();
     }
 
-    private String formatTime(long seconds) {
-        long minutesLeft = seconds / 60;
-        long secondsLeft = seconds % 60;
-        String leadingZero = "";
-        if (secondsLeft < 10) {
-            leadingZero = "0";
-        }
-        return minutesLeft + ":" + leadingZero + secondsLeft;
-
-    }
 }

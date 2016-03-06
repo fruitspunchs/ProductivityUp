@@ -194,4 +194,21 @@ public class Utility {
     public static long getCurrentTimeInSeconds() {
         return System.currentTimeMillis() / 1000;
     }
+
+    public static String formatPomodoroTimer(long seconds) {
+        long minutesLeft = seconds / 60;
+        long secondsLeft = seconds % 60;
+
+        String minutesPrefix = "";
+        if (minutesLeft < 10) {
+            minutesPrefix = "0";
+        }
+
+        String secondsPrefix = "";
+        if (secondsLeft < 10) {
+            secondsPrefix = "0";
+        }
+        return minutesPrefix + minutesLeft + ":" + secondsPrefix + secondsLeft;
+
+    }
 }

@@ -215,14 +215,14 @@ public class TimerAppWidgetService extends Service {
         } else if (mStartPauseState == PAUSE) {
             Log.d(LOG_TAG, "Loaded timer paused");
             mRemoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_play_arrow_white_24dp);
-            String minutesString = formatTime(mTimeLeft);
+            String minutesString = Utility.formatPomodoroTimer(mTimeLeft);
             mRemoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
         } else if (mStartPauseState == START) {
             Log.d(LOG_TAG, "Loaded timer started");
             mTimeLeft = mTimeLeft - (currentTime - startTime);
             Log.d(LOG_TAG, "Time left: " + mTimeLeft);
             mRemoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_pause_white_24dp);
-            String minutesString = formatTime(mTimeLeft);
+            String minutesString = Utility.formatPomodoroTimer(mTimeLeft);
             mRemoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
             startPomodoroTimer();
         } else if (mStartPauseState == STOP) {
@@ -246,7 +246,7 @@ public class TimerAppWidgetService extends Service {
         sCountDownTimer = new CountDownTimer(mTimeLeft * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                mRemoteViews.setTextViewText(R.id.pomodoro_timer_text_view, formatTime(millisUntilFinished / 1000));
+                mRemoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimer(millisUntilFinished / 1000));
                 mTimeLeft = millisUntilFinished / 1000;
 
                 for (int appWidgetId : mAppWidgetIds) {
@@ -269,17 +269,6 @@ public class TimerAppWidgetService extends Service {
                 startAlarm();
             }
         }.start();
-    }
-
-    private String formatTime(long seconds) {
-        long minutesLeft = seconds / 60;
-        long secondsLeft = seconds % 60;
-        String leadingZero = "";
-        if (secondsLeft < 10) {
-            leadingZero = "0";
-        }
-        return minutesLeft + ":" + leadingZero + secondsLeft;
-
     }
 
     private void startAlarm() {
@@ -325,7 +314,7 @@ public class TimerAppWidgetService extends Service {
 
                 mTimeLeft = TIMER_MAX_DURATION;
 
-                String minutesString = formatTime(mTimeLeft);
+                String minutesString = Utility.formatPomodoroTimer(mTimeLeft);
                 mRemoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
 
                 break;
