@@ -8,15 +8,15 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import finalproject.productivityup.R;
-import finalproject.productivityup.service.TimerService;
+import finalproject.productivityup.service.TimerAppWidgetService;
 import finalproject.productivityup.ui.MainActivity;
 
 public class TimerAppWidgetProvider extends AppWidgetProvider {
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        Intent serviceIntent = new Intent(context, TimerService.class);
-        serviceIntent.setAction(TimerService.ACTION_ON_UPDATE);
-        serviceIntent.putExtra(TimerService.APP_WIDGET_IDS_KEY, appWidgetIds);
+        Intent serviceIntent = new Intent(context, TimerAppWidgetService.class);
+        serviceIntent.setAction(TimerAppWidgetService.ACTION_ON_UPDATE);
+        serviceIntent.putExtra(TimerAppWidgetService.APP_WIDGET_IDS_KEY, appWidgetIds);
         context.startService(serviceIntent);
 
         // Perform this loop procedure for each App Widget that belongs to this provider
@@ -30,6 +30,11 @@ public class TimerAppWidgetProvider extends AppWidgetProvider {
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.timer_appwidget);
             views.setOnClickPendingIntent(R.id.layout_container, pendingIntent);
+
+            Intent startPauseIntent = new Intent(context, TimerAppWidgetService.class);
+            startPauseIntent.setAction(TimerAppWidgetService.ACTION_START_PAUSE_TIMER);
+            PendingIntent startPausePendingIntent = PendingIntent.getService(context, 1, startPauseIntent, 0);
+            views.setOnClickPendingIntent(R.id.start_pause_button, startPausePendingIntent);
 
             // Tell the AppWidgetManager to perform an update on the current app timer_appwidget
             appWidgetManager.updateAppWidget(appWidgetId, views);

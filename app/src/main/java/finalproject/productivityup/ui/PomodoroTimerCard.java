@@ -18,18 +18,20 @@ import finalproject.productivityup.service.AlarmPlayerService;
  * Created by User on 1/9/2016.
  */
 public class PomodoroTimerCard {
-    private final static String POMODORO_TIMER_START_TIME_KEY = "POMODORO_TIMER_START_TIME_KEY";
-    private final static String POMODORO_TIMER_START_PAUSE_KEY = "POMODORO_TIMER_START_PAUSE_KEY";
-    private final static String POMODORO_TIMER_TIME_LEFT_KEY = "POMODORO_TIMER_TIME_LEFT_KEY";
-    private final static int TIMER_MAX_DURATION = 25 * 60;
-    private final static int START = 0;
-    private final static int PAUSE = 1;
-    private final static int STOP = 2;
-    private static CountDownTimer sCountDownTimer;
+    public final static String POMODORO_TIMER_START_TIME_KEY = "POMODORO_TIMER_START_TIME_KEY";
+    public final static String POMODORO_TIMER_START_PAUSE_KEY = "POMODORO_TIMER_START_PAUSE_KEY";
+    public final static String POMODORO_TIMER_TIME_LEFT_KEY = "POMODORO_TIMER_TIME_LEFT_KEY";
+    public final static int TIMER_MAX_DURATION = 25 * 60;
+    public final static int START = 0;
+    public final static int PAUSE = 1;
+    public final static int STOP = 2;
+    public static CountDownTimer sCountDownTimer;
+
     private final String LOG_TAG = getClass().getSimpleName();
     private final Context mContext;
     private final ImageButton mWorkRestImageButton;
     private final TextView mTimerTextView;
+
     private int mStartPauseState;
     private long mTimeLeft;
     private SharedPreferences mSharedPreferences;
