@@ -49,15 +49,12 @@ public class TimerAppWidgetService extends Service {
     private long mTimeLeft;
     private SharedPreferences mSharedPreferences;
 
-    private AppWidgetManager mAppWidgetManager;
-
     private String mTimerZeroString;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mAppWidgetManager = AppWidgetManager.getInstance(this);
         mTimerZeroString = this.getString(R.string.timer_zero);
         mAppWidgetIds = new int[]{};
     }
@@ -97,7 +94,7 @@ public class TimerAppWidgetService extends Service {
     }
 
     public void startUltradianRhythmTimer() {
-
+        final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
 
         long startTime;
@@ -167,7 +164,7 @@ public class TimerAppWidgetService extends Service {
                 remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, minutesString);
 
                 for (int appWidgetId : mAppWidgetIds) {
-                    mAppWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+                    appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
                 }
             }
 
@@ -183,11 +180,12 @@ public class TimerAppWidgetService extends Service {
         }.start();
 
         for (int appWidgetId : mAppWidgetIds) {
-            mAppWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
     }
 
     public void initializePomodoroTimer() {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
 
         if (sPomodoroCountDownTimer != null) {
@@ -240,11 +238,12 @@ public class TimerAppWidgetService extends Service {
         }
 
         for (int appWidgetId : mAppWidgetIds) {
-            mAppWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
     }
 
     private void startPomodoroTimer() {
+        final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
 
         if (sPomodoroCountDownTimer != null) {
@@ -258,7 +257,7 @@ public class TimerAppWidgetService extends Service {
                 mTimeLeft = millisUntilFinished / 1000;
 
                 for (int appWidgetId : mAppWidgetIds) {
-                    mAppWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+                    appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
                 }
             }
 
@@ -271,7 +270,7 @@ public class TimerAppWidgetService extends Service {
                 mStartPauseState = STOP;
 
                 for (int appWidgetId : mAppWidgetIds) {
-                    mAppWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+                    appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
                 }
 
                 startAlarm();
@@ -292,6 +291,7 @@ public class TimerAppWidgetService extends Service {
     }
 
     private void onStartPauseButtonClick() {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
         Log.d(LOG_TAG, "Start/Pause timer");
 
@@ -331,7 +331,7 @@ public class TimerAppWidgetService extends Service {
         }
 
         for (int appWidgetId : mAppWidgetIds) {
-            mAppWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
 
         mSharedPreferences.edit()
@@ -362,3 +362,7 @@ public class TimerAppWidgetService extends Service {
         startUltradianRhythmTimer();
     }
 }
+
+// TODO: 3/7/2016 fix pomodoro desync and clean ultradian logic
+// TODO: 3/8/2016 fix needing multiple back button press
+// TODO: 3/8/2016 fix alarm not terminating
