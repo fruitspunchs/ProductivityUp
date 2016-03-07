@@ -13,6 +13,7 @@ import android.widget.TextView;
 import finalproject.productivityup.R;
 import finalproject.productivityup.libs.Utility;
 import finalproject.productivityup.service.AlarmPlayerService;
+import finalproject.productivityup.service.TimerAppWidgetService;
 
 /**
  * Created by User on 1/9/2016.
@@ -36,7 +37,7 @@ public class PomodoroTimerCard {
     private long mTimeLeft;
     private SharedPreferences mSharedPreferences;
 
-    public PomodoroTimerCard(Context context, ImageButton startPauseButton, TextView timerTextView) {
+    public PomodoroTimerCard(final Context context, ImageButton startPauseButton, TextView timerTextView) {
         Log.d(LOG_TAG, "Pomodoro timer created");
 
         mContext = context;
@@ -83,6 +84,10 @@ public class PomodoroTimerCard {
 
                 }
 
+                Intent startPauseIntent = new Intent(context, TimerAppWidgetService.class);
+                startPauseIntent.setAction(TimerAppWidgetService.ACTION_START_PAUSE_TIMER);
+                context.startService(startPauseIntent);
+
                 mSharedPreferences.edit()
                         .putLong(POMODORO_TIMER_START_TIME_KEY, Utility.getCurrentTimeInSeconds())
                         .putInt(POMODORO_TIMER_START_PAUSE_KEY, mStartPauseState)
@@ -104,7 +109,7 @@ public class PomodoroTimerCard {
         mContext.startService(intent);
     }
 
-    public void initialize() {
+    public void onStart() {
         if (sCountDownTimer != null) {
             sCountDownTimer.cancel();
         }

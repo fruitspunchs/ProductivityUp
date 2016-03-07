@@ -112,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
         ultradianRhythmTimerCard.startTimer();
 
         mPomodoroTimerCard = new PomodoroTimerCard(this, mPomodoroTimerStartPauseImageButton, mPomodoroTimerTextView);
-        mPomodoroTimerCard.initialize();
 
         mAgendaCard = new AgendaCard(this, getSupportLoaderManager(), mAgendaCardRecyclerView, mAgendaNoItemTextView);
         mAgendaCard.onCreate();
@@ -145,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         mDeadlinesCard.onStart();
         mAgendaCard.onStart();
         mAccountabilityCard.onStart();
+        mPomodoroTimerCard.onStart();
     }
 
     @Override

@@ -25,6 +25,7 @@ import finalproject.productivityup.ui.UltradianRhythmTimerCard;
 public class TimerAppWidgetService extends Service {
     public final static String ACTION_ON_UPDATE = "ACTION_ON_UPDATE";
     public final static String ACTION_START_PAUSE_TIMER = "ACTION_START_PAUSE_TIMER";
+    public final static String ACTION_WORK_REST_TIMER = "ACTION_WORK_REST_TIMER";
     public final static String APP_WIDGET_IDS_KEY = "APP_WIDGET_IDS_KEY";
     private final static String ULTRADIAN_RHYTHM_START_TIME_KEY = UltradianRhythmTimerCard.ULTRADIAN_RHYTHM_START_TIME_KEY;
     private final static String ULTRADIAN_RHYTHM_WORK_REST_KEY = UltradianRhythmTimerCard.ULTRADIAN_RHYTHM_WORK_REST_KEY;
@@ -40,7 +41,7 @@ public class TimerAppWidgetService extends Service {
     private final static int PAUSE = PomodoroTimerCard.PAUSE;
     private final static int STOP = PomodoroTimerCard.STOP;
     private static CountDownTimer sUltradianRhythmCountDownTimer;
-    private static CountDownTimer sCountDownTimer;
+    private static CountDownTimer sPomodoroCountDownTimer;
     private final String LOG_TAG = getClass().getSimpleName();
     private int mRhythmState;
     private int[] mAppWidgetIds;
@@ -58,6 +59,7 @@ public class TimerAppWidgetService extends Service {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mAppWidgetManager = AppWidgetManager.getInstance(this);
         mTimerZeroString = this.getString(R.string.timer_zero);
+        mAppWidgetIds = new int[]{};
     }
 
     @Override
@@ -73,6 +75,9 @@ public class TimerAppWidgetService extends Service {
                         break;
                     case ACTION_START_PAUSE_TIMER:
                         onStartPauseButtonClick();
+                        break;
+                    case ACTION_WORK_REST_TIMER:
+                        onWorkRestButtonClick();
                         break;
                 }
             }
@@ -185,8 +190,8 @@ public class TimerAppWidgetService extends Service {
     public void initializePomodoroTimer() {
         final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
 
-        if (sCountDownTimer != null) {
-            sCountDownTimer.cancel();
+        if (sPomodoroCountDownTimer != null) {
+            sPomodoroCountDownTimer.cancel();
         }
 
         Log.d(LOG_TAG, "Pomodoro timer initialized");
@@ -242,11 +247,11 @@ public class TimerAppWidgetService extends Service {
     private void startPomodoroTimer() {
         final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
 
-        if (sCountDownTimer != null) {
-            sCountDownTimer.cancel();
+        if (sPomodoroCountDownTimer != null) {
+            sPomodoroCountDownTimer.cancel();
         }
 
-        sCountDownTimer = new CountDownTimer(mTimeLeft * 1000, 1000) {
+        sPomodoroCountDownTimer = new CountDownTimer(mTimeLeft * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimer(millisUntilFinished / 1000));
@@ -290,8 +295,8 @@ public class TimerAppWidgetService extends Service {
         final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
         Log.d(LOG_TAG, "Start/Pause timer");
 
-        if (sCountDownTimer != null) {
-            sCountDownTimer.cancel();
+        if (sPomodoroCountDownTimer != null) {
+            sPomodoroCountDownTimer.cancel();
         }
 
         switch (mStartPauseState) {
@@ -334,5 +339,26 @@ public class TimerAppWidgetService extends Service {
                 .putInt(POMODORO_TIMER_START_PAUSE_KEY, mStartPauseState)
                 .putLong(POMODORO_TIMER_TIME_LEFT_KEY, mTimeLeft)
                 .apply();
+    }
+
+    public void onWorkRestButtonClick() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sUltradianRhythmCountDownTimer != null) {
+            sUltradianRhythmCountDownTimer.cancel();
+        }
+
+        if (mRhythmState == WORK) {
+            mRhythmState = REST;
+        } else if (mRhythmState == REST) {
+            mRhythmState = WORK;
+        }
+
+        prefs.edit()
+                .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, Utility.getCurrentTimeInSeconds())
+                .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
+                .apply();
+
+        startUltradianRhythmTimer();
     }
 }

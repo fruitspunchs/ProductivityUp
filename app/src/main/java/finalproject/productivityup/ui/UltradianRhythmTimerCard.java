@@ -1,6 +1,7 @@
 package finalproject.productivityup.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import finalproject.productivityup.R;
 import finalproject.productivityup.libs.Utility;
+import finalproject.productivityup.service.TimerAppWidgetService;
 
 /**
  * Created by User on 1/9/2016.
@@ -31,7 +33,7 @@ public class UltradianRhythmTimerCard {
     private CountDownTimer mCountDownTimer;
     private int mRhythmState;
 
-    public UltradianRhythmTimerCard(Context context, ImageButton workRestButton, TextView timerTextView) {
+    public UltradianRhythmTimerCard(final Context context, ImageButton workRestButton, TextView timerTextView) {
         mContext = context;
         mWorkRestImageButton = workRestButton;
         mTimerTextView = timerTextView;
@@ -55,6 +57,10 @@ public class UltradianRhythmTimerCard {
                         .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, Utility.getCurrentTimeInSeconds())
                         .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
                         .apply();
+
+                Intent workRestIntent = new Intent(context, TimerAppWidgetService.class);
+                workRestIntent.setAction(TimerAppWidgetService.ACTION_WORK_REST_TIMER);
+                context.startService(workRestIntent);
 
                 startTimer();
             }
