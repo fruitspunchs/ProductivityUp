@@ -8,7 +8,11 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -76,10 +80,17 @@ public class TimerService extends Service {
     private String mTimerZeroString;
 
     private MediaPlayer mMediaPlayer;
+    private ServiceHandler mServiceHandler;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        HandlerThread thread = new HandlerThread("TimerThread");
+        thread.start();
+
+        Looper serviceLooper = thread.getLooper();
+        mServiceHandler = new ServiceHandler(serviceLooper);
+
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mTimerZeroString = this.getString(R.string.timer_zero);
         mAppWidgetIds = new int[]{};
@@ -99,23 +110,7 @@ public class TimerService extends Service {
 
         if (intent != null) {
             if (intent.getAction() != null) {
-                switch (intent.getAction()) {
-                    case ACTION_START_SERVICE:
-                        startUltradianRhythmTimer();
-                        initializePomodoroTimer();
-                        break;
-                    case ACTION_ON_UPDATE:
-                        mAppWidgetIds = intent.getIntArrayExtra(APP_WIDGET_IDS_KEY);
-                        startUltradianRhythmTimer();
-                        initializePomodoroTimer();
-                        break;
-                    case ACTION_START_PAUSE_TIMER:
-                        onStartPauseButtonClick();
-                        break;
-                    case ACTION_WORK_REST_TIMER:
-                        onWorkRestButtonClick();
-                        break;
-                }
+                sendMessageToServiceHandler(intent);
             }
         }
 
@@ -457,6 +452,44 @@ public class TimerService extends Service {
         intent.putExtra(ULTRADIAN_EVENT_KEY, message);
         intent.putExtra(key, value);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+    private void sendMessageToServiceHandler(Intent intent) {
+        Message msg = mServiceHandler.obtainMessage();
+        msg.obj = intent;
+        mServiceHandler.sendMessage(msg);
+    }
+
+    private final class ServiceHandler extends Handler {
+        public ServiceHandler(Looper looper) {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            synchronized (this) {
+                Intent intent = (Intent) msg.obj;
+                String action = intent.getAction();
+
+                switch (action) {
+                    case ACTION_START_SERVICE:
+                        startUltradianRhythmTimer();
+                        initializePomodoroTimer();
+                        break;
+                    case ACTION_ON_UPDATE:
+                        mAppWidgetIds = intent.getIntArrayExtra(APP_WIDGET_IDS_KEY);
+                        startUltradianRhythmTimer();
+                        initializePomodoroTimer();
+                        break;
+                    case ACTION_START_PAUSE_TIMER:
+                        onStartPauseButtonClick();
+                        break;
+                    case ACTION_WORK_REST_TIMER:
+                        onWorkRestButtonClick();
+                        break;
+                }
+            }
+        }
     }
 
 }
