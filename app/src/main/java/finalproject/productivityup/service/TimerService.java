@@ -343,11 +343,19 @@ public class TimerService extends Service {
             e.printStackTrace();
         }
 
-        mMediaPlayer.start();
+        try {
+            mMediaPlayer.start();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
     }
 
     private void stopAlarm() {
-        mMediaPlayer.stop();
+        try {
+            mMediaPlayer.stop();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
     }
 
     private void onStartPauseButtonClick() {
