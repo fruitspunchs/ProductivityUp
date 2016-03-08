@@ -4,6 +4,9 @@ import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -12,6 +15,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import finalproject.productivityup.R;
@@ -71,12 +75,23 @@ public class TimerService extends Service {
     private SharedPreferences mSharedPreferences;
     private String mTimerZeroString;
 
+    private MediaPlayer mMediaPlayer;
+
     @Override
     public void onCreate() {
         super.onCreate();
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mTimerZeroString = this.getString(R.string.timer_zero);
         mAppWidgetIds = new int[]{};
+
+        Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        mMediaPlayer = new MediaPlayer();
+        try {
+            mMediaPlayer.setDataSource(this, alert);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mMediaPlayer.setLooping(true);
     }
 
     @Override
@@ -109,6 +124,10 @@ public class TimerService extends Service {
 
     @Override
     public void onDestroy() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
     }
 
     @Nullable
@@ -318,15 +337,17 @@ public class TimerService extends Service {
     }
 
     private void startAlarm() {
-        Intent intent = new Intent(this, AlarmPlayerService.class);
-        intent.setAction(AlarmPlayerService.ALARM_PLAYER_START);
-        this.startService(intent);
+        try {
+            mMediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mMediaPlayer.start();
     }
 
     private void stopAlarm() {
-        Intent intent = new Intent(this, AlarmPlayerService.class);
-        intent.setAction(AlarmPlayerService.ALARM_PLAYER_STOP);
-        this.startService(intent);
+        mMediaPlayer.stop();
     }
 
     private void onStartPauseButtonClick() {
@@ -432,5 +453,4 @@ public class TimerService extends Service {
 
 }
 
-// TODO: 3/8/2016 fix alarm not stopping
 // TODO: 3/8/2016 clear back stack when starting from widget

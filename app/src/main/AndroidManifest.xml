@@ -118,9 +118,6 @@
         </receiver>
 
         <!-- Service-->
-        <service
-            android:name=".service.AlarmPlayerService"
-            android:exported="false"/>
 
         <service
             android:name=".service.TimerService"
