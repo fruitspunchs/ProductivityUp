@@ -452,5 +452,3 @@ public class TimerService extends Service {
     }
 
 }
-
-// TODO: 3/8/2016 clear back stack when starting from widget
