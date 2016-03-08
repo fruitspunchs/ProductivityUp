@@ -1,24 +1,21 @@
 package finalproject.productivityup.ui;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.CountDownTimer;
-import android.preference.PreferenceManager;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import finalproject.productivityup.R;
-import finalproject.productivityup.libs.Utility;
 import finalproject.productivityup.service.TimerService;
 
 /**
  * Created by User on 1/9/2016.
  */
-
-// TODO: 3/6/2016 move timer to service
-
 public class UltradianRhythmTimerCard {
 
     public final static String ULTRADIAN_RHYTHM_START_TIME_KEY = "ULTRADIAN_RHYTHM_START_TIME_KEY";
@@ -30,8 +27,34 @@ public class UltradianRhythmTimerCard {
     private final Context mContext;
     private final ImageButton mWorkRestImageButton;
     private final TextView mTimerTextView;
-    private CountDownTimer mCountDownTimer;
-    private int mRhythmState;
+    private final String LOG_TAG = getClass().getSimpleName();
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra(TimerService.ULTRADIAN_EVENT_KEY);
+            if (!message.equals(TimerService.ULTRADIAN_EVENT_TIME_LEFT)) {
+                Log.d(LOG_TAG, "Got message: " + message);
+            }
+
+            switch (message) {
+                case TimerService.ULTRADIAN_EVENT_TIME_LEFT:
+                    long minutesLeft = intent.getLongExtra(TimerService.ULTRADIAN_EVENT_TIME_LEFT_KEY, 0);
+                    String minutesString = minutesLeft + mContext.getString(R.string.minute_letter);
+                    mTimerTextView.setText(minutesString);
+                    break;
+                case TimerService.ULTRADIAN_EVENT_BUTTON_STATE:
+                    int timerState = intent.getIntExtra(TimerService.ULTRADIAN_EVENT_BUTTON_STATE_KEY, WORK);
+                    switch (timerState) {
+                        case WORK:
+                            mWorkRestImageButton.setImageResource(R.drawable.ic_work_white_36dp);
+                            break;
+                        case REST:
+                            mWorkRestImageButton.setImageResource(R.drawable.ic_break_white_36dp);
+                            break;
+                    }
+            }
+        }
+    };
 
     public UltradianRhythmTimerCard(final Context context, ImageButton workRestButton, TextView timerTextView) {
         mContext = context;
@@ -41,102 +64,17 @@ public class UltradianRhythmTimerCard {
         mWorkRestImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-
-                if (mCountDownTimer != null) {
-                    mCountDownTimer.cancel();
-                }
-
-                if (mRhythmState == WORK) {
-                    mRhythmState = REST;
-                } else if (mRhythmState == REST) {
-                    mRhythmState = WORK;
-                }
-
-                prefs.edit()
-                        .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, Utility.getCurrentTimeInSeconds())
-                        .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
-                        .apply();
-
                 Intent workRestIntent = new Intent(context, TimerService.class);
                 workRestIntent.setAction(TimerService.ACTION_WORK_REST_TIMER);
                 context.startService(workRestIntent);
-
-                startTimer();
             }
         });
+
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(mMessageReceiver,
+                new IntentFilter(TimerService.ULTRADIAN_EVENT));
     }
 
-    public void startTimer() {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-
-        long startTime;
-
-        if (prefs.contains(ULTRADIAN_RHYTHM_START_TIME_KEY)) {
-            startTime = prefs.getLong(ULTRADIAN_RHYTHM_START_TIME_KEY, Utility.getCurrentTimeInSeconds());
-            mRhythmState = prefs.getInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, WORK);
-        } else {
-            startTime = Utility.getCurrentTimeInSeconds();
-            mRhythmState = WORK;
-            prefs.edit()
-                    .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, Utility.getCurrentTimeInSeconds())
-                    .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
-                    .apply();
-        }
-
-        long timeElapsed = Utility.getCurrentTimeInSeconds() - startTime;
-
-        if (mRhythmState == REST) {
-            if (timeElapsed >= REST_DURATION) {
-                timeElapsed -= REST_DURATION;
-                mRhythmState = WORK;
-            }
-        }
-
-        if (mRhythmState == WORK) {
-            while (timeElapsed >= WORK_DURATION) {
-                timeElapsed -= WORK_DURATION;
-                mRhythmState = REST;
-
-                if (timeElapsed >= REST_DURATION) {
-                    timeElapsed -= REST_DURATION;
-                    mRhythmState = WORK;
-                } else {
-                    break;
-                }
-            }
-        }
-
-        long timeLeft = 0;
-        if (mRhythmState == WORK) {
-            mWorkRestImageButton.setImageResource(R.drawable.ic_work_white_36dp);
-            timeLeft = WORK_DURATION - timeElapsed;
-        } else if (mRhythmState == REST) {
-            mWorkRestImageButton.setImageResource(R.drawable.ic_break_white_36dp);
-            timeLeft = REST_DURATION - timeElapsed;
-        }
-
-        if (mCountDownTimer != null) {
-            mCountDownTimer.cancel();
-        }
-
-        mCountDownTimer = new CountDownTimer(timeLeft * 1000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                long minutesLeft = millisUntilFinished / (1000 * 60);
-                String minutesString = minutesLeft + mContext.getString(R.string.minute_letter);
-                mTimerTextView.setText(minutesString);
-            }
-
-            @Override
-            public void onFinish() {
-                if (mRhythmState == WORK) {
-                    mRhythmState = REST;
-                } else if (mRhythmState == REST) {
-                    mRhythmState = WORK;
-                }
-                startTimer();
-            }
-        }.start();
+    public void onDestroy() {
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mMessageReceiver);
     }
 }

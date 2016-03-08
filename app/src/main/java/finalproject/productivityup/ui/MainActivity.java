@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private DeadlinesCard mDeadlinesCard;
     private AgendaCard mAgendaCard;
     private AccountabilityCard mAccountabilityCard;
+    private UltradianRhythmTimerCard mUltradianRhythmTimerCard;
 
     @OnClick(R.id.overview_card_deadlines)
     void clickDeadlinesCard() {
@@ -111,8 +112,7 @@ public class MainActivity extends AppCompatActivity {
         mDeadlinesCard = new DeadlinesCard(this, getSupportLoaderManager(), mDeadlinesTaskRecyclerView, mDeadlinesTimeLeftTextView, mDeadlinesNoItemTextView, mDeadlinesCardContainer);
         mDeadlinesCard.onCreate();
 
-        UltradianRhythmTimerCard ultradianRhythmTimerCard = new UltradianRhythmTimerCard(this, mUltradianRhythmWorkRestButton, mUltradianRhythmTimerTextView);
-        ultradianRhythmTimerCard.startTimer();
+        mUltradianRhythmTimerCard = new UltradianRhythmTimerCard(this, mUltradianRhythmWorkRestButton, mUltradianRhythmTimerTextView);
 
         mPomodoroTimerCard = new PomodoroTimerCard(this, mPomodoroTimerStartPauseImageButton, mPomodoroTimerTextView);
 
@@ -211,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         mPomodoroTimerCard.onDestroy();
+        mUltradianRhythmTimerCard.onDestroy();
         super.onDestroy();
     }
 
