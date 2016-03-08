@@ -22,12 +22,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import finalproject.productivityup.R;
+import finalproject.productivityup.service.TimerService;
 import finalproject.productivityup.ui.accountability.AccountabilityActivity;
 import finalproject.productivityup.ui.agenda.AgendaActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
-
-// TODO: 3/5/2016 create timer_appwidget
 
 // TODO: 1/24/2016 ask if deadline was met, or reschedule or archive
 // TODO: 1/24/2016 add animations to card resize
@@ -105,6 +104,10 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        Intent serviceIntent = new Intent(this, TimerService.class);
+        serviceIntent.setAction(TimerService.ACTION_START_SERVICE);
+        this.startService(serviceIntent);
+
         mDeadlinesCard = new DeadlinesCard(this, getSupportLoaderManager(), mDeadlinesTaskRecyclerView, mDeadlinesTimeLeftTextView, mDeadlinesNoItemTextView, mDeadlinesCardContainer);
         mDeadlinesCard.onCreate();
 
@@ -135,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         }
         mDeadlinesCard.toggleCardTitles(mIsShowingCardTitles);
 
+
     }
 
     @Override
@@ -144,8 +148,8 @@ public class MainActivity extends AppCompatActivity {
         mDeadlinesCard.onStart();
         mAgendaCard.onStart();
         mAccountabilityCard.onStart();
-        mPomodoroTimerCard.onStart();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -201,8 +205,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mPomodoroTimerCard.onPause();
         mSharedPreferences.edit().putBoolean(CARD_TITLE_TOGGLE_KEY, mIsShowingCardTitles).apply();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mPomodoroTimerCard.onDestroy();
+        super.onDestroy();
     }
 
     public interface CURSOR_LOADER_ID {
@@ -211,4 +220,6 @@ public class MainActivity extends AppCompatActivity {
         int AGENDA = 2;
         int ACCOUNTABILITY = 3;
     }
+
+
 }

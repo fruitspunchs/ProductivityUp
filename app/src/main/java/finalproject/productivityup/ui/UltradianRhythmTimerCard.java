@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import finalproject.productivityup.R;
 import finalproject.productivityup.libs.Utility;
-import finalproject.productivityup.service.TimerAppWidgetService;
+import finalproject.productivityup.service.TimerService;
 
 /**
  * Created by User on 1/9/2016.
@@ -58,8 +58,8 @@ public class UltradianRhythmTimerCard {
                         .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
                         .apply();
 
-                Intent workRestIntent = new Intent(context, TimerAppWidgetService.class);
-                workRestIntent.setAction(TimerAppWidgetService.ACTION_WORK_REST_TIMER);
+                Intent workRestIntent = new Intent(context, TimerService.class);
+                workRestIntent.setAction(TimerService.ACTION_WORK_REST_TIMER);
                 context.startService(workRestIntent);
 
                 startTimer();

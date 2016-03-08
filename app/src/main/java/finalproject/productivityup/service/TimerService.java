@@ -8,8 +8,11 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import java.io.Serializable;
 
 import finalproject.productivityup.R;
 import finalproject.productivityup.libs.Utility;
@@ -20,13 +23,20 @@ import finalproject.productivityup.ui.UltradianRhythmTimerCard;
  * Created by User on 1/11/2016.
  */
 
-// TODO: 3/7/2016  fix widget sometimes not transitioning to work/rest
-
-public class TimerAppWidgetService extends Service {
+public class TimerService extends Service {
+    public final static String ACTION_START_SERVICE = "ACTION_START_SERVICE";
     public final static String ACTION_ON_UPDATE = "ACTION_ON_UPDATE";
     public final static String ACTION_START_PAUSE_TIMER = "ACTION_START_PAUSE_TIMER";
     public final static String ACTION_WORK_REST_TIMER = "ACTION_WORK_REST_TIMER";
     public final static String APP_WIDGET_IDS_KEY = "APP_WIDGET_IDS_KEY";
+
+    public static final String POMODORO_EVENT = "POMODORO_EVENT";
+    public static final String POMODORO_EVENT_KEY = "POMODORO_EVENT_KEY";
+    public static final String POMODORO_EVENT_TIME_LEFT = "POMODORO_EVENT_TIME_LEFT";
+    public static final String POMODORO_EVENT_TIME_LEFT_KEY = "POMODORO_EVENT_TIME_LEFT_KEY";
+    public static final String POMODORO_EVENT_BUTTON_STATE = "POMODORO_EVENT_BUTTON_STATE";
+    public static final String POMODORO_EVENT_BUTTON_STATE_KEY = "POMODORO_EVENT_BUTTON_STATE_KEY";
+
     private final static String ULTRADIAN_RHYTHM_START_TIME_KEY = UltradianRhythmTimerCard.ULTRADIAN_RHYTHM_START_TIME_KEY;
     private final static String ULTRADIAN_RHYTHM_WORK_REST_KEY = UltradianRhythmTimerCard.ULTRADIAN_RHYTHM_WORK_REST_KEY;
     private final static int WORK = UltradianRhythmTimerCard.WORK;
@@ -65,6 +75,10 @@ public class TimerAppWidgetService extends Service {
         if (intent != null) {
             if (intent.getAction() != null) {
                 switch (intent.getAction()) {
+                    case ACTION_START_SERVICE:
+                        startUltradianRhythmTimer();
+                        initializePomodoroTimer();
+                        break;
                     case ACTION_ON_UPDATE:
                         mAppWidgetIds = intent.getIntArrayExtra(APP_WIDGET_IDS_KEY);
                         startUltradianRhythmTimer();
@@ -208,34 +222,42 @@ public class TimerAppWidgetService extends Service {
             mTimeLeft = TIMER_MAX_DURATION;
         }
 
+        String minutesString = "";
+        int buttonState = START;
+
         if (currentTime - startTime >= mTimeLeft && mStartPauseState == START) {
             Log.d(LOG_TAG, "Loaded timer over");
             mTimeLeft = 0;
             mStartPauseState = PAUSE;
 
             remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_play_arrow_white_24dp);
-            String minutesString = this.getString(R.string.timer_zero);
-            remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
+            buttonState = START;
+            minutesString = this.getString(R.string.timer_zero);
         } else if (mStartPauseState == PAUSE) {
             Log.d(LOG_TAG, "Loaded timer paused");
             remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_play_arrow_white_24dp);
-            String minutesString = Utility.formatPomodoroTimer(mTimeLeft);
-            remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
+            buttonState = START;
+            minutesString = Utility.formatPomodoroTimer(mTimeLeft);
         } else if (mStartPauseState == START) {
             Log.d(LOG_TAG, "Loaded timer started");
             mTimeLeft = mTimeLeft - (currentTime - startTime);
             Log.d(LOG_TAG, "Time left: " + mTimeLeft);
             remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_pause_white_24dp);
-            String minutesString = Utility.formatPomodoroTimer(mTimeLeft);
-            remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
+            buttonState = PAUSE;
+            minutesString = Utility.formatPomodoroTimer(mTimeLeft);
             startPomodoroTimer();
         } else if (mStartPauseState == STOP) {
             Log.d(LOG_TAG, "Loaded timer stopped");
             remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_stop_white_24dp);
+            buttonState = STOP;
             mTimeLeft = 0;
-            String minutesString = this.getString(R.string.timer_zero);
-            remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
+            minutesString = this.getString(R.string.timer_zero);
         }
+
+        broadcastMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mTimeLeft);
+        broadcastMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, buttonState);
+
+        remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
 
         for (int appWidgetId : mAppWidgetIds) {
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
@@ -256,6 +278,8 @@ public class TimerAppWidgetService extends Service {
                 remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimer(millisUntilFinished / 1000));
                 mTimeLeft = millisUntilFinished / 1000;
 
+                broadcastMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mTimeLeft);
+
                 for (int appWidgetId : mAppWidgetIds) {
                     appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
                 }
@@ -268,6 +292,9 @@ public class TimerAppWidgetService extends Service {
                 remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_stop_white_24dp);
                 mTimeLeft = 0;
                 mStartPauseState = STOP;
+
+                broadcastMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mTimeLeft);
+                broadcastMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, STOP);
 
                 for (int appWidgetId : mAppWidgetIds) {
                     appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
@@ -302,6 +329,7 @@ public class TimerAppWidgetService extends Service {
         switch (mStartPauseState) {
             case START:
                 mStartPauseState = PAUSE;
+                broadcastMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, START);
                 remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_play_arrow_white_24dp);
 
                 break;
@@ -312,6 +340,7 @@ public class TimerAppWidgetService extends Service {
                     mTimeLeft = TIMER_MAX_DURATION;
                 }
 
+                broadcastMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, PAUSE);
                 remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_pause_white_24dp);
                 startPomodoroTimer();
                 break;
@@ -319,10 +348,12 @@ public class TimerAppWidgetService extends Service {
                 stopAlarm();
 
                 mStartPauseState = PAUSE;
+                broadcastMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, START);
                 remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_play_arrow_white_24dp);
 
                 mTimeLeft = TIMER_MAX_DURATION;
 
+                broadcastMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mTimeLeft);
                 String minutesString = Utility.formatPomodoroTimer(mTimeLeft);
                 remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
 
@@ -361,8 +392,22 @@ public class TimerAppWidgetService extends Service {
 
         startUltradianRhythmTimer();
     }
+
+
+    private <T extends Serializable> void broadcastMessage(String message, String key, T value) {
+        if (!message.equals(POMODORO_EVENT_TIME_LEFT)) {
+            Log.d(LOG_TAG, "Broadcasting message: " + message);
+        }
+
+        Intent intent = new Intent(POMODORO_EVENT);
+
+        intent.putExtra(POMODORO_EVENT_KEY, message);
+        intent.putExtra(key, value);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
 }
 
-// TODO: 3/7/2016 fix pomodoro desync and clean ultradian logic
-// TODO: 3/8/2016 fix needing multiple back button press
-// TODO: 3/8/2016 fix alarm not terminating
+// TODO: 3/7/2016 move timer logic and alarm to service
+// TODO: 3/8/2016 fix alarm not stopping
+// TODO: 3/8/2016 clear back stack when starting from widget
