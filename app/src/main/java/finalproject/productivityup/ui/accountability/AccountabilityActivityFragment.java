@@ -161,7 +161,7 @@ public class AccountabilityActivityFragment extends Fragment implements LoaderMa
         }
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(this.getResources().getInteger(R.integer.grid_rows), StaggeredGridLayoutManager.VERTICAL));
         mCursorAdapter = new AccountabilityDaysCursorAdapter(getActivity(), null, getLoaderManager());
         mRecyclerView.setAdapter(mCursorAdapter);
 

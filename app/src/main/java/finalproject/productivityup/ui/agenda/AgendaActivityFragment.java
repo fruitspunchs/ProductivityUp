@@ -162,7 +162,7 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
         }
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.agenda_card_recycler_view);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(this.getResources().getInteger(R.integer.grid_rows), StaggeredGridLayoutManager.VERTICAL));
         mAgendaDaysCursorAdapter = new AgendaDaysCursorAdapter(getActivity(), null, getLoaderManager());
         mRecyclerView.setAdapter(mAgendaDaysCursorAdapter);
 

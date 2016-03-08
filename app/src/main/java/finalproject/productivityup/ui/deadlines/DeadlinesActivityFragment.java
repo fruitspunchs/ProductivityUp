@@ -161,7 +161,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
         }
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(this.getResources().getInteger(R.integer.grid_rows), StaggeredGridLayoutManager.VERTICAL));
         mCursorAdapter = new DeadlineDaysCursorAdapter(getActivity(), null, getLoaderManager());
         mRecyclerView.setAdapter(mCursorAdapter);
 
