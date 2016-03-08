@@ -2,6 +2,7 @@ package finalproject.productivityup.service;
 
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -26,6 +27,7 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.libs.Utility;
 import finalproject.productivityup.ui.PomodoroTimerCard;
 import finalproject.productivityup.ui.UltradianRhythmTimerCard;
+import finalproject.productivityup.widget.TimerAppWidgetProvider;
 
 /**
  * Created by User on 1/11/2016.
@@ -93,7 +95,7 @@ public class TimerService extends Service {
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mTimerZeroString = this.getString(R.string.timer_zero);
-        mAppWidgetIds = new int[]{};
+        mAppWidgetIds = AppWidgetManager.getInstance(this).getAppWidgetIds(new ComponentName(this.getPackageName(), TimerAppWidgetProvider.class.getName()));
 
         Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         mMediaPlayer = new MediaPlayer();
@@ -112,9 +114,11 @@ public class TimerService extends Service {
             if (intent.getAction() != null) {
                 sendMessageToServiceHandler(intent);
             }
+        } else if (mAppWidgetIds.length > 0) {
+            sendMessageToServiceHandler(new Intent(ACTION_START_SERVICE));
         }
 
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
     @Override
