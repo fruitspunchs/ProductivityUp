@@ -69,12 +69,14 @@ public class UltradianRhythmTimerCard {
                 context.startService(workRestIntent);
             }
         });
-
-        LocalBroadcastManager.getInstance(mContext).registerReceiver(mMessageReceiver,
-                new IntentFilter(TimerService.ULTRADIAN_EVENT));
     }
 
-    public void onDestroy() {
+    public void onResume() {
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(mMessageReceiver,
+                new IntentFilter(TimerService.POMODORO_EVENT));
+    }
+
+    public void onPause() {
         LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mMessageReceiver);
     }
 }

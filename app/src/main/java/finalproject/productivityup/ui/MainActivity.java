@@ -205,14 +205,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        mPomodoroTimerCard.onPause();
+        mUltradianRhythmTimerCard.onPause();
         mSharedPreferences.edit().putBoolean(CARD_TITLE_TOGGLE_KEY, mIsShowingCardTitles).apply();
     }
 
     @Override
-    protected void onDestroy() {
-        mPomodoroTimerCard.onDestroy();
-        mUltradianRhythmTimerCard.onDestroy();
-        super.onDestroy();
+    protected void onResume() {
+        super.onResume();
+        mPomodoroTimerCard.onResume();
+        mUltradianRhythmTimerCard.onResume();
     }
 
     public interface CURSOR_LOADER_ID {

@@ -75,12 +75,14 @@ public class PomodoroTimerCard {
                 context.startService(startPauseIntent);
             }
         });
+    }
 
+    public void onResume() {
         LocalBroadcastManager.getInstance(mContext).registerReceiver(mMessageReceiver,
                 new IntentFilter(TimerService.POMODORO_EVENT));
     }
 
-    public void onDestroy() {
+    public void onPause() {
         LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mMessageReceiver);
     }
 
