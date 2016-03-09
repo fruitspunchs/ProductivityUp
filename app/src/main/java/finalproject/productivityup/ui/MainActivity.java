@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -68,12 +70,13 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.accountability_no_item_text_view)
     TextView mAccountabilityNoItemTextView;
 
-    SharedPreferences mSharedPreferences;
+    private SharedPreferences mSharedPreferences;
     private PomodoroTimerCard mPomodoroTimerCard;
     private DeadlinesCard mDeadlinesCard;
     private AgendaCard mAgendaCard;
     private AccountabilityCard mAccountabilityCard;
     private UltradianRhythmTimerCard mUltradianRhythmTimerCard;
+    private ShareActionProvider mShareActionProvider;
 
     @OnClick(R.id.overview_card_deadlines)
     void clickDeadlinesCard() {
@@ -137,8 +140,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         mDeadlinesCard.toggleCardTitles(mIsShowingCardTitles);
-
-
     }
 
     @Override
@@ -149,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
         mAgendaCard.onStart();
         mAccountabilityCard.onStart();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -163,8 +163,22 @@ public class MainActivity extends AppCompatActivity {
             cardTitleToggleIcon.setIcon(R.drawable.ic_show_card_title);
         }
 
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+
+        // Fetch and store ShareActionProvider
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
+        Intent shareAppIntent = new Intent();
+        shareAppIntent.setAction(Intent.ACTION_SEND);
+        shareAppIntent.putExtra(Intent.EXTRA_TEXT, this.getString(R.string.market_url));
+        shareAppIntent.putExtra(Intent.EXTRA_SUBJECT, this.getString(R.string.share_subject));
+        shareAppIntent.setType("text/plain");
+        setShareIntent(shareAppIntent);
+
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -217,12 +231,16 @@ public class MainActivity extends AppCompatActivity {
         mUltradianRhythmTimerCard.onResume();
     }
 
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
     public interface CURSOR_LOADER_ID {
         int DEADLINE_TASKS = 0;
         int NEXT_DEADLINE = 1;
         int AGENDA = 2;
         int ACCOUNTABILITY = 3;
     }
-
-
 }

@@ -45,10 +45,10 @@
 
     <string name="minute_letter">m</string>
 
-    <string name="timer_zero">00:00</string>
+    <string name="timer_zero" translatable="false">00:00</string>
 
-    <string name="widget_ultradian_timer_default">90</string>
-    <string name="widget_pomodoro_timer_default">25:00</string>
+    <string name="widget_ultradian_timer_default" translatable="false">90</string>
+    <string name="widget_pomodoro_timer_default" translatable="false">25:00</string>
 
     <!-- Content descriptions-->
     <string name="cd_delete">delete</string>
@@ -57,5 +57,10 @@
     <!-- Hints-->
     <string name="hint_task">Enter task here</string>
     <string name="add_agenda_edit_text_hint">Enter task here</string>
+
+    <!-- Market url-->
+    <string name="market_url" translatable="false">market://details?id=com.finalproject.productivityup</string>
+
+    <string name="share_subject">Try this productivity app</string>
 
 </resources>

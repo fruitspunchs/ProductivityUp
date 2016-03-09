@@ -4,14 +4,13 @@
       tools:context=".ui.MainActivity">
     <item
         android:id="@+id/menu_item_share"
-        android:actionProviderClass=
-            "android.widget.ShareActionProvider"
         android:title="Share"
-        app:showAsAction="ifRoom"/>
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_toggle_card_title"
         android:icon="@drawable/ic_hide_card_title"
         android:title="Show/Hide Card Titles"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 </menu>
