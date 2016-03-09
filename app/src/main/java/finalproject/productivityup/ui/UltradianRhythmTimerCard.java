@@ -73,7 +73,7 @@ public class UltradianRhythmTimerCard {
 
     public void onResume() {
         LocalBroadcastManager.getInstance(mContext).registerReceiver(mMessageReceiver,
-                new IntentFilter(TimerService.POMODORO_EVENT));
+                new IntentFilter(TimerService.ULTRADIAN_EVENT));
     }
 
     public void onPause() {
