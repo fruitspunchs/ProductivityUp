@@ -1,18 +1,29 @@
 package finalproject.productivityup.ui.agenda;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import finalproject.productivityup.R;
+import finalproject.productivityup.data.AgendaTasksColumns;
+import finalproject.productivityup.data.DeadlineDaysColumns;
+import finalproject.productivityup.data.ProductivityProvider;
+import finalproject.productivityup.libs.Utility;
 
 public class AgendaActivity extends AppCompatActivity {
+    public static final String BATCH_KEY = "BATCH_KEY";
+    public static final String ACTION_ADD_BATCH = "ACTION_ADD_BATCH";
     private final String LOG_TAG = this.getClass().getSimpleName();
     @Bind(R.id.add_agenda_fab)
     FloatingActionButton mAddFab;
@@ -39,6 +50,17 @@ public class AgendaActivity extends AppCompatActivity {
 
 
         ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        String action = intent.getAction();
+
+        if (action.equals(ACTION_ADD_BATCH)) {
+            Bundle bundle = new Bundle();
+            bundle.putString(InsertTask.BATCH_KEY, intent.getStringExtra(BATCH_KEY));
+
+            new InsertTask().execute(bundle);
+        }
+
     }
 
     @Override
@@ -46,6 +68,51 @@ public class AgendaActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "onActivityResult");
         AgendaActivityFragment fragment = (AgendaActivityFragment) getSupportFragmentManager().findFragmentById(R.id.agenda_fragment);
         fragment.onResult(requestCode, resultCode, data);
+    }
+
+    private class InsertTask extends AsyncTask<Bundle, Void, Void> {
+        private static final String BATCH_KEY = "BATCH_KEY";
+
+        protected Void doInBackground(Bundle... bundles) {
+            String batchString = bundles[0].getString(BATCH_KEY);
+
+            if (batchString == null)
+                return null;
+
+            String[] strings = batchString.split("\n");
+            long unixDate = Utility.getCurrentTimeInSeconds();
+
+            List<ContentValues> agendaTasksArrayList = new ArrayList<>();
+
+            for (String s : strings) {
+                String trimmedString = s.trim();
+
+                if (trimmedString.equals("")) {
+                    continue;
+                }
+
+                ContentValues cv = new ContentValues();
+
+                cv.put(AgendaTasksColumns.DATE, unixDate);
+                cv.put(AgendaTasksColumns.TASK, trimmedString);
+                cv.put(AgendaTasksColumns.IS_CHECKED, 0);
+
+                agendaTasksArrayList.add(cv);
+            }
+
+            if (agendaTasksArrayList.size() == 0) {
+                return null;
+            }
+
+            ContentValues agendaDays = new ContentValues();
+            agendaDays.put(DeadlineDaysColumns.DATE, unixDate);
+
+            getContentResolver().insert(ProductivityProvider.AgendaDays.CONTENT_URI, agendaDays);
+            ContentValues[] contentValues = new ContentValues[agendaTasksArrayList.size()];
+            getContentResolver().bulkInsert(ProductivityProvider.AgendaTasks.CONTENT_URI, agendaTasksArrayList.toArray(contentValues));
+
+            return null;
+        }
     }
 
 }

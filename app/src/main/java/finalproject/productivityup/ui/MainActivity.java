@@ -140,6 +140,20 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         mDeadlinesCard.toggleCardTitles(mIsShowingCardTitles);
+
+        // Get intent, action and MIME type
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type) && intent.hasExtra(Intent.EXTRA_TEXT)) {
+                Intent agendaIntent = new Intent(this, AgendaActivity.class);
+                agendaIntent.putExtra(AgendaActivity.BATCH_KEY, intent.getStringExtra(Intent.EXTRA_TEXT));
+                agendaIntent.setAction(AgendaActivity.ACTION_ADD_BATCH);
+                startActivity(agendaIntent);
+            }
+        }
     }
 
     @Override
