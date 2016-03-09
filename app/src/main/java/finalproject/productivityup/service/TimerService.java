@@ -373,6 +373,14 @@ public class TimerService extends Service {
             sPomodoroCountDownTimer.cancel();
         }
 
+        try {
+            if (mMediaPlayer.isPlaying()) {
+                stopAlarm();
+            }
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+
         switch (mStartPauseState) {
             case START:
                 mStartPauseState = PAUSE;
@@ -392,8 +400,6 @@ public class TimerService extends Service {
                 startPomodoroTimer();
                 break;
             case STOP:
-                stopAlarm();
-
                 mStartPauseState = PAUSE;
                 broadcastPomodoroMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, START);
                 remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_play_arrow_white_24dp);
