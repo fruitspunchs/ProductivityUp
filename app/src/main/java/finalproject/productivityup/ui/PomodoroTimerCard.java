@@ -80,6 +80,9 @@ public class PomodoroTimerCard {
     public void onResume() {
         LocalBroadcastManager.getInstance(mContext).registerReceiver(mMessageReceiver,
                 new IntentFilter(TimerService.POMODORO_EVENT));
+        Intent requestStateIntent = new Intent(mContext, TimerService.class);
+        requestStateIntent.setAction(TimerService.ACTION_REQUEST_POMODORO_STATE);
+        mContext.startService(requestStateIntent);
     }
 
     public void onPause() {
