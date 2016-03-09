@@ -118,7 +118,11 @@ public class TimerService extends Service {
             sendMessageToServiceHandler(new Intent(ACTION_START_SERVICE));
         }
 
-        return START_STICKY;
+        if (mAppWidgetIds.length > 0) {
+            return START_STICKY;
+        } else {
+            return START_NOT_STICKY;
+        }
     }
 
     @Override
