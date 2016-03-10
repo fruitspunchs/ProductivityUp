@@ -18,12 +18,16 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import finalproject.productivityup.R;
+import finalproject.productivityup.libs.Utility;
 import finalproject.productivityup.service.TimerService;
 import finalproject.productivityup.ui.accountability.AccountabilityActivity;
 import finalproject.productivityup.ui.agenda.AgendaActivity;
@@ -35,6 +39,7 @@ import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 public class MainActivity extends AppCompatActivity {
     public static final long CALENDAR_MIN_DATE = 1451606400000L;
     public static final String CARD_TITLE_TOGGLE_KEY = "CARD_TITLE_TOGGLE_KEY";
+    public static final String LAST_INTERSTITIAL_DISPLAY_DATE_KEY = "LAST_INTERSTITIAL_DISPLAY_DATE_KEY";
     private final String LOG_TAG = this.getClass().getSimpleName();
     @Bind(R.id.overview_card_deadlines)
     CardView mDeadlinesCardView;
@@ -77,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     private AccountabilityCard mAccountabilityCard;
     private UltradianRhythmTimerCard mUltradianRhythmTimerCard;
     private ShareActionProvider mShareActionProvider;
+    private InterstitialAd mInterstitialAd;
 
     @OnClick(R.id.overview_card_deadlines)
     void clickDeadlinesCard() {
@@ -108,6 +114,16 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("A03F6ED8846D713161EA57CA533247A2")
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
+
+
         Intent serviceIntent = new Intent(this, TimerService.class);
         serviceIntent.setAction(TimerService.ACTION_START_SERVICE);
         this.startService(serviceIntent);
@@ -126,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         mAccountabilityCard.onCreate();
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         mIsShowingCardTitles = mSharedPreferences.getBoolean(CARD_TITLE_TOGGLE_KEY, true);
 
         if (mIsShowingCardTitles) {
@@ -152,6 +169,18 @@ public class MainActivity extends AppCompatActivity {
                 agendaIntent.putExtra(AgendaActivity.BATCH_KEY, intent.getStringExtra(Intent.EXTRA_TEXT));
                 agendaIntent.setAction(AgendaActivity.ACTION_ADD_BATCH);
                 startActivity(agendaIntent);
+            }
+        }
+    }
+
+    private void initializeAndDisplayInterstitial() {
+        final long SECONDS_IN_DAY = 86400;
+        long lastDisplayDate = mSharedPreferences.getLong(LAST_INTERSTITIAL_DISPLAY_DATE_KEY, 0);
+        long currentTimeInSeconds = Utility.getCurrentTimeInSeconds();
+        if (currentTimeInSeconds >= lastDisplayDate + SECONDS_IN_DAY || currentTimeInSeconds <= lastDisplayDate) {
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+                mSharedPreferences.edit().putLong(LAST_INTERSTITIAL_DISPLAY_DATE_KEY, currentTimeInSeconds).apply();
             }
         }
     }
@@ -243,6 +272,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mPomodoroTimerCard.onResume();
         mUltradianRhythmTimerCard.onResume();
+        initializeAndDisplayInterstitial();
     }
 
     private void setShareIntent(Intent shareIntent) {
