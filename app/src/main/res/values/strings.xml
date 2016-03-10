@@ -50,9 +50,26 @@
     <string name="widget_ultradian_timer_default" translatable="false">90</string>
     <string name="widget_pomodoro_timer_default" translatable="false">25:00</string>
 
+    <!-- Settings-->
+    <string name="menu_show_hide_card_titles" translatable="false">Show/Hide Card Titles</string>
+    <string name="menu_share" translatable="false">Share</string>
+
     <!-- Content descriptions-->
-    <string name="cd_delete">delete</string>
-    <string name="cd_edit">edit</string>
+    <string name="cd_delete_button">delete button</string>
+    <string name="cd_edit_button">edit button</string>
+
+    <string name="cd_work_button">work button</string>
+    <string name="cd_rest_button">rest button</string>
+
+    <string name="cd_start_button">start button</string>
+    <string name="cd_pause_button">pause button</string>
+    <string name="cd_stop_button">stop button</string>
+
+    <string name="cd_select_date_button">select date button</string>
+    <string name="cd_select_time_button">select time button</string>
+
+    <string name="cd_work_icon">work</string>
+    <string name="cd_rest_icon">rest</string>
 
     <!-- Hints-->
     <string name="hint_task">Enter task here</string>

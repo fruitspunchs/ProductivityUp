@@ -107,12 +107,14 @@ public class EditAccountabilityActivity extends AnalyticsTrackedActivity {
             case MODE.DATE:
                 mMode = MODE.TIME;
                 mDateTimeButton.setImageResource(R.drawable.ic_event_white_48dp);
+                mDateTimeButton.setContentDescription(this.getString(R.string.cd_select_date_button));
                 mCalendarView.setVisibility(View.INVISIBLE);
                 mTimePicker.setVisibility(View.VISIBLE);
                 break;
             case MODE.TIME:
                 mMode = MODE.DATE;
                 mDateTimeButton.setImageResource(R.drawable.ic_alarm_white_48dp);
+                mDateTimeButton.setContentDescription(this.getString(R.string.cd_select_time_button));
                 mCalendarView.setVisibility(View.VISIBLE);
                 mTimePicker.setVisibility(View.INVISIBLE);
                 break;

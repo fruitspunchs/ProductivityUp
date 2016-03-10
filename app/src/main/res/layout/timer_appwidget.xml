@@ -2,6 +2,7 @@
 <FrameLayout
     android:id="@+id/layout_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
@@ -24,7 +25,8 @@
             android:text="@string/widget_ultradian_timer_default"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/white"
-            android:textSize="36dp"/>
+            android:textSize="36dp"
+            tools:ignore="SpUsage"/>
 
         <ImageButton
 
@@ -35,6 +37,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/cd_work_icon"
             android:scaleType="centerInside"
             android:src="@drawable/ic_work_white_36dp"
             android:tint="@color/white"/>
@@ -47,7 +50,8 @@
             android:text="@string/widget_pomodoro_timer_default"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/white"
-            android:textSize="36dp"/>
+            android:textSize="36dp"
+            tools:ignore="SpUsage"/>
 
         <ImageButton
 
@@ -58,8 +62,9 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:background="@drawable/round_button_white"
+            android:contentDescription="@string/cd_start_button"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_play_arrow_white_24dp"
+            android:src="@drawable/ic_start_arrow_white_24dp"
             android:tint="@color/colorPrimary"/>
     </LinearLayout>
 </FrameLayout>

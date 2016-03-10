@@ -6,6 +6,5 @@
                     android:minResizeWidth="180dp"
                     android:minWidth="180dp"
                     android:resizeMode="none"
-                    android:updatePeriodMillis="0"
-                    android:widgetCategory="home_screen">
+                    android:updatePeriodMillis="0">
 </appwidget-provider>

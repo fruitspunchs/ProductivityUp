@@ -74,6 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:background="@android:color/transparent"
+                        android:contentDescription="@string/cd_work_button"
                         android:minHeight="48dp"
                         android:minWidth="48dp"
                         android:src="@drawable/ic_work_white_36dp"
@@ -259,8 +260,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/round_button_accent"
+                        android:contentDescription="@string/cd_start_button"
                         android:padding="4dp"
-                        android:src="@drawable/ic_play_arrow_white_24dp"/>
+                        android:src="@drawable/ic_start_arrow_white_24dp"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>

@@ -3,6 +3,7 @@ package finalproject.productivityup.service;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -30,7 +31,7 @@ import finalproject.productivityup.ui.UltradianRhythmTimerCard;
 import finalproject.productivityup.widget.TimerAppWidgetProvider;
 
 /**
- * Created by User on 1/11/2016.
+ * Runs timer and updates widgets.
  */
 
 public class TimerService extends Service {
@@ -185,10 +186,12 @@ public class TimerService extends Service {
         long timeLeft = 0;
         if (mRhythmState == WORK) {
             remoteViews.setImageViewResource(R.id.work_rest_button, R.drawable.ic_work_white_36dp);
+            remoteViews.setContentDescription(R.id.work_rest_button, this.getString(R.string.cd_work_icon));
             broadcastUltradianMessage(ULTRADIAN_EVENT_BUTTON_STATE, ULTRADIAN_EVENT_BUTTON_STATE_KEY, WORK);
             timeLeft = WORK_DURATION - timeElapsed;
         } else if (mRhythmState == REST) {
             remoteViews.setImageViewResource(R.id.work_rest_button, R.drawable.ic_break_white_36dp);
+            remoteViews.setContentDescription(R.id.work_rest_button, this.getString(R.string.cd_rest_icon));
             broadcastUltradianMessage(ULTRADIAN_EVENT_BUTTON_STATE, ULTRADIAN_EVENT_BUTTON_STATE_KEY, REST);
             timeLeft = REST_DURATION - timeElapsed;
         }
@@ -266,12 +269,14 @@ public class TimerService extends Service {
             mPomodoroTimeLeft = 0;
             mStartPauseState = PAUSE;
 
-            remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_play_arrow_white_24dp);
+            remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
+            remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_start_button));
             buttonState = START;
             minutesString = this.getString(R.string.timer_zero);
         } else if (mStartPauseState == PAUSE) {
             Log.d(LOG_TAG, "Loaded timer paused");
-            remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_play_arrow_white_24dp);
+            remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
+            remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_start_button));
             buttonState = START;
             minutesString = Utility.formatPomodoroTimer(mPomodoroTimeLeft);
         } else if (mStartPauseState == START) {
@@ -279,12 +284,14 @@ public class TimerService extends Service {
             mPomodoroTimeLeft = mPomodoroTimeLeft - (currentTime - startTime);
             Log.d(LOG_TAG, "Time left: " + mPomodoroTimeLeft);
             remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_pause_white_24dp);
+            remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_pause_button));
             buttonState = PAUSE;
             minutesString = Utility.formatPomodoroTimer(mPomodoroTimeLeft);
             startPomodoroTimer();
         } else if (mStartPauseState == STOP) {
             Log.d(LOG_TAG, "Loaded timer stopped");
             remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_stop_white_24dp);
+            remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_stop_button));
             buttonState = STOP;
             mPomodoroTimeLeft = 0;
             minutesString = this.getString(R.string.timer_zero);
@@ -308,6 +315,8 @@ public class TimerService extends Service {
             sPomodoroCountDownTimer.cancel();
         }
 
+        final Context context = this;
+
         sPomodoroCountDownTimer = new CountDownTimer(mPomodoroTimeLeft * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -326,6 +335,7 @@ public class TimerService extends Service {
                 remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, mTimerZeroString);
 
                 remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_stop_white_24dp);
+                remoteViews.setContentDescription(R.id.start_pause_button, context.getString(R.string.cd_stop_button));
                 mPomodoroTimeLeft = 0;
                 mStartPauseState = STOP;
 
@@ -384,7 +394,8 @@ public class TimerService extends Service {
             case START:
                 mStartPauseState = PAUSE;
                 broadcastPomodoroMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, START);
-                remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_play_arrow_white_24dp);
+                remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
+                remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_start_button));
 
                 break;
             case PAUSE:
@@ -396,12 +407,14 @@ public class TimerService extends Service {
 
                 broadcastPomodoroMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, PAUSE);
                 remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_pause_white_24dp);
+                remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_pause_button));
                 startPomodoroTimer();
                 break;
             case STOP:
                 mStartPauseState = PAUSE;
                 broadcastPomodoroMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, START);
-                remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_play_arrow_white_24dp);
+                remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
+                remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_start_button));
 
                 mPomodoroTimeLeft = TIMER_MAX_DURATION;
 

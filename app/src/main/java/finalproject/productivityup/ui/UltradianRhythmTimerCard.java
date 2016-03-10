@@ -14,7 +14,7 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.service.TimerService;
 
 /**
- * Created by User on 1/9/2016.
+ * Displays Ultradian Timer state
  */
 public class UltradianRhythmTimerCard {
 
@@ -47,9 +47,11 @@ public class UltradianRhythmTimerCard {
                     switch (timerState) {
                         case WORK:
                             mWorkRestImageButton.setImageResource(R.drawable.ic_work_white_36dp);
+                            mWorkRestImageButton.setContentDescription(mContext.getString(R.string.cd_work_button));
                             break;
                         case REST:
                             mWorkRestImageButton.setImageResource(R.drawable.ic_break_white_36dp);
+                            mWorkRestImageButton.setContentDescription(mContext.getString(R.string.cd_rest_button));
                             break;
                     }
             }

@@ -41,7 +41,8 @@
                     android:contentDescription="@string/app_title_1"
                     android:text="@string/app_title_1"
                     android:textColor="@color/white"
-                    android:textSize="28dp" />
+                    android:textSize="28dp"
+                    tools:ignore="SpUsage"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -53,7 +54,8 @@
                     android:text="@string/app_title_2"
                     android:textColor="@color/white"
                     android:textSize="28dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="SpUsage"/>
 
             </RelativeLayout>
 
