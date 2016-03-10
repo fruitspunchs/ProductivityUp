@@ -21,8 +21,7 @@
     <string name="ultradian_rhythm_title_card">Ultradian rhythm</string>
     <string name="pomodoro_timer_title_card">Pomodoro timer</string>
     <string name="agenda_title_card">Today\'s agenda</string>
-    <string name="accountability_title1_card">Accountability</string>
-    <string name="accountability_title2_card">chart</string>
+    <string name="accountability_title_card">Accountability chart</string>
 
     <!--Used to format time left for next deadline-->
     <string name="year">y</string>

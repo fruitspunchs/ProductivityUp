@@ -47,7 +47,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
     CardView mAgendaCardView;
     @Bind(R.id.overview_card_accountability_chart)
     CardView mAccountabilityChartCard;
-    @Bind({R.id.deadlines_title_text_view, R.id.accountability_chart_title1_text_view, R.id.accountability_chart_title2_text_view, R.id.agenda_title_text_view, R.id.ultradian_rhythm_title_text_view, R.id.pomodoro_timer_title_text_view})
+    @Bind({R.id.deadlines_title_text_view, R.id.accountability_chart_title_text_view, R.id.agenda_title_text_view, R.id.ultradian_rhythm_title_text_view, R.id.pomodoro_timer_title_text_view})
     List<TextView> mCardTitles;
     boolean mIsShowingCardTitles = true;
     @Bind(R.id.deadlines_task_recycler_view)

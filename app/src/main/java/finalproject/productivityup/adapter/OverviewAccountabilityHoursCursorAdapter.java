@@ -16,6 +16,8 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 
+// TODO: 3/11/2016 fix time span change if item above is deleted
+
 /**
  * Adapter for accountability overview card.
  */
@@ -50,7 +52,7 @@ public class OverviewAccountabilityHoursCursorAdapter extends CursorRecyclerView
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_accountability_hours, parent, false);
+                .inflate(R.layout.item_overview_accountability_hours, parent, false);
         return new ViewHolder(itemView);
     }
 

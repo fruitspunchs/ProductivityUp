@@ -28,8 +28,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:paddingLeft="@dimen/horizontal_card_margin"
+            android:paddingRight="@dimen/horizontal_card_margin"
             app:layout_column="0"
             app:layout_columnWeight="1"
             app:layout_gravity="fill_horizontal"
@@ -51,9 +51,11 @@
 
                     <TextView
                         android:id="@+id/ultradian_rhythm_title_text_view"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center_horizontal"
                         android:text="@string/ultradian_rhythm_title_card"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
@@ -98,10 +100,12 @@
 
                     <TextView
                         android:id="@+id/deadlines_title_text_view"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
                         android:layout_marginTop="@dimen/card_padding_top"
+                        android:gravity="center_horizontal"
                         android:text="@string/deadlines_title_card"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
@@ -160,22 +164,14 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/accountability_chart_title1_text_view"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/accountability_chart_title_text_view"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/card_padding_top"
-                        android:text="@string/accountability_title1_card"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
-
-                    <TextView
-                        android:id="@+id/accountability_chart_title2_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:text="@string/accountability_title2_card"
+                        android:layout_marginTop="@dimen/card_padding_top"
+                        android:gravity="center_horizontal"
+                        android:text="@string/accountability_title_card"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
                     <FrameLayout
@@ -188,6 +184,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
                             android:gravity="center"
                             android:text="@string/no_accountability"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -214,8 +212,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:paddingLeft="@dimen/horizontal_card_margin"
+            android:paddingRight="@dimen/horizontal_card_margin"
             app:layout_column="2"
             app:layout_columnWeight="1"
             app:layout_gravity="fill_horizontal"
@@ -237,9 +235,11 @@
 
                     <TextView
                         android:id="@+id/pomodoro_timer_title_text_view"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center_horizontal"
                         android:text="@string/pomodoro_timer_title_card"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
@@ -279,16 +279,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/card_padding_bottom"
-                    android:orientation="vertical"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/agenda_title_text_view"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
                         android:layout_marginTop="@dimen/card_padding_top"
+                        android:gravity="center"
                         android:text="@string/agenda_title_card"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
@@ -302,6 +302,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
                             android:gravity="center"
                             android:text="@string/no_agenda"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
