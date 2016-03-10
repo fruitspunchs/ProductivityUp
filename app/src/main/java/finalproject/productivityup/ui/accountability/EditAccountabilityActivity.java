@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -24,9 +23,10 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.data.AccountabilityDaysColumns;
 import finalproject.productivityup.data.AccountabilityTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
+import finalproject.productivityup.libs.AnalyticsTrackedActivity;
 import finalproject.productivityup.ui.MainActivity;
 
-public class EditAccountabilityActivity extends AppCompatActivity {
+public class EditAccountabilityActivity extends AnalyticsTrackedActivity {
 
     public static final String TASK_KEY = "TASK_KEY";
     public static final String ID_KEY = "ID_KEY";

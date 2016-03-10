@@ -3,7 +3,6 @@ package finalproject.productivityup.ui.accountability;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
@@ -11,8 +10,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import finalproject.productivityup.R;
+import finalproject.productivityup.libs.AnalyticsTrackedActivity;
 
-public class AccountabilityActivity extends AppCompatActivity {
+public class AccountabilityActivity extends AnalyticsTrackedActivity {
 
     private final String LOG_TAG = this.getClass().getSimpleName();
     @Bind(R.id.add_fab)

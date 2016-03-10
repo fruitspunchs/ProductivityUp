@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.ShareActionProvider;
@@ -27,6 +26,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import finalproject.productivityup.R;
+import finalproject.productivityup.libs.AnalyticsTrackedActivity;
 import finalproject.productivityup.libs.Utility;
 import finalproject.productivityup.service.TimerService;
 import finalproject.productivityup.ui.accountability.AccountabilityActivity;
@@ -36,7 +36,7 @@ import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
 // TODO: 1/24/2016 ask if deadline was met, or reschedule or archive
 // TODO: 1/24/2016 add animations to card resize
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AnalyticsTrackedActivity {
     public static final long CALENDAR_MIN_DATE = 1451606400000L;
     public static final String CARD_TITLE_TOGGLE_KEY = "CARD_TITLE_TOGGLE_KEY";
     public static final String LAST_INTERSTITIAL_DISPLAY_DATE_KEY = "LAST_INTERSTITIAL_DISPLAY_DATE_KEY";
