@@ -23,7 +23,7 @@ import finalproject.productivityup.ui.accountability.AccountabilityActivity;
 import finalproject.productivityup.ui.accountability.EditAccountabilityActivity;
 
 /**
- * Cursor adapter used to display deadline tasks
+ * Adapter for accountability task items.
  */
 public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<AccountabilityTasksCursorAdapter.ViewHolder> {
     public static final String ACCOUNTABILITY_LAST_SELECTED_ITEM_KEY = "ACCOUNTABILITY_LAST_SELECTED_ITEM_KEY";

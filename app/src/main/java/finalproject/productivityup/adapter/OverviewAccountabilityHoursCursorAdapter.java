@@ -17,7 +17,7 @@ import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 
 /**
- * Created by User on 1/26/2016.
+ * Adapter for accountability overview card.
  */
 public class OverviewAccountabilityHoursCursorAdapter extends CursorRecyclerViewAdapter<OverviewAccountabilityHoursCursorAdapter.ViewHolder> {
     private Context mContext;

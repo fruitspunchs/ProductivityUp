@@ -12,7 +12,7 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.data.DeadlineTasksColumns;
 
 /**
- * Created by User on 12/18/2015.
+ * Adapter for deadlines overview card.
  */
 public class OverviewDeadlinesCursorAdapter extends CursorRecyclerViewAdapter<OverviewDeadlinesCursorAdapter.ViewHolder> {
     ViewHolder mVh;

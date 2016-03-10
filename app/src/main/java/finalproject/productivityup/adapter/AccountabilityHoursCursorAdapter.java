@@ -21,7 +21,7 @@ import finalproject.productivityup.libs.Utility;
 // TODO: 2/22/2016 auto scroll to most immediate task item
 
 /**
- * Adapter for deadline cards and loads deadline card items.
+ * Adapter for accountability time span items.
  */
 public class AccountabilityHoursCursorAdapter extends CursorRecyclerViewAdapter<AccountabilityHoursCursorAdapter.ViewHolder> {
 

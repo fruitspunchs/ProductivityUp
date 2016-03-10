@@ -13,7 +13,7 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.data.AccountabilityTasksColumns;
 
 /**
- * Cursor adapter used to display deadline tasks
+ * Adapter for accountability overview card.
  */
 public class OverviewAccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<OverviewAccountabilityTasksCursorAdapter.ViewHolder> {
     private Context mContext;

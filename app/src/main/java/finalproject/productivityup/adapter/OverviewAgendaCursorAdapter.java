@@ -20,7 +20,7 @@ import finalproject.productivityup.ui.agenda.AgendaActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
 /**
- * Created by User on 1/26/2016.
+ * Adapter for agenda overview card.
  */
 public class OverviewAgendaCursorAdapter extends CursorRecyclerViewAdapter<OverviewAgendaCursorAdapter.ViewHolder> {
     private Context mContext;

@@ -26,7 +26,7 @@ import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
 import finalproject.productivityup.ui.deadlines.EditDeadlineActivity;
 
 /**
- * Cursor adapter used to display deadline tasks
+ * Adapter for deadline task items.
  */
 public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<DeadlineTasksCursorAdapter.DeadlineTasksViewHolder> {
     public static final String DEADLINES_LAST_SELECTED_ITEM_KEY = "DEADLINES_LAST_SELECTED_ITEM_KEY";

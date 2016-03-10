@@ -31,7 +31,7 @@ import finalproject.productivityup.ui.accountability.AccountabilityActivityFragm
 // FIXME: 1/23/2016 onLoadFinished doesn't get called sometimes because the loader is restarted too quickly
 
 /**
- * Adapter for accountability cards and loads accountability card hours and tasks.
+ * Adapter for accountability cards and loads accountability items.
  */
 public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<AccountabilityDaysCursorAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<Cursor> {
 

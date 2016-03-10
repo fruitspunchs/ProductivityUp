@@ -25,7 +25,7 @@ import finalproject.productivityup.ui.agenda.AgendaActivity;
 import finalproject.productivityup.ui.agenda.EditAgendaActivity;
 
 /**
- * Cursor adapter used to display deadline tasks
+ * Adapter for agenda task items.
  */
 public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTasksCursorAdapter.AgendaTasksViewHolder> {
     public static final String AGENDA_LAST_SELECTED_ITEM_KEY = "AGENDA_LAST_SELECTED_ITEM_KEY";
