@@ -46,7 +46,9 @@ public class AgendaActivity extends AnalyticsTrackedActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
 
         ButterKnife.bind(this);
@@ -54,7 +56,7 @@ public class AgendaActivity extends AnalyticsTrackedActivity {
         Intent intent = getIntent();
         String action = intent.getAction();
 
-        if (action.equals(ACTION_ADD_BATCH)) {
+        if (ACTION_ADD_BATCH.equals(action)) {
             Bundle bundle = new Bundle();
             bundle.putString(InsertTask.BATCH_KEY, intent.getStringExtra(BATCH_KEY));
 
