@@ -230,14 +230,13 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
 
         protected Void doInBackground(Bundle... bundles) {
 
-
-            String[] taskArg = {String.valueOf(bundles[0].getLong(ID_KEY))};
-            mContext.getContentResolver().delete(ProductivityProvider.AgendaTasks.CONTENT_URI, AgendaTasksColumns._ID + " = ?", taskArg);
-
             if (getItemCount() == 1) {
                 String[] dayArg = {String.valueOf(bundles[0].getLong(DAY_KEY))};
                 mContext.getContentResolver().delete(ProductivityProvider.AgendaDays.CONTENT_URI, AgendaDaysColumns.DATE + " = ?", dayArg);
             }
+
+            String[] taskArg = {String.valueOf(bundles[0].getLong(ID_KEY))};
+            mContext.getContentResolver().delete(ProductivityProvider.AgendaTasks.CONTENT_URI, AgendaTasksColumns._ID + " = ?", taskArg);
 
             return null;
         }

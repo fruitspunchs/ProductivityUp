@@ -208,14 +208,13 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
 
         protected Void doInBackground(Bundle... bundles) {
 
-
-            String[] taskArg = {String.valueOf(bundles[0].getLong(ID_KEY))};
-            mContext.getContentResolver().delete(ProductivityProvider.DeadlineTasks.CONTENT_URI, DeadlineTasksColumns._ID + " = ?", taskArg);
-
             if (getItemCount() == 1) {
                 String[] dayArg = {String.valueOf(bundles[0].getLong(DAY_KEY))};
                 mContext.getContentResolver().delete(ProductivityProvider.DeadlineDays.CONTENT_URI, DeadlineDaysColumns.DATE + " = ?", dayArg);
             }
+
+            String[] taskArg = {String.valueOf(bundles[0].getLong(ID_KEY))};
+            mContext.getContentResolver().delete(ProductivityProvider.DeadlineTasks.CONTENT_URI, DeadlineTasksColumns._ID + " = ?", taskArg);
 
             return null;
         }
