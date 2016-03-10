@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="@string/add_agenda_edit_text_hint"
+            android:imeOptions="actionDone"
             android:singleLine="true"/>
 
     </LinearLayout>
