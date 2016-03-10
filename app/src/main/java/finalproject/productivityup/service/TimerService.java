@@ -39,7 +39,6 @@ public class TimerService extends Service {
     public final static String ACTION_START_PAUSE_TIMER = "ACTION_START_PAUSE_TIMER";
     public final static String ACTION_WORK_REST_TIMER = "ACTION_WORK_REST_TIMER";
     public static final String ACTION_REQUEST_POMODORO_STATE = "ACTION_REQUEST_POMODORO_STATE";
-    public static final String ACTION_REQUEST_ULTRADIAN_STATE = "ACTION_REQUEST_ULTRADIAN_STATE";
     public final static String APP_WIDGET_IDS_KEY = "APP_WIDGET_IDS_KEY";
 
     public static final String POMODORO_EVENT = "POMODORO_EVENT";
@@ -516,10 +515,6 @@ public class TimerService extends Service {
                                 broadcastPomodoroMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, STOP);
                         }
                         broadcastPomodoroMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mPomodoroTimeLeft);
-                        break;
-                    case ACTION_REQUEST_ULTRADIAN_STATE:
-                        broadcastUltradianMessage(ULTRADIAN_EVENT_BUTTON_STATE, ULTRADIAN_EVENT_BUTTON_STATE_KEY, mRhythmState);
-                        broadcastUltradianMessage(ULTRADIAN_EVENT_TIME_LEFT, ULTRADIAN_EVENT_TIME_LEFT_KEY, mUltradianTimeString);
                         break;
                 }
             }

@@ -74,9 +74,6 @@ public class UltradianRhythmTimerCard {
     public void onResume() {
         LocalBroadcastManager.getInstance(mContext).registerReceiver(mMessageReceiver,
                 new IntentFilter(TimerService.ULTRADIAN_EVENT));
-        Intent requestStateIntent = new Intent(mContext, TimerService.class);
-        requestStateIntent.setAction(TimerService.ACTION_REQUEST_ULTRADIAN_STATE);
-        mContext.startService(requestStateIntent);
     }
 
     public void onPause() {
