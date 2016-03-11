@@ -123,7 +123,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
     void onDeadlinesCardFocused(boolean focused) {
         int color = this.getResources().getColor(R.color.cardViewBackgroundColor);
         if (focused) {
-            color = this.getResources().getColor(android.R.color.darker_gray);
+            color = this.getResources().getColor(R.color.lightGray);
         }
         mDeadlinesCardView.setCardBackgroundColor(color);
     }
@@ -132,7 +132,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
     void onAgendaCardFocused(boolean focused) {
         int color = this.getResources().getColor(R.color.cardViewBackgroundColor);
         if (focused) {
-            color = this.getResources().getColor(android.R.color.darker_gray);
+            color = this.getResources().getColor(R.color.lightGray);
         }
         mAgendaCardView.setCardBackgroundColor(color);
     }
@@ -141,7 +141,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
     void onAccountabilityCardFocused(boolean focused) {
         int color = this.getResources().getColor(R.color.cardViewBackgroundColor);
         if (focused) {
-            color = this.getResources().getColor(android.R.color.darker_gray);
+            color = this.getResources().getColor(R.color.lightGray);
         }
         mAccountabilityChartCardView.setCardBackgroundColor(color);
     }
@@ -327,6 +327,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
         mPomodoroTimerCard.onResume();
         mUltradianRhythmTimerCard.onResume();
         initializeAndDisplayInterstitial();
+        mPomodoroTimerStartPauseImageButton.requestFocus();
     }
 
     private void setShareIntent(Intent shareIntent) {

@@ -181,6 +181,7 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
             mCheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mCheckBox.setFocusable(false);
                     int checkValue;
 
                     if (mCheckBox.isChecked()) {
@@ -189,11 +190,47 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
                         checkValue = 0;
                     }
 
+
                     Bundle bundle = new Bundle();
                     bundle.putLong(UpdateCheckTask.ID_KEY, mId);
                     bundle.putInt(UpdateCheckTask.CHECK_VALUE_KEY, checkValue);
 
                     new UpdateCheckTask().execute(bundle);
+                }
+            });
+
+
+            mDeleteButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    int color = mContext.getResources().getColor(android.R.color.transparent);
+                    if (hasFocus) {
+                        color = mContext.getResources().getColor(R.color.lightGray);
+                    }
+                    mDeleteButton.setBackgroundColor(color);
+                }
+            });
+
+
+            mEditButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    int color = mContext.getResources().getColor(android.R.color.transparent);
+                    if (hasFocus) {
+                        color = mContext.getResources().getColor(R.color.lightGray);
+                    }
+                    mEditButton.setBackgroundColor(color);
+                }
+            });
+
+            mCheckBox.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    int color = mContext.getResources().getColor(R.color.cardViewBackgroundColor);
+                    if (hasFocus) {
+                        color = mContext.getResources().getColor(R.color.lightGray);
+                    }
+                    mCheckBox.setBackgroundColor(color);
                 }
             });
         }
@@ -207,6 +244,7 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
                 mLastSelectedViewHolder.mLastSelectedView.setSelected(false);
                 mLastSelectedViewHolder.mLastSelectedTaskTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryText));
                 mLastSelectedViewHolder.mLastSelectedCheckBox.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
+                mLastSelectedViewHolder.mLastSelectedCheckBox.setFocusable(false);
             }
 
             mLastSelectedViewHolder.mLastSelectedDeleteButton = mDeleteButton;
@@ -219,6 +257,8 @@ public class AgendaTasksCursorAdapter extends CursorRecyclerViewAdapter<AgendaTa
             mDeleteButton.setVisibility(View.VISIBLE);
             mTaskTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             mCheckBox.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+            mCheckBox.setFocusable(true);
+            mCheckBox.requestFocus();
             v.setSelected(true);
             mSharedPreferences.edit().putLong(AGENDA_LAST_SELECTED_ITEM_KEY, mId).apply();
         }

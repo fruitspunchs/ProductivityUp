@@ -3,7 +3,6 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:focusable="true"
               android:minHeight="48dp"
               android:orientation="horizontal"
               android:paddingBottom="8dp"
@@ -21,6 +20,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
+            android:focusable="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorPrimaryText"/>
     </FrameLayout>

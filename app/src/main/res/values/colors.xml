@@ -8,4 +8,5 @@
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#727272</color>
     <color name="cardViewBackgroundColor">#f9f9f9</color>
+    <color name="lightGray">#ffcccccc</color>
 </resources>

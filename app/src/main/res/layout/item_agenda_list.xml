@@ -4,6 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@drawable/selector_row"
+              android:focusable="true"
               android:minHeight="48dp"
               android:orientation="horizontal"
               android:paddingLeft="8dp"
@@ -18,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
+            android:focusable="false"
             android:gravity="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorPrimaryText"/>
