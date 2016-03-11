@@ -104,6 +104,8 @@ public class AddAgendaActivity extends AnalyticsTrackedActivity {
                 Log.d(LOG_TAG, "Calendar set to: " + calendar.getTimeInMillis() / 1000);
             }
         });
+
+        mTaskEditText.requestFocus();
     }
 
 }

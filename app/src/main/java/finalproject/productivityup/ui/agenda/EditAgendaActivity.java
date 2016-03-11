@@ -134,6 +134,8 @@ public class EditAgendaActivity extends AnalyticsTrackedActivity {
 
         mTaskEditText.setText(task);
         mCalendarView.setDate(mDate * 1000);
+
+        mTaskEditText.requestFocus();
     }
 
 }

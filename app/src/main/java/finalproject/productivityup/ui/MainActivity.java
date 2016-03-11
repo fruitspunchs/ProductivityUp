@@ -225,6 +225,8 @@ public class MainActivity extends AnalyticsTrackedActivity {
                 startActivity(agendaIntent);
             }
         }
+
+        mPomodoroTimerStartPauseImageButton.requestFocus();
     }
 
     private void initializeAndDisplayInterstitial() {
@@ -327,7 +329,6 @@ public class MainActivity extends AnalyticsTrackedActivity {
         mPomodoroTimerCard.onResume();
         mUltradianRhythmTimerCard.onResume();
         initializeAndDisplayInterstitial();
-        mPomodoroTimerStartPauseImageButton.requestFocus();
     }
 
     private void setShareIntent(Intent shareIntent) {
