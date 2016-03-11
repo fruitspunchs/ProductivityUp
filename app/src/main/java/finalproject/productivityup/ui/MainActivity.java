@@ -2,8 +2,11 @@ package finalproject.productivityup.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +28,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
 import finalproject.productivityup.R;
 import finalproject.productivityup.libs.AnalyticsTrackedActivity;
 import finalproject.productivityup.libs.Utility;
@@ -36,6 +40,7 @@ import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
 // TODO: 1/24/2016 ask if deadline was met, or reschedule or archive
 // TODO: 1/24/2016 add animations to card resize
+// TODO: 3/11/2016 fix auto scroll
 public class MainActivity extends AnalyticsTrackedActivity {
     public static final long CALENDAR_MIN_DATE = 1451606400000L;
     public static final String CARD_TITLE_TOGGLE_KEY = "CARD_TITLE_TOGGLE_KEY";
@@ -46,7 +51,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
     @Bind(R.id.overview_card_agenda)
     CardView mAgendaCardView;
     @Bind(R.id.overview_card_accountability_chart)
-    CardView mAccountabilityChartCard;
+    CardView mAccountabilityChartCardView;
     @Bind({R.id.deadlines_title_text_view, R.id.accountability_chart_title_text_view, R.id.agenda_title_text_view, R.id.ultradian_rhythm_title_text_view, R.id.pomodoro_timer_title_text_view})
     List<TextView> mCardTitles;
     boolean mIsShowingCardTitles = true;
@@ -103,6 +108,55 @@ public class MainActivity extends AnalyticsTrackedActivity {
         Intent intent = new Intent(this, AccountabilityActivity.class);
         intent.setAction(DeadlinesActivityFragment.ACTION_SCROLL_TO_NEAREST_DEADLINE);
         startActivity(intent);
+    }
+
+    @OnFocusChange(R.id.ultradian_rhythm_work_rest_button)
+    void onWorkRestButtonFocusChange() {
+        ColorStateList colours = mUltradianRhythmWorkRestButton.getResources()
+                .getColorStateList(R.color.selector_accent_tint);
+        Drawable d = DrawableCompat.wrap(mUltradianRhythmWorkRestButton.getDrawable());
+        DrawableCompat.setTintList(d, colours);
+        mUltradianRhythmWorkRestButton.setImageDrawable(d);
+    }
+
+    @OnFocusChange(R.id.overview_card_deadlines)
+    void onDeadlinesCardFocused(boolean focused) {
+        int color = this.getResources().getColor(R.color.cardViewBackgroundColor);
+        if (focused) {
+            color = this.getResources().getColor(android.R.color.darker_gray);
+        }
+        mDeadlinesCardView.setCardBackgroundColor(color);
+    }
+
+    @OnFocusChange(R.id.overview_card_agenda)
+    void onAgendaCardFocused(boolean focused) {
+        int color = this.getResources().getColor(R.color.cardViewBackgroundColor);
+        if (focused) {
+            color = this.getResources().getColor(android.R.color.darker_gray);
+        }
+        mAgendaCardView.setCardBackgroundColor(color);
+    }
+
+    @OnFocusChange(R.id.overview_card_accountability_chart)
+    void onAccountabilityCardFocused(boolean focused) {
+        int color = this.getResources().getColor(R.color.cardViewBackgroundColor);
+        if (focused) {
+            color = this.getResources().getColor(android.R.color.darker_gray);
+        }
+        mAccountabilityChartCardView.setCardBackgroundColor(color);
+    }
+
+    @OnFocusChange(R.id.agenda_card_recycler_view)
+    void onAgendaListFocus(boolean focused) {
+        if (focused) {
+            List<View> views = mAgendaCardRecyclerView.getFocusables(View.FOCUS_DOWN);
+            if (views == null) {
+                return;
+            }
+            if (views.size() > 0) {
+                views.get(0).requestFocus(View.FOCUS_DOWN);
+            }
+        }
     }
 
     @Override

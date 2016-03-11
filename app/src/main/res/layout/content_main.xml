@@ -89,6 +89,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/card_margin_bottom"
+                android:focusable="true"
+                android:nextFocusRight="@+id/overview_card_agenda"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -155,6 +157,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:focusable="true"
+                android:nextFocusRight="@+id/overview_card_agenda"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -272,6 +276,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/card_margin_bottom"
+                android:focusable="true"
+                android:nextFocusDown="@+id/agenda_card_recycler_view"
+                android:nextFocusRight="@+id/agenda_card_recycler_view"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -315,6 +322,7 @@
                             android:id="@+id/agenda_card_recycler_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:focusable="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/colorPrimaryText"
                             tools:text="Finish mock"/>

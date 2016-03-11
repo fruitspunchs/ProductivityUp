@@ -3,12 +3,12 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_marginLeft="8dp"
-              android:layout_marginStart="8dp"
-              android:background="@drawable/selector_row_no_pressed"
+              android:focusable="true"
               android:minHeight="48dp"
               android:orientation="horizontal"
-              android:paddingBottom="8dp">
+              android:paddingBottom="8dp"
+              android:paddingLeft="8dp"
+              android:paddingRight="8dp">
 
     <FrameLayout
         android:layout_width="wrap_content"

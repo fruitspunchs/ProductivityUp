@@ -4,7 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -54,6 +57,14 @@ public class UltradianRhythmTimerCard {
                             mWorkRestImageButton.setContentDescription(mContext.getString(R.string.cd_rest_button));
                             break;
                     }
+            }
+
+            if (mWorkRestImageButton.isFocused()) {
+                ColorStateList colours = mWorkRestImageButton.getResources()
+                        .getColorStateList(R.color.selector_gray_tint);
+                Drawable d = DrawableCompat.wrap(mWorkRestImageButton.getDrawable());
+                DrawableCompat.setTintList(d, colours);
+                mWorkRestImageButton.setImageDrawable(d);
             }
         }
     };
