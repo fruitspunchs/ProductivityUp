@@ -56,7 +56,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
                 null,
                 null,
                 null,
-                null);
+                DeadlineDaysColumns.DATE + " DESC");
     }
 
     @Override

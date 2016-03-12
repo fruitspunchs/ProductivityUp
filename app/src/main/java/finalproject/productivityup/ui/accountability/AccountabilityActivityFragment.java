@@ -21,6 +21,7 @@ import java.util.Calendar;
 
 import finalproject.productivityup.R;
 import finalproject.productivityup.adapter.AccountabilityDaysCursorAdapter;
+import finalproject.productivityup.data.AccountabilityDaysColumns;
 import finalproject.productivityup.data.AgendaDaysColumns;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.ProductivityProvider;
@@ -56,7 +57,7 @@ public class AccountabilityActivityFragment extends Fragment implements LoaderMa
                 null,
                 null,
                 null,
-                null);
+                AccountabilityDaysColumns.DATE + " DESC");
     }
 
     @Override

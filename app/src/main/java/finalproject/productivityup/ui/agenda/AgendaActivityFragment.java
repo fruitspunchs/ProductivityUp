@@ -21,6 +21,7 @@ import java.util.Calendar;
 
 import finalproject.productivityup.R;
 import finalproject.productivityup.adapter.AgendaDaysCursorAdapter;
+import finalproject.productivityup.data.AgendaDaysColumns;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 
@@ -55,7 +56,7 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
                 null,
                 null,
                 null,
-                null);
+                AgendaDaysColumns.DATE + " DESC");
     }
 
     @Override
