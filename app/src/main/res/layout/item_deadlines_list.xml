@@ -18,7 +18,7 @@
         android:gravity="end"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/colorPrimaryText"
-        tools:text="9 am"/>
+        tools:text="12:00 am"/>
 
 
     <TextView
