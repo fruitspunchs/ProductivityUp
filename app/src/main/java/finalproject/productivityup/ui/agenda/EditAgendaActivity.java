@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import java.util.Calendar;
@@ -22,7 +22,6 @@ import finalproject.productivityup.data.AgendaTasksColumns;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 import finalproject.productivityup.libs.AnalyticsTrackedActivity;
-import finalproject.productivityup.ui.MainActivity;
 
 public class EditAgendaActivity extends AnalyticsTrackedActivity {
     public static final String TASK_KEY = "TASK_KEY";
@@ -35,8 +34,8 @@ public class EditAgendaActivity extends AnalyticsTrackedActivity {
     EditText mTaskEditText;
     @Bind(R.id.add_agenda_done_fab)
     FloatingActionButton mDoneFab;
-    @Bind(R.id.calendar_view)
-    CalendarView mCalendarView;
+    @Bind(R.id.datePicker)
+    DatePicker mDatePicker;
 
     private long mId;
     private long mDate;
@@ -57,7 +56,10 @@ public class EditAgendaActivity extends AnalyticsTrackedActivity {
         ContentValues agendaTasks = new ContentValues();
         ContentValues agendaDays = new ContentValues();
 
-        long unixDate = mCalendarView.getDate() / 1000;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(mDatePicker.getYear(), mDatePicker.getMonth(), mDatePicker.getDayOfMonth(), 0, 0, 0);
+
+        long unixDate = calendar.getTimeInMillis() / 1000;
         Log.d(LOG_TAG, "UnixDate: " + unixDate);
 
         agendaTasks.put(AgendaTasksColumns.DATE, unixDate);
@@ -109,31 +111,16 @@ public class EditAgendaActivity extends AnalyticsTrackedActivity {
 
         ButterKnife.bind(this);
 
-        //Set clock to start of day
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 0);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
-        mCalendarView.setMinDate(MainActivity.CALENDAR_MIN_DATE);
-        mCalendarView.setDate(today.getTimeInMillis());
-
-        mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(year, month, dayOfMonth, 0, 0, 0);
-                view.setDate(calendar.getTimeInMillis());
-                Log.d(LOG_TAG, "Calendar set to: " + calendar.getTimeInMillis() / 1000);
-            }
-        });
-
         mId = getIntent().getLongExtra(ID_KEY, -1);
         String task = getIntent().getStringExtra(TASK_KEY);
         mDate = getIntent().getLongExtra(DATE_KEY, -1);
         mCheckValue = getIntent().getIntExtra(CHECK_VALUE_KEY, -1);
 
         mTaskEditText.setText(task);
-        mCalendarView.setDate(mDate * 1000);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(mDate * 1000);
+
+        mDatePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
         mTaskEditText.requestFocus();
     }
