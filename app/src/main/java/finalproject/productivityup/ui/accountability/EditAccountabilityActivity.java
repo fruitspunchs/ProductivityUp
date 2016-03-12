@@ -154,6 +154,11 @@ public class EditAccountabilityActivity extends AnalyticsTrackedActivity {
         mDate = getIntent().getLongExtra(DATE_KEY, -1);
         long time = getIntent().getLongExtra(TIME_KEY, -1);
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(mDate * 1000);
+
+        mDatePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
         mTaskEditText.setText(task);
 
         long daySeconds = time - mDate;
