@@ -62,8 +62,6 @@ public class AgendaActivity extends AnalyticsTrackedActivity {
 
             new InsertTask().execute(bundle);
         }
-
-        mAddFab.requestFocus();
     }
 
     @Override

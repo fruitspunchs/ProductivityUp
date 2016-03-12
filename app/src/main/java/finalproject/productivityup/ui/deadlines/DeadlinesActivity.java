@@ -38,8 +38,6 @@ public class DeadlinesActivity extends AnalyticsTrackedActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         ButterKnife.bind(this);
-
-        mAddFab.requestFocus();
     }
 
     @Override
