@@ -55,6 +55,7 @@ public class PomodoroTimerCard {
                             mStartPauseImageButton.setContentDescription(mContext.getString(R.string.cd_pause_button));
                             break;
                         case STOP:
+                            mStartPauseImageButton.setImageResource(R.drawable.ic_stop_white_24dp);
                             mStartPauseImageButton.setContentDescription(mContext.getString(R.string.cd_stop_button));
                             break;
                     }
