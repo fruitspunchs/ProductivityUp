@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -211,7 +212,7 @@ public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<A
         mHoursCursorAdapterList.get(loader.getId() - 1).setTaskCursorList(null);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView mDateTextView;
         public RecyclerView mHoursRecyclerView;
         public View mView;
@@ -219,13 +220,39 @@ public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<A
         public long mUnixDate;
         public AccountabilityHoursCursorAdapter mHoursCursorAdapter;
 
-        public ViewHolder(View view) {
+        public ViewHolder(final View view) {
             super(view);
             mView = view;
             mDateTextView = (TextView) view.findViewById(R.id.date_text_view);
             mHoursRecyclerView = (RecyclerView) view.findViewById(R.id.hours_recycler_view);
             mHoursCursorAdapter = new AccountabilityHoursCursorAdapter(mContext, null, mViewHolder, mSharedPreferences);
             mId = sHoursCursorLoaderId++;
+            view.setOnClickListener(this);
+
+            view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    int color = mContext.getResources().getColor(R.color.cardViewBackgroundColor);
+                    if (hasFocus) {
+                        color = mContext.getResources().getColor(R.color.lightGray);
+                    }
+
+                    ((CardView) view).setCardBackgroundColor(color);
+                }
+            });
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v.isFocused()) {
+                List<View> views = v.getFocusables(View.FOCUS_DOWN);
+                if (views == null) {
+                    return;
+                }
+                if (views.size() > 0) {
+                    views.get(0).requestFocus(View.FOCUS_DOWN);
+                }
+            }
         }
     }
 }
