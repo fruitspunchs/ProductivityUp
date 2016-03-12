@@ -1,6 +1,7 @@
 package finalproject.productivityup.ui.accountability;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
@@ -177,5 +178,11 @@ public class AccountabilityActivityFragment extends Fragment implements LoaderMa
         if (data != null) {
             mResultUnixDate = data.getLongExtra(UNIX_DATE_KEY, 0);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(this.getResources().getInteger(R.integer.grid_rows), StaggeredGridLayoutManager.VERTICAL));
     }
 }
