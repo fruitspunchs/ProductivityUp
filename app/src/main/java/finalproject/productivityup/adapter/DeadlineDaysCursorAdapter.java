@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -143,7 +144,7 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
         mDeadlineTasksCursorAdapterArrayList.get(loader.getId() - 1).swapCursor(null);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView mDateTextView;
         public RecyclerView mTasksRecyclerView;
         public View mView;
@@ -151,13 +152,41 @@ public class DeadlineDaysCursorAdapter extends CursorRecyclerViewAdapter<Deadlin
         public long mUnixDate;
         public DeadlineTasksCursorAdapter mDeadlineTasksCursorAdapter;
 
-        public ViewHolder(View view) {
+        public ViewHolder(final View view) {
             super(view);
             mView = view;
             mDateTextView = (TextView) view.findViewById(R.id.date_text_view);
             mTasksRecyclerView = (RecyclerView) view.findViewById(R.id.tasks_recycler_view);
             mDeadlineTasksCursorAdapter = new DeadlineTasksCursorAdapter(mContext, null, mDeadlineTasksLastSelectedItemViewHolder, mSharedPreferences);
             mId = sTaskCursorLoaderId++;
+            view.setOnClickListener(this);
+
+            view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    int color = mContext.getResources().getColor(R.color.cardViewBackgroundColor);
+                    if (hasFocus) {
+                        color = mContext.getResources().getColor(R.color.lightGray);
+                    }
+
+                    ((CardView) view).setCardBackgroundColor(color);
+                }
+            });
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v.isFocused()) {
+                List<View> views = mTasksRecyclerView.getFocusables(View.FOCUS_DOWN);
+                if (views == null) {
+                    return;
+                }
+                if (views.size() > 0) {
+                    views.get(0).requestFocus(View.FOCUS_DOWN);
+                }
+            }
+
+
         }
     }
 }

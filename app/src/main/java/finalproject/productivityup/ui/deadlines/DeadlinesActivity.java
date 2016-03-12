@@ -34,8 +34,12 @@ public class DeadlinesActivity extends AnalyticsTrackedActivity {
         setContentView(R.layout.activity_deadlines);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         ButterKnife.bind(this);
+
+        mAddFab.requestFocus();
     }
 
     @Override

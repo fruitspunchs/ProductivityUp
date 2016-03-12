@@ -172,6 +172,29 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
                     ((Activity) mContext).startActivityForResult(intent, 0);
                 }
             });
+
+            mDeleteButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    int color = mContext.getResources().getColor(android.R.color.transparent);
+                    if (hasFocus) {
+                        color = mContext.getResources().getColor(R.color.lightGray);
+                    }
+                    mDeleteButton.setBackgroundColor(color);
+                }
+            });
+
+
+            mEditButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    int color = mContext.getResources().getColor(android.R.color.transparent);
+                    if (hasFocus) {
+                        color = mContext.getResources().getColor(R.color.lightGray);
+                    }
+                    mEditButton.setBackgroundColor(color);
+                }
+            });
         }
 
         @SuppressWarnings("deprecation")
@@ -196,6 +219,7 @@ public class DeadlineTasksCursorAdapter extends CursorRecyclerViewAdapter<Deadli
             mDeleteButton.setVisibility(View.VISIBLE);
             mTaskTextView.setTextColor(mContext.getResources().getColor(R.color.white));
             mTimeTextView.setTextColor(mContext.getResources().getColor(R.color.white));
+            mEditButton.requestFocus();
             v.setSelected(true);
             mLastSelectedViewHolder.mLastSelectedItem = mId;
             mSharedPreferences.edit().putLong(DEADLINES_LAST_SELECTED_ITEM_KEY, mId).apply();

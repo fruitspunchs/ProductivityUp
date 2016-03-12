@@ -2,8 +2,11 @@ package finalproject.productivityup.ui.deadlines;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +20,7 @@ import java.util.Calendar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
 import finalproject.productivityup.R;
 import finalproject.productivityup.data.DeadlineDaysColumns;
@@ -38,6 +42,15 @@ public class AddDeadlineActivity extends AnalyticsTrackedActivity {
     DatePicker mDatePicker;
 
     private int mMode = MODE.DATE;
+
+    @OnFocusChange(R.id.date_time_image_button)
+    void onDateTimeButtonFocusChange() {
+        ColorStateList colours = mDateTimeButton.getResources()
+                .getColorStateList(R.color.selector_accent_tint);
+        Drawable d = DrawableCompat.wrap(mDateTimeButton.getDrawable());
+        DrawableCompat.setTintList(d, colours);
+        mDateTimeButton.setImageDrawable(d);
+    }
 
     @OnClick(R.id.add_deadline_done_fab)
     void clickDoneFab() {
@@ -101,6 +114,14 @@ public class AddDeadlineActivity extends AnalyticsTrackedActivity {
                 mTimePicker.setVisibility(View.INVISIBLE);
                 break;
         }
+
+        if (mDateTimeButton.isFocused()) {
+            ColorStateList colours = mDateTimeButton.getResources()
+                    .getColorStateList(R.color.selector_gray_tint);
+            Drawable d = DrawableCompat.wrap(mDateTimeButton.getDrawable());
+            DrawableCompat.setTintList(d, colours);
+            mDateTimeButton.setImageDrawable(d);
+        }
     }
 
     @OnTextChanged(R.id.task_edit_text)
@@ -123,6 +144,8 @@ public class AddDeadlineActivity extends AnalyticsTrackedActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         ButterKnife.bind(this);
+
+        mTaskEditText.requestFocus();
     }
 
     private interface MODE {
