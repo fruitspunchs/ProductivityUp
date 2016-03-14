@@ -1,11 +1,13 @@
 package finalproject.productivityup.service;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -26,6 +28,7 @@ import java.io.Serializable;
 
 import finalproject.productivityup.R;
 import finalproject.productivityup.libs.Utility;
+import finalproject.productivityup.ui.MainActivity;
 import finalproject.productivityup.ui.PomodoroTimerCard;
 import finalproject.productivityup.ui.UltradianRhythmTimerCard;
 import finalproject.productivityup.widget.TimerAppWidgetProvider;
@@ -349,6 +352,47 @@ public class TimerService extends Service {
                 startAlarm();
             }
         }.start();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        // Get the layout for the App Widget and attach an on-click listener
+        // to the button
+
+        RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.timer_appwidget);
+        remoteViews.setOnClickPendingIntent(R.id.layout_container, pendingIntent);
+
+        Intent startPauseIntent = new Intent(this, TimerService.class);
+        startPauseIntent.setAction(TimerService.ACTION_START_PAUSE_TIMER);
+        PendingIntent startPausePendingIntent = PendingIntent.getService(this, 1, startPauseIntent, 0);
+        remoteViews.setOnClickPendingIntent(R.id.start_pause_button, startPausePendingIntent);
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+
+        switch (mStartPauseState) {
+            case START:
+                remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
+                remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_start_button));
+                break;
+            case PAUSE:
+                remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_pause_white_24dp);
+                remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_pause_button));
+                break;
+            case STOP:
+                remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
+                remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_start_button));
+                break;
+        }
+
+        for (int appWidgetId : mAppWidgetIds) {
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+        }
     }
 
     private void startAlarm() {
