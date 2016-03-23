@@ -3,7 +3,7 @@ Android productivity app based on [The Science of Productivity](https://www.yout
 
 ## Install
 * In Android Studio go to `File > New > Project from Version Control > GitHub`.
-* Set GitHub repository URL to `https://github.com/fruitspunchs/ProductivityUp`.
+* Set GitHub repository URL to `https://github.com/fruitspunchs/ProductivityUp.git`.
 * Click `Clone`.
 * Install on Android device.
 
