@@ -32,7 +32,7 @@ import finalproject.productivityup.data.ProductivityProvider;
  */
 public class DeadlinesActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final int TASK_CURSOR_LOADER_START_ID = 1;
-    public static final String ACTION_SCROLL_TO_NEAREST_DEADLINE = "ACTION_SCROLL_TO_NEAREST_DEADLINE";
+    public static final String ACTION_SCROLL_TO_NEAREST_DEADLINE = "ACTION_SCROLL_TO_TODAY_ITEM";
     public static final String ACTION_NONE = "ACTION_NONE";
     public static final String UNIX_DATE_KEY = "UNIX_DATE_KEY";
     public static final int RESULT_CANCEL = 1;

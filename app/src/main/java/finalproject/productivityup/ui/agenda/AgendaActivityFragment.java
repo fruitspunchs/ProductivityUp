@@ -23,7 +23,6 @@ import java.util.Calendar;
 import finalproject.productivityup.R;
 import finalproject.productivityup.adapter.AgendaDaysCursorAdapter;
 import finalproject.productivityup.data.AgendaDaysColumns;
-import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 
 /**
@@ -34,7 +33,7 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
     public static final int RESULT_CANCEL = 1;
     public static final int RESULT_ADD = 2;
     public static final int RESULT_EDIT = 3;
-    public static final String ACTION_SCROLL_TO_NEAREST_DEADLINE = "ACTION_SCROLL_TO_NEAREST_DEADLINE";
+    public static final String ACTION_SCROLL_TO_TODAY_ITEM = "ACTION_SCROLL_TO_TODAY_ITEM";
     public static final String ACTION_NONE = "ACTION_NONE";
     public static final String UNIX_DATE_KEY = "UNIX_DATE_KEY";
     private static final int DATE_CURSOR_LOADER_ID = 0;
@@ -63,7 +62,7 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
-        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
+        if (mAction.equals(ACTION_SCROLL_TO_TODAY_ITEM)) {
             //Get most recent deadline
             Calendar today = Calendar.getInstance();
             today.set(Calendar.HOUR_OF_DAY, 0);
@@ -75,14 +74,14 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
             data.moveToPosition(-1);
             while (data.moveToNext()) {
                 mRecentDeadlinePosition = data.getPosition();
-                if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) >= todayInSeconds) {
+                if (data.getLong(data.getColumnIndex(AgendaDaysColumns.DATE)) <= todayInSeconds) {
                     break;
                 }
             }
         }
 
         //Add an empty item at the end so we can scroll the last item over the fab
-        MatrixCursor matrixCursor = new MatrixCursor(new String[]{DeadlineDaysColumns._ID, DeadlineDaysColumns.DATE});
+        MatrixCursor matrixCursor = new MatrixCursor(new String[]{AgendaDaysColumns._ID, AgendaDaysColumns.DATE});
         matrixCursor.addRow(new Object[]{-1, -1});
 
         MergeCursor mergeCursor = new MergeCursor(new Cursor[]{data, matrixCursor});
@@ -98,7 +97,7 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
 
 
     public void onViewAttachedToWindow(long unixDate) {
-        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
+        if (mAction.equals(ACTION_SCROLL_TO_TODAY_ITEM)) {
             mAction = ACTION_NONE;
             Intent intent = getActivity().getIntent();
             if (intent != null) {
@@ -124,7 +123,7 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
             Cursor data = mAgendaDaysCursorAdapter.getCursor();
             data.moveToPosition(-1);
             while (data.moveToNext()) {
-                if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) == mResultUnixDate) {
+                if (data.getLong(data.getColumnIndex(AgendaDaysColumns.DATE)) == mResultUnixDate) {
                     mResultItemPosition = data.getPosition();
                 }
             }
