@@ -23,8 +23,6 @@ import java.util.Calendar;
 import finalproject.productivityup.R;
 import finalproject.productivityup.adapter.AccountabilityDaysCursorAdapter;
 import finalproject.productivityup.data.AccountabilityDaysColumns;
-import finalproject.productivityup.data.AgendaDaysColumns;
-import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 
 /**
@@ -43,7 +41,7 @@ public class AccountabilityActivityFragment extends Fragment implements LoaderMa
     private final String LOG_TAG = this.getClass().getSimpleName();
     private AccountabilityDaysCursorAdapter mCursorAdapter;
     private RecyclerView mRecyclerView;
-    private int mRecentItemPosition;
+    private int mNearestDayPosition;
     private int mResultItemPosition;
     private int mResult = RESULT_CANCEL;
     private long mResultUnixDate;
@@ -65,25 +63,25 @@ public class AccountabilityActivityFragment extends Fragment implements LoaderMa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
         if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DAY)) {
-            //Get most recent deadline
+            //Get position of nearest future item
             Calendar today = Calendar.getInstance();
             today.set(Calendar.HOUR_OF_DAY, 0);
             today.set(Calendar.MINUTE, 0);
             today.set(Calendar.SECOND, 0);
             long todayInSeconds = today.getTimeInMillis() / 1000;
 
-            mRecentItemPosition = -1;
+            mNearestDayPosition = -1;
             data.moveToPosition(-1);
             while (data.moveToNext()) {
-                mRecentItemPosition = data.getPosition();
-                if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) >= todayInSeconds) {
+                mNearestDayPosition = data.getPosition();
+                if (data.getLong(data.getColumnIndex(AccountabilityDaysColumns.DATE)) <= todayInSeconds) {
                     break;
                 }
             }
         }
 
         //Add an empty item at the end so we can scroll the last item over the fab
-        MatrixCursor matrixCursor = new MatrixCursor(new String[]{AgendaDaysColumns._ID, AgendaDaysColumns.DATE});
+        MatrixCursor matrixCursor = new MatrixCursor(new String[]{AccountabilityDaysColumns._ID, AccountabilityDaysColumns.DATE});
         matrixCursor.addRow(new Object[]{-1, -1});
 
         MergeCursor mergeCursor = new MergeCursor(new Cursor[]{data, matrixCursor});
@@ -112,8 +110,8 @@ public class AccountabilityActivityFragment extends Fragment implements LoaderMa
 
                 @Override
                 public void onFinish() {
-                    Log.d(LOG_TAG, "Scrolling to position: " + mRecentItemPosition);
-                    mRecyclerView.scrollToPosition(mRecentItemPosition);
+                    Log.d(LOG_TAG, "Scrolling to position: " + mNearestDayPosition);
+                    mRecyclerView.scrollToPosition(mNearestDayPosition);
                 }
             }.start();
         } else if (mResult == RESULT_ADD || mResult == RESULT_EDIT) {
@@ -122,7 +120,7 @@ public class AccountabilityActivityFragment extends Fragment implements LoaderMa
             Cursor data = mCursorAdapter.getCursor();
             data.moveToPosition(-1);
             while (data.moveToNext()) {
-                if (data.getLong(data.getColumnIndex(AgendaDaysColumns.DATE)) == mResultUnixDate) {
+                if (data.getLong(data.getColumnIndex(AccountabilityDaysColumns.DATE)) == mResultUnixDate) {
                     mResultItemPosition = data.getPosition();
                 }
             }
