@@ -10,6 +10,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <android.support.v7.widget.GridLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
@@ -277,8 +278,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/card_margin_bottom"
                 android:focusable="true"
-                android:nextFocusDown="@+id/agenda_card_recycler_view"
-                android:nextFocusRight="@+id/agenda_card_recycler_view"
+                android:nextFocusDown="@+id/recycler_view"
+                android:nextFocusRight="@+id/recycler_view"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -319,7 +320,7 @@
                             />
 
                         <android.support.v7.widget.RecyclerView
-                            android:id="@+id/agenda_card_recycler_view"
+                            android:id="@+id/recycler_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:focusable="true"

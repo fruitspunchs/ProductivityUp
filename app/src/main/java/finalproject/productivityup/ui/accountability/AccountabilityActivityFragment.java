@@ -181,6 +181,12 @@ public class AccountabilityActivityFragment extends Fragment implements LoaderMa
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+
+        if (getView() != null) {
+            int horizontalPadding = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
+            getView().setPadding(horizontalPadding, 0, horizontalPadding, 0);
+        }
+
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(this.getResources().getInteger(R.integer.grid_rows), StaggeredGridLayoutManager.VERTICAL));
     }
 }

@@ -3,6 +3,7 @@ package finalproject.productivityup.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -75,7 +76,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
     TextView mPomodoroTimerTextView;
     @Bind(R.id.pomodoro_timer_start_pause_button)
     ImageButton mPomodoroTimerStartPauseImageButton;
-    @Bind(R.id.agenda_card_recycler_view)
+    @Bind(R.id.recycler_view)
     RecyclerView mAgendaCardRecyclerView;
     @Bind(R.id.agenda_no_item_text_view)
     TextView mAgendaNoItemTextView;
@@ -150,7 +151,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
         mAccountabilityChartCardView.setCardBackgroundColor(color);
     }
 
-    @OnFocusChange(R.id.agenda_card_recycler_view)
+    @OnFocusChange(R.id.recycler_view)
     void onAgendaListFocus(boolean focused) {
         if (focused) {
             List<View> views = mAgendaCardRecyclerView.getFocusables(View.FOCUS_DOWN);
@@ -339,6 +340,13 @@ public class MainActivity extends AnalyticsTrackedActivity {
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(shareIntent);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        int horizontalPadding = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
+        findViewById(R.id.container).setPadding(horizontalPadding, 0, horizontalPadding, 0);
     }
 
     public interface CURSOR_LOADER_ID {
