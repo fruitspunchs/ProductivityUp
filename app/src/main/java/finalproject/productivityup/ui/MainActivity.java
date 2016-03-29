@@ -34,7 +34,9 @@ import finalproject.productivityup.libs.AnalyticsTrackedActivity;
 import finalproject.productivityup.libs.Utility;
 import finalproject.productivityup.service.TimerService;
 import finalproject.productivityup.ui.accountability.AccountabilityActivity;
+import finalproject.productivityup.ui.accountability.AccountabilityActivityFragment;
 import finalproject.productivityup.ui.agenda.AgendaActivity;
+import finalproject.productivityup.ui.agenda.AgendaActivityFragment;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
@@ -101,14 +103,14 @@ public class MainActivity extends AnalyticsTrackedActivity {
     @OnClick(R.id.overview_card_agenda)
     void clickAgendaCard() {
         Intent intent = new Intent(this, AgendaActivity.class);
-        intent.setAction(DeadlinesActivityFragment.ACTION_SCROLL_TO_NEAREST_DEADLINE);
+        intent.setAction(AgendaActivityFragment.ACTION_SCROLL_TO_NEAREST_DAY);
         startActivity(intent);
     }
 
     @OnClick(R.id.overview_card_accountability_chart)
     void clickAccountabilityChartCard() {
         Intent intent = new Intent(this, AccountabilityActivity.class);
-        intent.setAction(DeadlinesActivityFragment.ACTION_SCROLL_TO_NEAREST_DEADLINE);
+        intent.setAction(AccountabilityActivityFragment.ACTION_SCROLL_TO_NEAREST_DAY);
         startActivity(intent);
     }
 
