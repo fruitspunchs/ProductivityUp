@@ -75,7 +75,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
             data.moveToPosition(-1);
             while (data.moveToNext()) {
                 mNearestDayPosition = data.getPosition();
-                if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) >= todayInSeconds) {
+                if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) <= todayInSeconds) {
                     break;
                 }
             }
