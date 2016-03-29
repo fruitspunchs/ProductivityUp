@@ -32,7 +32,7 @@ import finalproject.productivityup.data.ProductivityProvider;
  */
 public class DeadlinesActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final int TASK_CURSOR_LOADER_START_ID = 1;
-    public static final String ACTION_SCROLL_TO_NEAREST_DEADLINE = "ACTION_SCROLL_TO_TODAY_ITEM";
+    public static final String ACTION_SCROLL_TO_NEAREST_DAY = "ACTION_SCROLL_TO_NEAREST_DAY";
     public static final String ACTION_NONE = "ACTION_NONE";
     public static final String UNIX_DATE_KEY = "UNIX_DATE_KEY";
     public static final int RESULT_CANCEL = 1;
@@ -42,7 +42,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     private final String LOG_TAG = this.getClass().getSimpleName();
     private DeadlineDaysCursorAdapter mCursorAdapter;
     private RecyclerView mRecyclerView;
-    private int mRecentItemPosition;
+    private int mNearestDayPosition;
     private int mResultItemPosition;
     private int mResult = RESULT_CANCEL;
     private long mResultUnixDate;
@@ -63,7 +63,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
-        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
+        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DAY)) {
             //Get most recent deadline
             Calendar today = Calendar.getInstance();
             today.set(Calendar.HOUR_OF_DAY, 0);
@@ -71,10 +71,10 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
             today.set(Calendar.SECOND, 0);
             long todayInSeconds = today.getTimeInMillis() / 1000;
 
-            mRecentItemPosition = -1;
+            mNearestDayPosition = -1;
             data.moveToPosition(-1);
             while (data.moveToNext()) {
-                mRecentItemPosition = data.getPosition();
+                mNearestDayPosition = data.getPosition();
                 if (data.getLong(data.getColumnIndex(DeadlineDaysColumns.DATE)) >= todayInSeconds) {
                     break;
                 }
@@ -96,7 +96,7 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
     }
 
     public void onViewAttachedToWindow(long unixDate) {
-        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DEADLINE)) {
+        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DAY)) {
             mAction = ACTION_NONE;
             Intent intent = getActivity().getIntent();
             if (intent != null) {
@@ -111,8 +111,8 @@ public class DeadlinesActivityFragment extends Fragment implements LoaderManager
 
                 @Override
                 public void onFinish() {
-                    Log.d(LOG_TAG, "Scrolling to position: " + mRecentItemPosition);
-                    mRecyclerView.scrollToPosition(mRecentItemPosition);
+                    Log.d(LOG_TAG, "Scrolling to position: " + mNearestDayPosition);
+                    mRecyclerView.scrollToPosition(mNearestDayPosition);
                 }
             }.start();
         } else if (mResult == RESULT_ADD || mResult == RESULT_EDIT) {

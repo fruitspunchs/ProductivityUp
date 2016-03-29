@@ -33,19 +33,18 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
     public static final int RESULT_CANCEL = 1;
     public static final int RESULT_ADD = 2;
     public static final int RESULT_EDIT = 3;
-    public static final String ACTION_SCROLL_TO_TODAY_ITEM = "ACTION_SCROLL_TO_TODAY_ITEM";
+    public static final String ACTION_SCROLL_TO_NEAREST_DAY = "ACTION_SCROLL_TO_NEAREST_DAY";
     public static final String ACTION_NONE = "ACTION_NONE";
     public static final String UNIX_DATE_KEY = "UNIX_DATE_KEY";
     private static final int DATE_CURSOR_LOADER_ID = 0;
     private final String LOG_TAG = this.getClass().getSimpleName();
     private AgendaDaysCursorAdapter mAgendaDaysCursorAdapter;
     private RecyclerView mRecyclerView;
-    private int mRecentDeadlinePosition;
+    private int mNearestDayPosition;
     private int mResultItemPosition;
     private int mResult = RESULT_CANCEL;
     private long mResultUnixDate;
     private String mAction = ACTION_NONE;
-
 
     public AgendaActivityFragment() {
     }
@@ -62,7 +61,7 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
-        if (mAction.equals(ACTION_SCROLL_TO_TODAY_ITEM)) {
+        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DAY)) {
             //Get most recent deadline
             Calendar today = Calendar.getInstance();
             today.set(Calendar.HOUR_OF_DAY, 0);
@@ -70,10 +69,10 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
             today.set(Calendar.SECOND, 0);
             long todayInSeconds = today.getTimeInMillis() / 1000;
 
-            mRecentDeadlinePosition = -1;
+            mNearestDayPosition = -1;
             data.moveToPosition(-1);
             while (data.moveToNext()) {
-                mRecentDeadlinePosition = data.getPosition();
+                mNearestDayPosition = data.getPosition();
                 if (data.getLong(data.getColumnIndex(AgendaDaysColumns.DATE)) <= todayInSeconds) {
                     break;
                 }
@@ -97,7 +96,7 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
 
 
     public void onViewAttachedToWindow(long unixDate) {
-        if (mAction.equals(ACTION_SCROLL_TO_TODAY_ITEM)) {
+        if (mAction.equals(ACTION_SCROLL_TO_NEAREST_DAY)) {
             mAction = ACTION_NONE;
             Intent intent = getActivity().getIntent();
             if (intent != null) {
@@ -112,8 +111,8 @@ public class AgendaActivityFragment extends Fragment implements LoaderManager.Lo
 
                 @Override
                 public void onFinish() {
-                    Log.d(LOG_TAG, "Scrolling to position: " + mRecentDeadlinePosition);
-                    mRecyclerView.scrollToPosition(mRecentDeadlinePosition);
+                    Log.d(LOG_TAG, "Scrolling to position: " + mNearestDayPosition);
+                    mRecyclerView.scrollToPosition(mNearestDayPosition);
                 }
             }.start();
 

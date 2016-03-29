@@ -96,7 +96,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
     @OnClick(R.id.overview_card_deadlines)
     void clickDeadlinesCard() {
         Intent intent = new Intent(this, DeadlinesActivity.class);
-        intent.setAction(DeadlinesActivityFragment.ACTION_SCROLL_TO_NEAREST_DEADLINE);
+        intent.setAction(DeadlinesActivityFragment.ACTION_SCROLL_TO_NEAREST_DAY);
         startActivity(intent);
     }
 

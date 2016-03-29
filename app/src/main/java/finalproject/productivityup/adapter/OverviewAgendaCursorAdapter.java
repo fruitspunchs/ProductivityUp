@@ -92,7 +92,7 @@ public class OverviewAgendaCursorAdapter extends CursorRecyclerViewAdapter<Overv
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(mContext, AgendaActivity.class);
-            intent.setAction(DeadlinesActivityFragment.ACTION_SCROLL_TO_NEAREST_DEADLINE);
+            intent.setAction(DeadlinesActivityFragment.ACTION_SCROLL_TO_NEAREST_DAY);
             mContext.startActivity(intent);
         }
     }
