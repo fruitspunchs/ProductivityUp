@@ -362,6 +362,11 @@ public class TimerService extends Service {
                     appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
                 }
 
+                mSharedPreferences.edit()
+                        .putInt(POMODORO_TIMER_START_PAUSE_KEY, mStartPauseState)
+                        .putLong(POMODORO_TIMER_TIME_LEFT_KEY, mPomodoroTimeLeft)
+                        .apply();
+
                 startAlarm();
             }
         }.start();
