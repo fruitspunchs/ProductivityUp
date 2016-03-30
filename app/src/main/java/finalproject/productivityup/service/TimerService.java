@@ -220,7 +220,7 @@ public class TimerService extends Service {
                 remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, mUltradianTimeString);
 
                 for (int appWidgetId : mAppWidgetIds) {
-                    appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+                    appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews);
                 }
             }
 
@@ -236,7 +236,7 @@ public class TimerService extends Service {
         }.start();
 
         for (int appWidgetId : mAppWidgetIds) {
-            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+            appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews);
         }
     }
 
@@ -306,7 +306,7 @@ public class TimerService extends Service {
         remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
 
         for (int appWidgetId : mAppWidgetIds) {
-            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+            appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews);
         }
     }
 
@@ -329,7 +329,7 @@ public class TimerService extends Service {
                 broadcastPomodoroMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mPomodoroTimeLeft);
 
                 for (int appWidgetId : mAppWidgetIds) {
-                    appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+                    appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews);
                 }
             }
 
@@ -346,7 +346,7 @@ public class TimerService extends Service {
                 broadcastPomodoroMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, STOP);
 
                 for (int appWidgetId : mAppWidgetIds) {
-                    appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+                    appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews);
                 }
 
                 startAlarm();
@@ -358,14 +358,11 @@ public class TimerService extends Service {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
+        RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.timer_appwidget);
+
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-        // Get the layout for the App Widget and attach an on-click listener
-        // to the button
-
-        RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.timer_appwidget);
         remoteViews.setOnClickPendingIntent(R.id.layout_container, pendingIntent);
 
         Intent startPauseIntent = new Intent(this, TimerService.class);
@@ -393,7 +390,7 @@ public class TimerService extends Service {
         remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimer(mPomodoroTimeLeft));
 
         for (int appWidgetId : mAppWidgetIds) {
-            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+            appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews);
         }
     }
 
@@ -473,7 +470,7 @@ public class TimerService extends Service {
         }
 
         for (int appWidgetId : mAppWidgetIds) {
-            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+            appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews);
         }
 
         mSharedPreferences.edit()
