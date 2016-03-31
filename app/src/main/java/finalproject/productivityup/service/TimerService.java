@@ -211,8 +211,8 @@ public class TimerService extends Service {
                 mMinutesLeft = millisUntilFinished / (1000 * 60);
 
                 broadcastUltradianMessage(ULTRADIAN_EVENT_TIME_LEFT, ULTRADIAN_EVENT_TIME_LEFT_KEY, mMinutesLeft);
-                updateWidgetViews(remoteViews, startActivityPendingIntent, startPauseTimerPendingIntent);
 
+                updateWidgetViews(remoteViews, startActivityPendingIntent, startPauseTimerPendingIntent);
                 for (int appWidgetId : mAppWidgetIds) {
                     appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
                 }
@@ -230,7 +230,6 @@ public class TimerService extends Service {
         }.start();
 
         updateWidgetViews(remoteViews);
-
         for (int appWidgetId : mAppWidgetIds) {
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
@@ -287,7 +286,7 @@ public class TimerService extends Service {
             remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
             remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_start_button));
             buttonState = START;
-            minutesString = Utility.formatPomodoroTimer(mPomodoroTimeLeft);
+            minutesString = Utility.formatPomodoroTimerString(mPomodoroTimeLeft);
         } else if (mStartPauseState == START) {
             Log.d(LOG_TAG, "Loaded timer started");
             mPomodoroTimeLeft = mPomodoroTimeLeft - (currentTime - startTime);
@@ -295,7 +294,7 @@ public class TimerService extends Service {
             remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_pause_white_24dp);
             remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_pause_button));
             buttonState = PAUSE;
-            minutesString = Utility.formatPomodoroTimer(mPomodoroTimeLeft);
+            minutesString = Utility.formatPomodoroTimerString(mPomodoroTimeLeft);
             startPomodoroTimer();
         } else if (mStartPauseState == STOP) {
             Log.d(LOG_TAG, "Loaded timer stopped");
@@ -312,7 +311,6 @@ public class TimerService extends Service {
         remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
 
         updateWidgetViews(remoteViews);
-
         for (int appWidgetId : mAppWidgetIds) {
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
@@ -342,7 +340,6 @@ public class TimerService extends Service {
                 broadcastPomodoroMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mPomodoroTimeLeft);
 
                 updateWidgetViews(remoteViews, startActivityPendingIntent, startPauseTimerPendingIntent);
-
                 for (int appWidgetId : mAppWidgetIds) {
                     appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
                 }
@@ -357,7 +354,6 @@ public class TimerService extends Service {
                 broadcastPomodoroMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, STOP);
 
                 updateWidgetViews(remoteViews, startActivityPendingIntent, startPauseTimerPendingIntent);
-
                 for (int appWidgetId : mAppWidgetIds) {
                     appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
                 }
@@ -380,7 +376,6 @@ public class TimerService extends Service {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
 
         updateWidgetViews(remoteViews);
-
         for (int appWidgetId : mAppWidgetIds) {
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
@@ -400,7 +395,7 @@ public class TimerService extends Service {
 
     private void updateWidgetViews(RemoteViews remoteViews, PendingIntent startActivityPendingIntent, PendingIntent startPausePendingIntent) {
         remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, formatUltradianTimeString(mMinutesLeft));
-        remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimer(mPomodoroTimeLeft));
+        remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
         switch (mStartPauseState) {
             case PAUSE:
@@ -497,7 +492,7 @@ public class TimerService extends Service {
                 mPomodoroTimeLeft = TIMER_MAX_DURATION;
 
                 broadcastPomodoroMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mPomodoroTimeLeft);
-                String minutesString = Utility.formatPomodoroTimer(mPomodoroTimeLeft);
+                String minutesString = Utility.formatPomodoroTimerString(mPomodoroTimeLeft);
                 remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
 
                 break;
@@ -505,7 +500,6 @@ public class TimerService extends Service {
         }
 
         updateWidgetViews(remoteViews);
-
         for (int appWidgetId : mAppWidgetIds) {
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }

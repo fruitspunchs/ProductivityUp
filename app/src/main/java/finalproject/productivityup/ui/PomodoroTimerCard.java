@@ -41,7 +41,7 @@ public class PomodoroTimerCard {
             switch (message) {
                 case TimerService.POMODORO_EVENT_TIME_LEFT:
                     long timeLeft = intent.getLongExtra(TimerService.POMODORO_EVENT_TIME_LEFT_KEY, 0);
-                    mTimerTextView.setText(Utility.formatPomodoroTimer(timeLeft));
+                    mTimerTextView.setText(Utility.formatPomodoroTimerString(timeLeft));
                     break;
                 case TimerService.POMODORO_EVENT_BUTTON_STATE:
                     int timerState = intent.getIntExtra(TimerService.POMODORO_EVENT_BUTTON_STATE_KEY, PAUSE);

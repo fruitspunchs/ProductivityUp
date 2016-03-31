@@ -10,7 +10,7 @@ import java.util.Locale;
 import finalproject.productivityup.R;
 
 /**
- * Created by User on 12/17/2015.
+ * Class containing methods used for formatting.
  */
 public class Utility {
 
@@ -195,7 +195,7 @@ public class Utility {
         return System.currentTimeMillis() / 1000;
     }
 
-    public static String formatPomodoroTimer(long seconds) {
+    public static String formatPomodoroTimerString(long seconds) {
         long minutesLeft = seconds / 60;
         long secondsLeft = seconds % 60;
 
