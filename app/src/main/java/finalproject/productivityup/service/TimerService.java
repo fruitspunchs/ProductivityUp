@@ -221,7 +221,7 @@ public class TimerService extends Service {
                 broadcastUltradianMessage(ULTRADIAN_EVENT_TIME_LEFT, ULTRADIAN_EVENT_TIME_LEFT_KEY, mMinutesLeft);
 
                 for (int appWidgetId : mAppWidgetIds) {
-                    appWidgetManager.partiallyUpdateAppWidget(appWidgetId, mRemoteViews);
+                    appWidgetManager.updateAppWidget(appWidgetId, mRemoteViews);
                 }
             }
 
