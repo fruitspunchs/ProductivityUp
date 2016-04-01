@@ -17,8 +17,6 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 
-// FIXME: 1/23/2016 onLoadFinished doesn't get called sometimes because the loader is restarted too quickly
-// TODO: 2/22/2016 auto scroll to most immediate task item
 
 /**
  * Adapter for accountability time span items.

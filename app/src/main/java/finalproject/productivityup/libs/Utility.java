@@ -27,7 +27,6 @@ public class Utility {
         return dateString;
     }
 
-    //TODO: Make date calculation more exact.
     public static String formatTimeLeft(Context context, long timeLeftInSeconds) {
         String formattedString = "";
         boolean hasFirstMatch = false;
@@ -186,10 +185,6 @@ public class Utility {
         return formattedString;
     }
 
-    public static int convertToDp(Context context, int pixels) {
-        float scale = context.getResources().getDisplayMetrics().density;
-        return (int) Math.ceil(pixels * scale);
-    }
 
     public static long getCurrentTimeInSeconds() {
         return System.currentTimeMillis() / 1000;

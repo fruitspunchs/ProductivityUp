@@ -41,13 +41,7 @@ import finalproject.productivityup.ui.agenda.AgendaActivityFragment;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
-// TODO: 1/24/2016 ask if deadline was met, or reschedule or archive
-// TODO: 1/24/2016 add animations to card resize
-// TODO: 3/11/2016 fix auto scroll
-// TODO: 3/14/2016 check auto scroll target date
-// TODO: 3/13/2016 polish d-pad navigation
 public class MainActivity extends AnalyticsTrackedActivity {
-    public static final long CALENDAR_MIN_DATE = 1451606400000L;
     public static final String CARD_TITLE_TOGGLE_KEY = "CARD_TITLE_TOGGLE_KEY";
     public static final String LAST_INTERSTITIAL_DISPLAY_DATE_KEY = "LAST_INTERSTITIAL_DISPLAY_DATE_KEY";
     private final String LOG_TAG = this.getClass().getSimpleName();

@@ -16,8 +16,6 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 
-// TODO: 3/11/2016 fix time span change if item above is deleted
-
 /**
  * Adapter for accountability overview card.
  */

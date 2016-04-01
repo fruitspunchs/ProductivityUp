@@ -28,8 +28,6 @@ import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 import finalproject.productivityup.ui.agenda.AgendaActivityFragment;
 
-// FIXME: 1/23/2016 clicking checkboxes deselects items
-
 /**
  * Adapter for agenda cards and loads agenda card items.
  */

@@ -25,7 +25,6 @@ import finalproject.productivityup.adapter.DeadlineDaysCursorAdapter;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.ProductivityProvider;
 
-// FIXME: 1/24/2016 card does not resize if text wraps when clicked
 
 /**
  * Displays deadline tasks in a list.

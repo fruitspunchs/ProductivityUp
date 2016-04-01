@@ -126,8 +126,6 @@ public class AccountabilityTasksCursorAdapter extends CursorRecyclerViewAdapter<
 
                     new DeleteTask().execute(bundle);
 
-                    //// TODO: 3/3/2016 check if matrix cursor needs to be closed
-
                     mDeleteButton.setVisibility(View.GONE);
                     mEditButton.setVisibility(View.GONE);
                     view.setSelected(false);

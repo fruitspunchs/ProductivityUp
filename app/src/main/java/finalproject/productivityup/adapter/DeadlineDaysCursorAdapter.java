@@ -28,7 +28,6 @@ import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
-// FIXME: 1/23/2016 onLoadFinished doesn't get called sometimes because the loader is restarted too quickly
 
 /**
  * Adapter for deadline cards and loads deadline card items.
