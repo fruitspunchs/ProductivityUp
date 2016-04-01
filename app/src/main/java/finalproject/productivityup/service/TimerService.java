@@ -213,16 +213,18 @@ public class TimerService extends Service {
             sUltradianRhythmCountDownTimer.cancel();
         }
 
+        final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
+
         sUltradianRhythmCountDownTimer = new CountDownTimer(timeLeft * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mMinutesLeft = millisUntilFinished / (1000 * 60);
 
-                mRemoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, formatUltradianTimeString(mMinutesLeft));
+                remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, formatUltradianTimeString(mMinutesLeft));
                 broadcastUltradianMessage(ULTRADIAN_EVENT_TIME_LEFT, ULTRADIAN_EVENT_TIME_LEFT_KEY, mMinutesLeft);
 
                 for (int appWidgetId : mAppWidgetIds) {
-                    mAppWidgetManager.updateAppWidget(appWidgetId, mRemoteViews);
+                    mAppWidgetManager.updateAppWidget(appWidgetId, remoteViews);
                 }
             }
 
@@ -327,16 +329,18 @@ public class TimerService extends Service {
             sPomodoroCountDownTimer.cancel();
         }
 
+        final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
+
         sPomodoroCountDownTimer = new CountDownTimer(mPomodoroTimeLeft * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mPomodoroTimeLeft = millisUntilFinished / 1000;
-                mRemoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
+                remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
                 broadcastPomodoroMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mPomodoroTimeLeft);
 
                 for (int appWidgetId : mAppWidgetIds) {
-                    mAppWidgetManager.updateAppWidget(appWidgetId, mRemoteViews);
+                    mAppWidgetManager.updateAppWidget(appWidgetId, remoteViews);
                 }
             }
 
