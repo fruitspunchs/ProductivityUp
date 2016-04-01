@@ -224,7 +224,7 @@ public class TimerService extends Service {
                 broadcastUltradianMessage(ULTRADIAN_EVENT_TIME_LEFT, ULTRADIAN_EVENT_TIME_LEFT_KEY, mMinutesLeft);
 
                 for (int appWidgetId : mAppWidgetIds) {
-                    mAppWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+                    mAppWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews);
                 }
             }
 
@@ -340,7 +340,7 @@ public class TimerService extends Service {
                 broadcastPomodoroMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mPomodoroTimeLeft);
 
                 for (int appWidgetId : mAppWidgetIds) {
-                    mAppWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+                    mAppWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews);
                 }
             }
 
@@ -479,6 +479,9 @@ public class TimerService extends Service {
                 break;
 
         }
+
+        mRemoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, formatUltradianTimeString(mMinutesLeft));
+        mRemoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
         for (int appWidgetId : mAppWidgetIds) {
             mAppWidgetManager.updateAppWidget(appWidgetId, mRemoteViews);
