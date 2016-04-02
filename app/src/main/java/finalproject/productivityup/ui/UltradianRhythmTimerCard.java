@@ -82,6 +82,10 @@ public class UltradianRhythmTimerCard {
                 context.startService(workRestIntent);
             }
         });
+
+        Intent requestStateIntent = new Intent(mContext, TimerService.class);
+        requestStateIntent.setAction(TimerService.ACTION_REQUEST_ULTRADIAN_STATE);
+        mContext.startService(requestStateIntent);
     }
 
     public void onResume() {

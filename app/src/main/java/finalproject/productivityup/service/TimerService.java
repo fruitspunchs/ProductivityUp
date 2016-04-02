@@ -42,6 +42,7 @@ public class TimerService extends Service {
     public final static String ACTION_START_PAUSE_TIMER = "ACTION_START_PAUSE_TIMER";
     public final static String ACTION_WORK_REST_TIMER = "ACTION_WORK_REST_TIMER";
     public static final String ACTION_REQUEST_POMODORO_STATE = "ACTION_REQUEST_POMODORO_STATE";
+    public static final String ACTION_REQUEST_ULTRADIAN_STATE = "ACTION_REQUEST_ULTRADIAN_STATE";
     public final static String APP_WIDGET_IDS_KEY = "APP_WIDGET_IDS_KEY";
 
     public static final String POMODORO_EVENT = "POMODORO_EVENT";
@@ -159,6 +160,7 @@ public class TimerService extends Service {
     }
 
     public void startUltradianRhythmTimer() {
+        Log.d(LOG_TAG, "startUltradianRhythmTimer");
         long startTime;
 
         if (mSharedPreferences.contains(ULTRADIAN_RHYTHM_START_TIME_KEY)) {
@@ -245,6 +247,12 @@ public class TimerService extends Service {
                 } else if (mRhythmState == REST) {
                     mRhythmState = WORK;
                 }
+
+                mSharedPreferences.edit()
+                        .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, Utility.getCurrentTimeInSeconds())
+                        .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
+                        .apply();
+
                 startUltradianRhythmTimer();
             }
         }.start();
@@ -516,7 +524,6 @@ public class TimerService extends Service {
     }
 
     public void onWorkRestButtonClick() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         if (sUltradianRhythmCountDownTimer != null) {
             sUltradianRhythmCountDownTimer.cancel();
@@ -528,7 +535,7 @@ public class TimerService extends Service {
             mRhythmState = WORK;
         }
 
-        prefs.edit()
+        mSharedPreferences.edit()
                 .putLong(ULTRADIAN_RHYTHM_START_TIME_KEY, Utility.getCurrentTimeInSeconds())
                 .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
                 .apply();
@@ -607,6 +614,15 @@ public class TimerService extends Service {
                         }
                         broadcastPomodoroMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mPomodoroTimeLeft);
                         break;
+                    case ACTION_REQUEST_ULTRADIAN_STATE:
+                        switch (mRhythmState) {
+                            case WORK:
+                                broadcastUltradianMessage(ULTRADIAN_EVENT_BUTTON_STATE, ULTRADIAN_EVENT_BUTTON_STATE_KEY, WORK);
+                                break;
+                            case REST:
+                                broadcastUltradianMessage(ULTRADIAN_EVENT_BUTTON_STATE, ULTRADIAN_EVENT_BUTTON_STATE_KEY, REST);
+                                break;
+                        }
                 }
             }
         }
