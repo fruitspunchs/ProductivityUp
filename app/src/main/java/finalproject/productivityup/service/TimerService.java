@@ -232,11 +232,20 @@ public class TimerService extends Service {
             public void onTick(long millisUntilFinished) {
                 mMinutesLeft = millisUntilFinished / (1000 * 60);
 
+                switch (mRhythmState) {
+                    case WORK:
+                        remoteViews.setImageViewResource(R.id.work_rest_button, R.drawable.ic_work_white_36dp);
+                        break;
+                    case REST:
+                        remoteViews.setImageViewResource(R.id.work_rest_button, R.drawable.ic_break_white_36dp);
+                        break;
+                }
+
                 remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, formatUltradianTimeString(mMinutesLeft));
                 broadcastUltradianMessage(ULTRADIAN_EVENT_TIME_LEFT, ULTRADIAN_EVENT_TIME_LEFT_KEY, mMinutesLeft);
 
                 for (int appWidgetId : mAppWidgetIds) {
-                    mAppWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews);
+                    mAppWidgetManager.updateAppWidget(appWidgetId, remoteViews);
                 }
             }
 
@@ -369,7 +378,7 @@ public class TimerService extends Service {
                 broadcastPomodoroMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mPomodoroTimeLeft);
 
                 for (int appWidgetId : mAppWidgetIds) {
-                    mAppWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews);
+                    mAppWidgetManager.updateAppWidget(appWidgetId, remoteViews);
                 }
             }
 
