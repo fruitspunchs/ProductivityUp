@@ -185,6 +185,15 @@ public class Utility {
         return formattedString;
     }
 
+    public static String formatUltradianTimeString(long minutesLeft) {
+        String prefix = "";
+
+        if (minutesLeft < 10) {
+            prefix = "0";
+        }
+
+        return prefix + minutesLeft;
+    }
 
     public static long getCurrentTimeInSeconds() {
         return System.currentTimeMillis() / 1000;

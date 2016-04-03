@@ -225,7 +225,7 @@ public class TimerService extends Service {
                     updateWidgetViews();
                     mHasConfigurationChanged = false;
                 } else {
-                    remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, formatUltradianTimeString(mMinutesLeft));
+                    remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, Utility.formatUltradianTimeString(mMinutesLeft));
                     remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
                     for (int appWidgetId : mAppWidgetIds) {
@@ -254,16 +254,6 @@ public class TimerService extends Service {
         for (int appWidgetId : mAppWidgetIds) {
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
-    }
-
-    private String formatUltradianTimeString(long minutesLeft) {
-        String prefix = "";
-
-        if (minutesLeft < 10) {
-            prefix = "0";
-        }
-
-        return prefix + minutesLeft;
     }
 
     public void initializePomodoroTimer() {
@@ -396,7 +386,7 @@ public class TimerService extends Service {
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
         setWidgetIntents(remoteViews);
 
-        remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, formatUltradianTimeString(mMinutesLeft));
+        remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, Utility.formatUltradianTimeString(mMinutesLeft));
         remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
         switch (mStartPauseState) {
@@ -504,7 +494,7 @@ public class TimerService extends Service {
 
         }
 
-        remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, formatUltradianTimeString(mMinutesLeft));
+        remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, Utility.formatUltradianTimeString(mMinutesLeft));
         remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
         for (int appWidgetId : mAppWidgetIds) {
