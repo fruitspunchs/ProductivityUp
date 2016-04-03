@@ -87,8 +87,6 @@ public class TimerService extends Service {
     private MediaPlayer mMediaPlayer;
     private ServiceHandler mServiceHandler;
     private long mMinutesLeft = 0;
-    private RemoteViews mRemoteViews;
-    private AppWidgetManager mAppWidgetManager;
 
     @Override
     public void onCreate() {
@@ -99,26 +97,13 @@ public class TimerService extends Service {
         Looper serviceLooper = thread.getLooper();
         mServiceHandler = new ServiceHandler(serviceLooper);
 
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        mAppWidgetIds = AppWidgetManager.getInstance(getApplicationContext()).getAppWidgetIds(new ComponentName(getPackageName(), TimerAppWidgetProvider.class.getName()));
-        mAppWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
-
-        mRemoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
-        Intent startActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent startActivityPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, startActivityIntent, 0);
-
-        Intent startPauseTimerIntent = new Intent(getApplicationContext(), TimerService.class);
-        startPauseTimerIntent.setAction(TimerService.ACTION_START_PAUSE_TIMER);
-        PendingIntent startPauseTimerPendingIntent = PendingIntent.getService(getApplicationContext(), 1, startPauseTimerIntent, 0);
-
-        mRemoteViews.setOnClickPendingIntent(R.id.layout_container, startActivityPendingIntent);
-        mRemoteViews.setOnClickPendingIntent(R.id.start_pause_button, startPauseTimerPendingIntent);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mAppWidgetIds = AppWidgetManager.getInstance(this).getAppWidgetIds(new ComponentName(getPackageName(), TimerAppWidgetProvider.class.getName()));
 
         Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         mMediaPlayer = new MediaPlayer();
         try {
-            mMediaPlayer.setDataSource(getApplicationContext(), alert);
+            mMediaPlayer.setDataSource(this, alert);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -157,8 +142,25 @@ public class TimerService extends Service {
         return null;
     }
 
+    private void setWidgetIntents(RemoteViews remoteViews) {
+        Intent startActivityIntent = new Intent(this, MainActivity.class);
+        startActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent startActivityPendingIntent = PendingIntent.getActivity(this, 0, startActivityIntent, 0);
+
+        Intent startPauseTimerIntent = new Intent(this, TimerService.class);
+        startPauseTimerIntent.setAction(TimerService.ACTION_START_PAUSE_TIMER);
+        PendingIntent startPauseTimerPendingIntent = PendingIntent.getService(this, 1, startPauseTimerIntent, 0);
+
+        remoteViews.setOnClickPendingIntent(R.id.layout_container, startActivityPendingIntent);
+        remoteViews.setOnClickPendingIntent(R.id.start_pause_button, startPauseTimerPendingIntent);
+    }
+
     public void startUltradianRhythmTimer() {
         Log.d(TAG, "startUltradianRhythmTimer");
+        final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
+        setWidgetIntents(remoteViews);
+
         long startTime;
 
         if (mSharedPreferences.contains(ULTRADIAN_RHYTHM_START_TIME_KEY)) {
@@ -198,13 +200,13 @@ public class TimerService extends Service {
 
         long timeLeft = 0;
         if (mRhythmState == WORK) {
-            mRemoteViews.setImageViewResource(R.id.work_rest_button, R.drawable.ic_work_white_36dp);
-            mRemoteViews.setContentDescription(R.id.work_rest_button, getApplicationContext().getString(R.string.cd_work_icon));
+            remoteViews.setImageViewResource(R.id.work_rest_button, R.drawable.ic_work_white_36dp);
+            remoteViews.setContentDescription(R.id.work_rest_button, this.getString(R.string.cd_work_icon));
             broadcastUltradianMessage(ULTRADIAN_EVENT_BUTTON_STATE, ULTRADIAN_EVENT_BUTTON_STATE_KEY, WORK);
             timeLeft = WORK_DURATION - timeElapsed;
         } else if (mRhythmState == REST) {
-            mRemoteViews.setImageViewResource(R.id.work_rest_button, R.drawable.ic_break_white_36dp);
-            mRemoteViews.setContentDescription(R.id.work_rest_button, getApplicationContext().getString(R.string.cd_rest_icon));
+            remoteViews.setImageViewResource(R.id.work_rest_button, R.drawable.ic_break_white_36dp);
+            remoteViews.setContentDescription(R.id.work_rest_button, this.getString(R.string.cd_rest_icon));
             broadcastUltradianMessage(ULTRADIAN_EVENT_BUTTON_STATE, ULTRADIAN_EVENT_BUTTON_STATE_KEY, REST);
             timeLeft = REST_DURATION - timeElapsed;
         }
@@ -212,18 +214,6 @@ public class TimerService extends Service {
         if (sUltradianRhythmCountDownTimer != null) {
             sUltradianRhythmCountDownTimer.cancel();
         }
-
-        final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
-        Intent startActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent startActivityPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, startActivityIntent, 0);
-
-        Intent startPauseTimerIntent = new Intent(getApplicationContext(), TimerService.class);
-        startPauseTimerIntent.setAction(TimerService.ACTION_START_PAUSE_TIMER);
-        PendingIntent startPauseTimerPendingIntent = PendingIntent.getService(getApplicationContext(), 1, startPauseTimerIntent, 0);
-
-        remoteViews.setOnClickPendingIntent(R.id.layout_container, startActivityPendingIntent);
-        remoteViews.setOnClickPendingIntent(R.id.start_pause_button, startPauseTimerPendingIntent);
 
         sUltradianRhythmCountDownTimer = new CountDownTimer(timeLeft * 1000, 1000) {
             @Override
@@ -235,11 +225,11 @@ public class TimerService extends Service {
                     updateWidgetViews();
                     mHasConfigurationChanged = false;
                 } else {
-                    remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
                     remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, formatUltradianTimeString(mMinutesLeft));
+                    remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
                     for (int appWidgetId : mAppWidgetIds) {
-                        mAppWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+                        appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
                     }
                 }
             }
@@ -262,7 +252,7 @@ public class TimerService extends Service {
         }.start();
 
         for (int appWidgetId : mAppWidgetIds) {
-            mAppWidgetManager.updateAppWidget(appWidgetId, mRemoteViews);
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
     }
 
@@ -277,10 +267,14 @@ public class TimerService extends Service {
     }
 
     public void initializePomodoroTimer() {
-
         if (sPomodoroCountDownTimer != null) {
             sPomodoroCountDownTimer.cancel();
         }
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
+        setWidgetIntents(remoteViews);
 
         Log.d(TAG, "Pomodoro timer initialized");
 
@@ -306,42 +300,42 @@ public class TimerService extends Service {
             mPomodoroTimeLeft = 0;
             mStartPauseState = PAUSE;
 
-            mRemoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
-            mRemoteViews.setContentDescription(R.id.start_pause_button, getApplicationContext().getString(R.string.cd_start_button));
+            remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
+            remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_start_button));
             buttonState = START;
-            minutesString = getApplicationContext().getString(R.string.timer_zero);
+            minutesString = this.getString(R.string.timer_zero);
         } else if (mStartPauseState == PAUSE) {
             Log.d(TAG, "Loaded timer paused");
-            mRemoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
-            mRemoteViews.setContentDescription(R.id.start_pause_button, getApplicationContext().getString(R.string.cd_start_button));
+            remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
+            remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_start_button));
             buttonState = START;
             minutesString = Utility.formatPomodoroTimerString(mPomodoroTimeLeft);
         } else if (mStartPauseState == START) {
             Log.d(TAG, "Loaded timer started");
             mPomodoroTimeLeft = mPomodoroTimeLeft - (currentTime - startTime);
             Log.d(TAG, "Time left: " + mPomodoroTimeLeft);
-            mRemoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_pause_white_24dp);
-            mRemoteViews.setContentDescription(R.id.start_pause_button, getApplicationContext().getString(R.string.cd_pause_button));
+            remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_pause_white_24dp);
+            remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_pause_button));
             buttonState = PAUSE;
             minutesString = Utility.formatPomodoroTimerString(mPomodoroTimeLeft);
             startPomodoroTimer();
         } else if (mStartPauseState == STOP) {
             Log.d(TAG, "Loaded timer stopped");
-            mRemoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_stop_white_24dp);
-            mRemoteViews.setContentDescription(R.id.start_pause_button, getApplicationContext().getString(R.string.cd_stop_button));
+            remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_stop_white_24dp);
+            remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_stop_button));
             buttonState = STOP;
             mPomodoroTimeLeft = 0;
-            minutesString = getApplicationContext().getString(R.string.timer_zero);
+            minutesString = this.getString(R.string.timer_zero);
         }
 
         broadcastPomodoroMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mPomodoroTimeLeft);
         broadcastPomodoroMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, buttonState);
 
-        mRemoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
+        remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
 
 
         for (int appWidgetId : mAppWidgetIds) {
-            mAppWidgetManager.updateAppWidget(appWidgetId, mRemoteViews);
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
     }
 
@@ -351,23 +345,14 @@ public class TimerService extends Service {
             sPomodoroCountDownTimer.cancel();
         }
 
+        final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
-        Intent startActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent startActivityPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, startActivityIntent, 0);
-
-        Intent startPauseTimerIntent = new Intent(getApplicationContext(), TimerService.class);
-        startPauseTimerIntent.setAction(TimerService.ACTION_START_PAUSE_TIMER);
-        PendingIntent startPauseTimerPendingIntent = PendingIntent.getService(getApplicationContext(), 1, startPauseTimerIntent, 0);
-
-        remoteViews.setOnClickPendingIntent(R.id.layout_container, startActivityPendingIntent);
-        remoteViews.setOnClickPendingIntent(R.id.start_pause_button, startPauseTimerPendingIntent);
+        setWidgetIntents(remoteViews);
 
         sPomodoroCountDownTimer = new CountDownTimer(mPomodoroTimeLeft * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mPomodoroTimeLeft = millisUntilFinished / 1000;
-
                 broadcastPomodoroMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mPomodoroTimeLeft);
             }
 
@@ -379,13 +364,13 @@ public class TimerService extends Service {
                 remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
                 remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_stop_white_24dp);
-                remoteViews.setContentDescription(R.id.start_pause_button, getApplicationContext().getString(R.string.cd_stop_button));
+                remoteViews.setContentDescription(R.id.start_pause_button, TimerService.this.getString(R.string.cd_stop_button));
 
                 broadcastPomodoroMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mPomodoroTimeLeft);
                 broadcastPomodoroMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, STOP);
 
                 for (int appWidgetId : mAppWidgetIds) {
-                    mAppWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+                    appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
                 }
 
                 mSharedPreferences.edit()
@@ -407,34 +392,38 @@ public class TimerService extends Service {
     }
 
     private void updateWidgetViews() {
-        mRemoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, formatUltradianTimeString(mMinutesLeft));
-        mRemoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
+        setWidgetIntents(remoteViews);
+
+        remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, formatUltradianTimeString(mMinutesLeft));
+        remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
         switch (mStartPauseState) {
             case PAUSE:
-                mRemoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
-                mRemoteViews.setContentDescription(R.id.start_pause_button, getApplicationContext().getString(R.string.cd_start_button));
+                remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
+                remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_start_button));
                 break;
             case START:
-                mRemoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_pause_white_24dp);
-                mRemoteViews.setContentDescription(R.id.start_pause_button, getApplicationContext().getString(R.string.cd_pause_button));
+                remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_pause_white_24dp);
+                remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_pause_button));
                 break;
             case STOP:
-                mRemoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_stop_white_24dp);
-                mRemoteViews.setContentDescription(R.id.start_pause_button, getApplicationContext().getString(R.string.cd_stop_button));
+                remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_stop_white_24dp);
+                remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_stop_button));
                 break;
         }
 
         if (mRhythmState == WORK) {
-            mRemoteViews.setImageViewResource(R.id.work_rest_button, R.drawable.ic_work_white_36dp);
-            mRemoteViews.setContentDescription(R.id.work_rest_button, getApplicationContext().getString(R.string.cd_work_icon));
+            remoteViews.setImageViewResource(R.id.work_rest_button, R.drawable.ic_work_white_36dp);
+            remoteViews.setContentDescription(R.id.work_rest_button, this.getString(R.string.cd_work_icon));
         } else if (mRhythmState == REST) {
-            mRemoteViews.setImageViewResource(R.id.work_rest_button, R.drawable.ic_break_white_36dp);
-            mRemoteViews.setContentDescription(R.id.work_rest_button, getApplicationContext().getString(R.string.cd_rest_icon));
+            remoteViews.setImageViewResource(R.id.work_rest_button, R.drawable.ic_break_white_36dp);
+            remoteViews.setContentDescription(R.id.work_rest_button, this.getString(R.string.cd_rest_icon));
         }
 
         for (int appWidgetId : mAppWidgetIds) {
-            mAppWidgetManager.updateAppWidget(appWidgetId, mRemoteViews);
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
     }
 
@@ -463,6 +452,9 @@ public class TimerService extends Service {
 
     private void onStartPauseButtonClick() {
         Log.d(TAG, "Start/Pause timer");
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
+        setWidgetIntents(remoteViews);
 
         if (sPomodoroCountDownTimer != null) {
             sPomodoroCountDownTimer.cancel();
@@ -480,8 +472,8 @@ public class TimerService extends Service {
             case START:
                 mStartPauseState = PAUSE;
                 broadcastPomodoroMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, START);
-                mRemoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
-                mRemoteViews.setContentDescription(R.id.start_pause_button, getApplicationContext().getString(R.string.cd_start_button));
+                remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
+                remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_start_button));
 
                 break;
             case PAUSE:
@@ -492,31 +484,31 @@ public class TimerService extends Service {
                 }
 
                 broadcastPomodoroMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, PAUSE);
-                mRemoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_pause_white_24dp);
-                mRemoteViews.setContentDescription(R.id.start_pause_button, getApplicationContext().getString(R.string.cd_pause_button));
+                remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_pause_white_24dp);
+                remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_pause_button));
                 startPomodoroTimer();
                 break;
             case STOP:
                 mStartPauseState = PAUSE;
                 broadcastPomodoroMessage(POMODORO_EVENT_BUTTON_STATE, POMODORO_EVENT_BUTTON_STATE_KEY, START);
-                mRemoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
-                mRemoteViews.setContentDescription(R.id.start_pause_button, getApplicationContext().getString(R.string.cd_start_button));
+                remoteViews.setImageViewResource(R.id.start_pause_button, R.drawable.ic_start_arrow_white_24dp);
+                remoteViews.setContentDescription(R.id.start_pause_button, this.getString(R.string.cd_start_button));
 
                 mPomodoroTimeLeft = TIMER_MAX_DURATION;
 
                 broadcastPomodoroMessage(POMODORO_EVENT_TIME_LEFT, POMODORO_EVENT_TIME_LEFT_KEY, mPomodoroTimeLeft);
                 String minutesString = Utility.formatPomodoroTimerString(mPomodoroTimeLeft);
-                mRemoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
+                remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, minutesString);
 
                 break;
 
         }
 
-        mRemoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, formatUltradianTimeString(mMinutesLeft));
-        mRemoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
+        remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, formatUltradianTimeString(mMinutesLeft));
+        remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
         for (int appWidgetId : mAppWidgetIds) {
-            mAppWidgetManager.updateAppWidget(appWidgetId, mRemoteViews);
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
 
         mSharedPreferences.edit()
@@ -556,7 +548,7 @@ public class TimerService extends Service {
 
         intent.putExtra(POMODORO_EVENT_KEY, message);
         intent.putExtra(key, value);
-        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     private <T extends Serializable> void broadcastUltradianMessage(String message, String key, T value) {
@@ -568,7 +560,7 @@ public class TimerService extends Service {
 
         intent.putExtra(ULTRADIAN_EVENT_KEY, message);
         intent.putExtra(key, value);
-        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     private void sendMessageToServiceHandler(Intent intent) {
@@ -584,7 +576,7 @@ public class TimerService extends Service {
 
         @Override
         public void handleMessage(Message msg) {
-            synchronized (getApplicationContext()) {
+            synchronized (this) {
                 Intent intent = (Intent) msg.obj;
                 String action = intent.getAction();
 
