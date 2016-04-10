@@ -36,6 +36,8 @@
             app:layout_gravity="fill_horizontal"
             app:layout_row="1">
 
+            <!-- Create styles and dimens values when happy with layout-->
+
             <android.support.v7.widget.CardView
                 android:id="@+id/overview_card_ultradian_rhythm"
                 android:layout_width="match_parent"
@@ -46,30 +48,65 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="@dimen/card_padding_top"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp">
 
-                    <TextView
-                        android:id="@+id/ultradian_rhythm_title_text_view"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:gravity="center_horizontal"
-                        android:text="@string/ultradian_rhythm_title_card"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                        android:background="@color/colorPrimary"
+                        android:orientation="vertical"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="@dimen/card_padding_top">
 
-                    <TextView
-                        android:id="@+id/ultradian_rhythm_timer_text_view"
-                        android:layout_width="wrap_content"
+
+                        <TextView
+                            android:id="@+id/ultradian_rhythm_title_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ultradian_rhythm_title_card"
+                            android:textColor="@color/white"
+                            android:textSize="24sp"/>
+
+                        <TextView
+                            android:id="@+id/ultradian_rhythm_subtitle_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="16dp"
+                            android:text="@string/ultradian_rhythm_subtitle_card"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="12dp"
-                        android:layout_marginTop="24dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textColor="@color/colorPrimaryText"
-                        tools:text="73m"/>
+                        android:paddingBottom="16dp"
+                        android:paddingTop="24dp">
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                            <com.pascalwelsch.holocircularprogressbar.HoloCircularProgressBar
+                                android:id="@+id/holoCircularProgressBar"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"/>
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/ultradian_rhythm_timer_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="@color/colorPrimaryText"
+                            android:textSize="24sp"
+                            android:textStyle=""
+                            tools:text="73m"/>
+
+                    </FrameLayout>
 
                     <ImageButton
                         android:id="@+id/ultradian_rhythm_work_rest_image_button"
@@ -82,6 +119,7 @@
                         android:minWidth="48dp"
                         android:src="@drawable/ic_work_white_36dp"
                         android:tint="@color/colorAccent"/>
+
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
