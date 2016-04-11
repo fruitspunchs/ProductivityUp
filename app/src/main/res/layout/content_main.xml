@@ -97,7 +97,7 @@
                 <LinearLayout
                     android:id="@+id/deadlines_card_container"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/card_padding_bottom"
                     android:orientation="vertical">
 
@@ -134,7 +134,7 @@
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/deadlines_task_recycler_view"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -200,7 +200,7 @@
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/accountability_card_recycler_view"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/colorPrimaryText"
@@ -321,7 +321,7 @@
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recycler_view"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:focusable="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
