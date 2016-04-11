@@ -41,6 +41,7 @@ public class TimerService extends Service {
     public final static String ACTION_ON_UPDATE = "ACTION_ON_UPDATE";
     public final static String ACTION_START_PAUSE_TIMER = "ACTION_START_PAUSE_TIMER";
     public final static String ACTION_WORK_REST_TIMER = "ACTION_WORK_REST_TIMER";
+    public final static String ACTION_START_ULTRADIAN_TIMER = "ACTION_START_ULTRADIAN_TIMER";
     public static final String ACTION_REQUEST_POMODORO_STATE = "ACTION_REQUEST_POMODORO_STATE";
     public static final String ACTION_REQUEST_ULTRADIAN_STATE = "ACTION_REQUEST_ULTRADIAN_STATE";
     public final static String APP_WIDGET_IDS_KEY = "APP_WIDGET_IDS_KEY";
@@ -247,7 +248,9 @@ public class TimerService extends Service {
                         .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
                         .apply();
 
-                startUltradianRhythmTimer();
+                Intent serviceIntent = new Intent(TimerService.this, TimerService.class);
+                serviceIntent.setAction(ACTION_START_ULTRADIAN_TIMER);
+                startService(serviceIntent);
             }
         }.start();
 
@@ -585,6 +588,9 @@ public class TimerService extends Service {
                         break;
                     case ACTION_WORK_REST_TIMER:
                         onWorkRestButtonClick();
+                        break;
+                    case ACTION_START_ULTRADIAN_TIMER:
+                        startUltradianRhythmTimer();
                         break;
                     case ACTION_REQUEST_POMODORO_STATE:
                         switch (mStartPauseState) {
