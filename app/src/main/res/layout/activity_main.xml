@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-                                                 tools:context=".ui.MainActivity">
+    tools:context=".ui.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
         android:layout_height="112dp"
+        android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <android.support.v7.widget.Toolbar
@@ -24,7 +27,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -32,7 +35,8 @@
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp">
+                android:layout_marginStart="16dp"
+                android:fitsSystemWindows="true">
 
                 <TextView
                     android:id="@+id/title_1"
@@ -63,6 +67,6 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/content_main"/>
 
 </android.support.design.widget.CoordinatorLayout>
