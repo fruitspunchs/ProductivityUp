@@ -15,8 +15,8 @@
         <item format="float" name="progress">0.1</item>
         <item name="progress_color">#ffff4444</item>
         <item name="progress_background_color">#aaa</item>
-        <item name="marker_visible">true</item>
-        <item name="thumb_visible">true</item>
+        <item name="marker_visible">false</item>
+        <item name="thumb_visible">false</item>
     </style><style name="CircularProgressBar">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>

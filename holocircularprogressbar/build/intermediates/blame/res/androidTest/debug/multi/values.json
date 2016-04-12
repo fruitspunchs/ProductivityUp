@@ -115,7 +115,7 @@
                     "startOffset": 1032,
                     "endLine": 23,
                     "endColumn": 12,
-                    "endOffset": 1517
+                    "endOffset": 1519
                 },
                 "from": {
                     "file": "D:\\AndroidStudioProjects\\Gradle\\ProductivityUp\\holocircularprogressbar\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
@@ -125,7 +125,7 @@
                         "startOffset": 1032,
                         "endLine": 23,
                         "endColumn": 12,
-                        "endOffset": 1517
+                        "endOffset": 1519
                     }
                 }
             }
