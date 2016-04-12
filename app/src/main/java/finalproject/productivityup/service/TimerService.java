@@ -88,6 +88,8 @@ public class TimerService extends Service {
     private MediaPlayer mMediaPlayer;
     private ServiceHandler mServiceHandler;
     private long mMinutesLeft = 0;
+    private AppWidgetManager mUltradianCountdownTimerAppWidgetManager;
+    private RemoteViews mUltradianCountdownTimerRemoteViews;
 
     @Override
     public void onCreate() {
@@ -158,8 +160,8 @@ public class TimerService extends Service {
 
     public void startUltradianRhythmTimer() {
         Log.d(TAG, "startUltradianRhythmTimer");
-        final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
         setWidgetIntents(remoteViews);
 
         long startTime;
@@ -222,15 +224,18 @@ public class TimerService extends Service {
                 mMinutesLeft = millisUntilFinished / (1000 * 60);
                 broadcastUltradianMessage(ULTRADIAN_EVENT_TIME_LEFT, ULTRADIAN_EVENT_TIME_LEFT_KEY, mMinutesLeft);
 
+                mUltradianCountdownTimerAppWidgetManager = AppWidgetManager.getInstance(TimerService.this);
+                mUltradianCountdownTimerRemoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
+
                 if (mHasConfigurationChanged) {
                     updateWidgetViews();
                     mHasConfigurationChanged = false;
                 } else {
-                    remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, Utility.formatUltradianTimeString(mMinutesLeft));
-                    remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
+                    mUltradianCountdownTimerRemoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, Utility.formatUltradianTimeString(mMinutesLeft));
+                    mUltradianCountdownTimerRemoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
                     for (int appWidgetId : mAppWidgetIds) {
-                        appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+                        mUltradianCountdownTimerAppWidgetManager.updateAppWidget(appWidgetId, mUltradianCountdownTimerRemoteViews);
                     }
                 }
             }
