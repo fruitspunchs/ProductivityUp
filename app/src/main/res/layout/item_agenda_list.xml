@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:background="@drawable/selector_row"
               android:focusable="true"
               android:minHeight="48dp"
@@ -12,13 +12,14 @@
 
     <FrameLayout
         android:layout_width="60dp"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
 
         <CheckBox
             android:id="@+id/check_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
+            android:layout_gravity="end"
             android:focusable="false"
             android:gravity="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"

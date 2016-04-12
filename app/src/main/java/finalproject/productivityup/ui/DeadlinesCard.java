@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +21,6 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.adapter.OverviewDeadlinesCursorAdapter;
 import finalproject.productivityup.data.DeadlineTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
-import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 
 public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -52,7 +52,7 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public void onCreate() {
         mLoaderManager.initLoader(TASKS_CURSOR_LOADER_ID, null, this);
-        mRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mCursorAdapter = new OverviewDeadlinesCursorAdapter(mContext, null);
         mRecyclerView.setAdapter(mCursorAdapter);
     }

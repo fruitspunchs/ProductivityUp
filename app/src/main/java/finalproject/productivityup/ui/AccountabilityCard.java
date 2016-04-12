@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +22,6 @@ import finalproject.productivityup.adapter.AccountabilityHoursCursorAdapter;
 import finalproject.productivityup.adapter.OverviewAccountabilityHoursCursorAdapter;
 import finalproject.productivityup.data.AccountabilityTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
-import finalproject.productivityup.libs.CustomLinearLayoutManager;
 
 public class AccountabilityCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -43,7 +43,7 @@ public class AccountabilityCard implements LoaderManager.LoaderCallbacks<Cursor>
 
     public void onCreate() {
         mLoaderManager.initLoader(CURSOR_LOADER_ID, null, this);
-        mRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mCursorAdapter = new OverviewAccountabilityHoursCursorAdapter(mContext, null);
         mRecyclerView.setAdapter(mCursorAdapter);
     }

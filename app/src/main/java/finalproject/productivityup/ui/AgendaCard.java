@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -17,10 +18,9 @@ import java.util.Calendar;
 import finalproject.productivityup.adapter.OverviewAgendaCursorAdapter;
 import finalproject.productivityup.data.AgendaTasksColumns;
 import finalproject.productivityup.data.ProductivityProvider;
-import finalproject.productivityup.libs.CustomLinearLayoutManager;
 
 /**
- * Created by User on 1/25/2016.
+ *  Class used to load and display agenda overview items.
  */
 public class AgendaCard implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int CURSOR_LOADER_ID = MainActivity.CURSOR_LOADER_ID.AGENDA;
@@ -41,7 +41,7 @@ public class AgendaCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public void onCreate() {
         mLoaderManager.initLoader(CURSOR_LOADER_ID, null, this);
-        mRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mCursorAdapter = new OverviewAgendaCursorAdapter(mContext, null);
         mRecyclerView.setAdapter(mCursorAdapter);
     }

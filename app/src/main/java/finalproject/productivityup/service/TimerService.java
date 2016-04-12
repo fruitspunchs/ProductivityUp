@@ -41,6 +41,7 @@ public class TimerService extends Service {
     public final static String ACTION_ON_UPDATE = "ACTION_ON_UPDATE";
     public final static String ACTION_START_PAUSE_TIMER = "ACTION_START_PAUSE_TIMER";
     public final static String ACTION_WORK_REST_TIMER = "ACTION_WORK_REST_TIMER";
+    public final static String ACTION_START_ULTRADIAN_TIMER = "ACTION_START_ULTRADIAN_TIMER";
     public static final String ACTION_REQUEST_POMODORO_STATE = "ACTION_REQUEST_POMODORO_STATE";
     public static final String ACTION_REQUEST_ULTRADIAN_STATE = "ACTION_REQUEST_ULTRADIAN_STATE";
     public final static String APP_WIDGET_IDS_KEY = "APP_WIDGET_IDS_KEY";
@@ -87,6 +88,8 @@ public class TimerService extends Service {
     private MediaPlayer mMediaPlayer;
     private ServiceHandler mServiceHandler;
     private long mMinutesLeft = 0;
+    private AppWidgetManager mUltradianCountdownTimerAppWidgetManager;
+    private RemoteViews mUltradianCountdownTimerRemoteViews;
 
     @Override
     public void onCreate() {
@@ -157,8 +160,8 @@ public class TimerService extends Service {
 
     public void startUltradianRhythmTimer() {
         Log.d(TAG, "startUltradianRhythmTimer");
-        final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
         setWidgetIntents(remoteViews);
 
         long startTime;
@@ -221,15 +224,18 @@ public class TimerService extends Service {
                 mMinutesLeft = millisUntilFinished / (1000 * 60);
                 broadcastUltradianMessage(ULTRADIAN_EVENT_TIME_LEFT, ULTRADIAN_EVENT_TIME_LEFT_KEY, mMinutesLeft);
 
+                mUltradianCountdownTimerAppWidgetManager = AppWidgetManager.getInstance(TimerService.this);
+                mUltradianCountdownTimerRemoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
+
                 if (mHasConfigurationChanged) {
                     updateWidgetViews();
                     mHasConfigurationChanged = false;
                 } else {
-                    remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, Utility.formatUltradianTimeString(mMinutesLeft));
-                    remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
+                    mUltradianCountdownTimerRemoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, Utility.formatUltradianTimeString(mMinutesLeft));
+                    mUltradianCountdownTimerRemoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
                     for (int appWidgetId : mAppWidgetIds) {
-                        appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+                        mUltradianCountdownTimerAppWidgetManager.updateAppWidget(appWidgetId, mUltradianCountdownTimerRemoteViews);
                     }
                 }
             }
@@ -247,7 +253,9 @@ public class TimerService extends Service {
                         .putInt(ULTRADIAN_RHYTHM_WORK_REST_KEY, mRhythmState)
                         .apply();
 
-                startUltradianRhythmTimer();
+                Intent serviceIntent = new Intent(TimerService.this, TimerService.class);
+                serviceIntent.setAction(ACTION_START_ULTRADIAN_TIMER);
+                startService(serviceIntent);
             }
         }.start();
 
@@ -585,6 +593,9 @@ public class TimerService extends Service {
                         break;
                     case ACTION_WORK_REST_TIMER:
                         onWorkRestButtonClick();
+                        break;
+                    case ACTION_START_ULTRADIAN_TIMER:
+                        startUltradianRhythmTimer();
                         break;
                     case ACTION_REQUEST_POMODORO_STATE:
                         switch (mStartPauseState) {

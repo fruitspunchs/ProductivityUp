@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import finalproject.productivityup.R;
-import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 
 
@@ -51,7 +51,7 @@ public class AccountabilityHoursCursorAdapter extends CursorRecyclerViewAdapter<
         int id = cursor.getInt(cursor.getColumnIndex(AccountabilityHoursColumns._ID));
         viewHolder.mTasksCursorAdapter.swapCursor(mTaskCursorList.get(id));
 
-        viewHolder.mTasksRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
+        viewHolder.mTasksRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         viewHolder.mTasksRecyclerView.setAdapter(viewHolder.mTasksCursorAdapter);
     }
 

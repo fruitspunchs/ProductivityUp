@@ -62,7 +62,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
     LinearLayout mDeadlinesCardContainer;
     @Bind(R.id.deadlines_no_item)
     TextView mDeadlinesNoItemTextView;
-    @Bind(R.id.ultradian_rhythm_work_rest_button)
+    @Bind(R.id.ultradian_rhythm_work_rest_image_button)
     ImageButton mUltradianRhythmWorkRestButton;
     @Bind(R.id.ultradian_rhythm_timer_text_view)
     TextView mUltradianRhythmTimerTextView;
@@ -109,7 +109,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
         startActivity(intent);
     }
 
-    @OnFocusChange(R.id.ultradian_rhythm_work_rest_button)
+    @OnFocusChange(R.id.ultradian_rhythm_work_rest_image_button)
     void onWorkRestButtonFocusChange() {
         ColorStateList colours = mUltradianRhythmWorkRestButton.getResources()
                 .getColorStateList(R.color.selector_accent_tint);

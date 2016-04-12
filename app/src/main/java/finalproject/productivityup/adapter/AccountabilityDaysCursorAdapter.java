@@ -10,6 +10,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,7 +26,6 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.data.AccountabilityTasksColumns;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.ProductivityProvider;
-import finalproject.productivityup.libs.CustomLinearLayoutManager;
 import finalproject.productivityup.libs.Utility;
 import finalproject.productivityup.ui.accountability.AccountabilityActivityFragment;
 
@@ -83,7 +83,7 @@ public class AccountabilityDaysCursorAdapter extends CursorRecyclerViewAdapter<A
         }
 
         Log.d(LOG_TAG, "Binding ViewHolder. Id: " + viewHolder.mId);
-        viewHolder.mHoursRecyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext));
+        viewHolder.mHoursRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         viewHolder.mHoursRecyclerView.setAdapter(viewHolder.mHoursCursorAdapter);
 
         //Set placeholder view at the end of the list as invisible
