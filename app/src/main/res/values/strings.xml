@@ -18,7 +18,8 @@
 
     <!-- Overview card titles-->
     <string name="deadlines_title_card">Next deadline</string>
-    <string name="ultradian_rhythm_title_card">Ultradian rhythm</string>
+    <string name="ultradian_rhythm_title_card">Work</string>
+    <string name="ultradian_rhythm_subtitle_card">Ultradian rhythm</string>
     <string name="pomodoro_timer_title_card">Pomodoro timer</string>
     <string name="agenda_title_card">Today\'s agenda</string>
     <string name="accountability_title_card">Accountability chart</string>
