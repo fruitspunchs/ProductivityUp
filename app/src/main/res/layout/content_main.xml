@@ -45,30 +45,30 @@
                 android:layout_marginBottom="@dimen/card_margin_bottom"
                 app:cardUseCompatPadding="true">
 
-                    <LinearLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/card_padding_bottom"
+                    android:paddingLeft="@dimen/card_horizontal_padding"
+                    android:paddingRight="@dimen/card_horizontal_padding"
+                    android:paddingTop="@dimen/card_padding_top">
+
+                    <TextView
+                        android:id="@+id/ultradian_rhythm_status_text_view"
+                        style="@style/card_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/colorPrimary"
-                        android:orientation="vertical"
-                        android:paddingBottom="@dimen/card_padding_bottom"
-                        android:paddingLeft="@dimen/card_horizontal_padding"
-                        android:paddingRight="@dimen/card_horizontal_padding"
-                        android:paddingTop="@dimen/card_padding_top">
+                        android:text="@string/ultradian_rhythm_title_card"/>
 
-                        <TextView
-                            android:id="@+id/ultradian_rhythm_status_text_view"
-                            style="@style/card_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ultradian_rhythm_title_card"/>
-
-                        <TextView
-                            android:id="@+id/ultradian_rhythm_subtitle_text_view"
-                            style="@style/card_subtitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ultradian_rhythm_subtitle_card"/>
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/ultradian_rhythm_subtitle_text_view"
+                        style="@style/card_subtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ultradian_rhythm_subtitle_card"/>
+                </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
@@ -223,40 +223,43 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="@dimen/card_padding_top"
-                    android:orientation="vertical">
+                    android:background="@color/colorPrimary"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/card_padding_bottom"
+                    android:paddingLeft="@dimen/card_horizontal_padding"
+                    android:paddingRight="@dimen/card_horizontal_padding"
+                    android:paddingTop="@dimen/card_padding_top">
 
-                    <TextView
-                        android:id="@+id/pomodoro_timer_timer_text_view"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginTop="24dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textColor="@color/colorPrimaryText"
-                        tools:text="19:24"/>
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/pomodoro_timer_timer_text_view"
+                            style="@style/card_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="19:24"/>
+
+                        <ImageButton
+                            android:id="@+id/pomodoro_timer_start_pause_button"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:background="@drawable/round_button_accent"
+                            android:contentDescription="@string/cd_start_button"
+                            android:src="@drawable/ic_start_arrow_white_18dp"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/pomodoro_timer_title_text_view"
+                        style="@style/card_subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:gravity="center_horizontal"
-                        android:text="@string/pomodoro_timer_title_card"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
-
-                    <ImageButton
-                        android:id="@+id/pomodoro_timer_start_pause_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/round_button_accent"
-                        android:contentDescription="@string/cd_start_button"
-                        android:padding="4dp"
-                        android:src="@drawable/ic_start_arrow_white_24dp"/>
+                        android:text="@string/pomodoro_timer_title_card"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>

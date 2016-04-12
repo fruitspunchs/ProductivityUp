@@ -47,15 +47,15 @@ public class PomodoroTimerCard {
                     int timerState = intent.getIntExtra(TimerService.POMODORO_EVENT_BUTTON_STATE_KEY, PAUSE);
                     switch (timerState) {
                         case START:
-                            mStartPauseImageButton.setImageResource(R.drawable.ic_start_arrow_white_24dp);
+                            mStartPauseImageButton.setImageResource(R.drawable.ic_start_arrow_white_18dp);
                             mStartPauseImageButton.setContentDescription(mContext.getString(R.string.cd_start_button));
                             break;
                         case PAUSE:
-                            mStartPauseImageButton.setImageResource(R.drawable.ic_pause_white_24dp);
+                            mStartPauseImageButton.setImageResource(R.drawable.ic_pause_white_18dp);
                             mStartPauseImageButton.setContentDescription(mContext.getString(R.string.cd_pause_button));
                             break;
                         case STOP:
-                            mStartPauseImageButton.setImageResource(R.drawable.ic_stop_white_24dp);
+                            mStartPauseImageButton.setImageResource(R.drawable.ic_stop_white_18dp);
                             mStartPauseImageButton.setContentDescription(mContext.getString(R.string.cd_stop_button));
                             break;
                     }
