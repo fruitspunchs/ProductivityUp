@@ -45,11 +45,6 @@
                 android:layout_marginBottom="@dimen/card_margin_bottom"
                 app:cardUseCompatPadding="true">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -59,7 +54,6 @@
                         android:paddingLeft="@dimen/card_horizontal_padding"
                         android:paddingRight="@dimen/card_horizontal_padding"
                         android:paddingTop="@dimen/card_padding_top">
-
 
                         <TextView
                             android:id="@+id/ultradian_rhythm_status_text_view"
@@ -76,7 +70,6 @@
                             android:text="@string/ultradian_rhythm_subtitle_card"/>
                     </LinearLayout>
 
-                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <finalproject.productivityup.libs.InterceptTouchCardView
@@ -235,16 +228,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/pomodoro_timer_title_text_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:gravity="center_horizontal"
-                        android:text="@string/pomodoro_timer_title_card"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
-
-                    <TextView
                         android:id="@+id/pomodoro_timer_timer_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -254,6 +237,16 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="@color/colorPrimaryText"
                         tools:text="19:24"/>
+
+                    <TextView
+                        android:id="@+id/pomodoro_timer_title_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/pomodoro_timer_title_card"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
                     <ImageButton
                         android:id="@+id/pomodoro_timer_start_pause_button"
