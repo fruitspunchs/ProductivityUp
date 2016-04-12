@@ -231,7 +231,7 @@ public class TimerService extends Service {
                     updateWidgetViews();
                     mHasConfigurationChanged = false;
                 } else {
-                    mUltradianCountdownTimerRemoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, Utility.formatUltradianTimeString(mMinutesLeft));
+                    mUltradianCountdownTimerRemoteViews.setTextViewText(R.id.ultradian_rhythm_status_text_view, Utility.formatUltradianTimeString(mMinutesLeft));
                     mUltradianCountdownTimerRemoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
                     for (int appWidgetId : mAppWidgetIds) {
@@ -394,7 +394,7 @@ public class TimerService extends Service {
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.timer_appwidget);
         setWidgetIntents(remoteViews);
 
-        remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, Utility.formatUltradianTimeString(mMinutesLeft));
+        remoteViews.setTextViewText(R.id.ultradian_rhythm_status_text_view, Utility.formatUltradianTimeString(mMinutesLeft));
         remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
         switch (mStartPauseState) {
@@ -502,7 +502,7 @@ public class TimerService extends Service {
 
         }
 
-        remoteViews.setTextViewText(R.id.ultradian_rhythm_timer_text_view, Utility.formatUltradianTimeString(mMinutesLeft));
+        remoteViews.setTextViewText(R.id.ultradian_rhythm_status_text_view, Utility.formatUltradianTimeString(mMinutesLeft));
         remoteViews.setTextViewText(R.id.pomodoro_timer_text_view, Utility.formatPomodoroTimerString(mPomodoroTimeLeft));
 
         for (int appWidgetId : mAppWidgetIds) {

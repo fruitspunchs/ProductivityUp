@@ -2,12 +2,9 @@ package finalproject.productivityup.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -51,7 +48,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
     CardView mAgendaCardView;
     @Bind(R.id.overview_card_accountability_chart)
     CardView mAccountabilityChartCardView;
-    @Bind({R.id.deadlines_title_text_view, R.id.accountability_chart_title_text_view, R.id.agenda_title_text_view, R.id.ultradian_rhythm_title_text_view, R.id.pomodoro_timer_title_text_view})
+    @Bind({R.id.deadlines_title_text_view, R.id.accountability_chart_title_text_view, R.id.agenda_title_text_view, R.id.pomodoro_timer_title_text_view})
     List<TextView> mCardTitles;
     boolean mIsShowingCardTitles = true;
     @Bind(R.id.deadlines_task_recycler_view)
@@ -62,9 +59,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
     LinearLayout mDeadlinesCardContainer;
     @Bind(R.id.deadlines_no_item)
     TextView mDeadlinesNoItemTextView;
-    @Bind(R.id.ultradian_rhythm_work_rest_image_button)
-    ImageButton mUltradianRhythmWorkRestButton;
-    @Bind(R.id.ultradian_rhythm_timer_text_view)
+    @Bind(R.id.ultradian_rhythm_status_text_view)
     TextView mUltradianRhythmTimerTextView;
     @Bind(R.id.pomodoro_timer_timer_text_view)
     TextView mPomodoroTimerTextView;
@@ -107,15 +102,6 @@ public class MainActivity extends AnalyticsTrackedActivity {
         Intent intent = new Intent(this, AccountabilityActivity.class);
         intent.setAction(AccountabilityActivityFragment.ACTION_SCROLL_TO_NEAREST_DAY);
         startActivity(intent);
-    }
-
-    @OnFocusChange(R.id.ultradian_rhythm_work_rest_image_button)
-    void onWorkRestButtonFocusChange() {
-        ColorStateList colours = mUltradianRhythmWorkRestButton.getResources()
-                .getColorStateList(R.color.selector_accent_tint);
-        Drawable d = DrawableCompat.wrap(mUltradianRhythmWorkRestButton.getDrawable());
-        DrawableCompat.setTintList(d, colours);
-        mUltradianRhythmWorkRestButton.setImageDrawable(d);
     }
 
     @OnFocusChange(R.id.overview_card_deadlines)
@@ -184,7 +170,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
         mDeadlinesCard = new DeadlinesCard(this, getSupportLoaderManager(), mDeadlinesTaskRecyclerView, mDeadlinesTimeLeftTextView, mDeadlinesNoItemTextView, mDeadlinesCardContainer);
         mDeadlinesCard.onCreate();
 
-        mUltradianRhythmTimerCard = new UltradianRhythmTimerCard(this, mUltradianRhythmWorkRestButton, mUltradianRhythmTimerTextView);
+        mUltradianRhythmTimerCard = new UltradianRhythmTimerCard(this, mUltradianRhythmTimerTextView);
 
         mPomodoroTimerCard = new PomodoroTimerCard(this, mPomodoroTimerStartPauseImageButton, mPomodoroTimerTextView);
 
@@ -340,7 +326,11 @@ public class MainActivity extends AnalyticsTrackedActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         int horizontalPadding = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
-        findViewById(R.id.container).setPadding(horizontalPadding, 0, horizontalPadding, 0);
+
+        View container = findViewById(R.id.container);
+        if (container != null) {
+            container.setPadding(horizontalPadding, 0, horizontalPadding, 0);
+        }
     }
 
     public interface CURSOR_LOADER_ID {

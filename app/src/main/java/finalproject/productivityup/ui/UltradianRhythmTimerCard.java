@@ -4,13 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import finalproject.productivityup.R;
@@ -28,9 +23,9 @@ public class UltradianRhythmTimerCard {
     public final static int WORK_DURATION = 90 * 60;
     public final static int REST_DURATION = 30 * 60;
     private final Context mContext;
-    private final ImageButton mWorkRestImageButton;
     private final TextView mTimerTextView;
     private final String LOG_TAG = getClass().getSimpleName();
+    private String mWorkRestString;
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -42,46 +37,27 @@ public class UltradianRhythmTimerCard {
             switch (message) {
                 case TimerService.ULTRADIAN_EVENT_TIME_LEFT:
                     long minutesLeft = intent.getLongExtra(TimerService.ULTRADIAN_EVENT_TIME_LEFT_KEY, 0);
-                    String minutesString = minutesLeft + mContext.getString(R.string.minute_letter);
-                    mTimerTextView.setText(minutesString);
+                    String displayString = minutesLeft + mContext.getString(R.string.minute_letter) + " " + mWorkRestString;
+                    mTimerTextView.setText(displayString);
                     break;
                 case TimerService.ULTRADIAN_EVENT_BUTTON_STATE:
                     int timerState = intent.getIntExtra(TimerService.ULTRADIAN_EVENT_BUTTON_STATE_KEY, WORK);
                     switch (timerState) {
                         case WORK:
-                            mWorkRestImageButton.setImageResource(R.drawable.ic_work_white_36dp);
-                            mWorkRestImageButton.setContentDescription(mContext.getString(R.string.cd_work_button));
+                            mWorkRestString = mContext.getString(R.string.work);
                             break;
                         case REST:
-                            mWorkRestImageButton.setImageResource(R.drawable.ic_break_white_36dp);
-                            mWorkRestImageButton.setContentDescription(mContext.getString(R.string.cd_rest_button));
+                            mWorkRestString = mContext.getString(R.string.rest);
                             break;
                     }
-            }
-
-            if (mWorkRestImageButton.isFocused()) {
-                ColorStateList colours = mWorkRestImageButton.getResources()
-                        .getColorStateList(R.color.selector_gray_tint);
-                Drawable d = DrawableCompat.wrap(mWorkRestImageButton.getDrawable());
-                DrawableCompat.setTintList(d, colours);
-                mWorkRestImageButton.setImageDrawable(d);
             }
         }
     };
 
-    public UltradianRhythmTimerCard(final Context context, ImageButton workRestButton, TextView timerTextView) {
+    public UltradianRhythmTimerCard(final Context context, TextView timerTextView) {
         mContext = context;
-        mWorkRestImageButton = workRestButton;
         mTimerTextView = timerTextView;
-
-        mWorkRestImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent workRestIntent = new Intent(context, TimerService.class);
-                workRestIntent.setAction(TimerService.ACTION_WORK_REST_TIMER);
-                context.startService(workRestIntent);
-            }
-        });
+        mWorkRestString = mContext.getString(R.string.work);
     }
 
     public void onResume() {
