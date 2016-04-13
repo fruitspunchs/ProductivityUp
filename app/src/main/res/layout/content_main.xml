@@ -249,6 +249,7 @@
                             android:id="@+id/pomodoro_timer_start_pause_button"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
                             android:background="@drawable/round_button_accent"
