@@ -86,8 +86,6 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
             mCursorAdapter.swapCursor(data);
         } else if (loader.getId() == TASKS_CURSOR_LOADER_ID) {
             if (data.moveToNext()) {
-
-                mTimeLeftTextView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mNoItemTextView.setVisibility(View.GONE);
 
@@ -116,7 +114,11 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
                 mLoaderManager.restartLoader(NEXT_DEADLINE_CURSOR_LOADER_ID, null, this);
             } else {
-                mTimeLeftTextView.setVisibility(View.GONE);
+                if (null != sDeadlinesCountdownTimer) {
+                    sDeadlinesCountdownTimer.cancel();
+                }
+
+                mTimeLeftTextView.setText(mContext.getString(R.string.no_deadline_countdown));
                 mRecyclerView.setVisibility(View.GONE);
                 mNoItemTextView.setVisibility(View.VISIBLE);
             }
@@ -135,8 +137,6 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
             sDeadlineTimeUpDelayCountDownTimer.cancel();
         }
 
-        final DeadlinesCard thisClass = this;
-
         sDeadlineTimeUpDelayCountDownTimer = new CountDownTimer(15000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -145,7 +145,7 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
             @Override
             public void onFinish() {
-                mLoaderManager.restartLoader(TASKS_CURSOR_LOADER_ID, null, thisClass);
+                mLoaderManager.restartLoader(TASKS_CURSOR_LOADER_ID, null, DeadlinesCard.this);
             }
         }.start();
     }

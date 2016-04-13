@@ -43,6 +43,8 @@
     <string name="no_agenda">Add agenda</string>
     <string name="no_accountability">Add accountability</string>
 
+    <string name="no_deadline_countdown">No deadline</string>
+
     <string name="minute_letter">m</string>
 
     <string name="timer_zero" translatable="false">00:00</string>

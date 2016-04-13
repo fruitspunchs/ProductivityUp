@@ -100,7 +100,7 @@
                         android:paddingTop="@dimen/card_padding_top">
 
                         <TextView
-                            android:id="@+id/deadlines_date_text_view"
+                            android:id="@+id/deadlines_time_left_text_view"
                             style="@style/card_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

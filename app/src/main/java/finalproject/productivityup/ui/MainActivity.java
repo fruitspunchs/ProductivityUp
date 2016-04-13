@@ -49,7 +49,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
     CardView mAccountabilityChartCardView;
     @Bind(R.id.deadlines_task_recycler_view)
     RecyclerView mDeadlinesTaskRecyclerView;
-    @Bind(R.id.deadlines_date_text_view)
+    @Bind(R.id.deadlines_time_left_text_view)
     TextView mDeadlinesTimeLeftTextView;
     @Bind(R.id.deadlines_card_container)
     LinearLayout mDeadlinesCardContainer;
