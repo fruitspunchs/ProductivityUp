@@ -2,11 +2,6 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".ui.MainActivity">
-    <item
-        android:id="@+id/action_toggle_card_title"
-        android:icon="@drawable/ic_hide_card_title"
-        android:title="@string/menu_show_hide_card_titles"
-        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menu_item_share"

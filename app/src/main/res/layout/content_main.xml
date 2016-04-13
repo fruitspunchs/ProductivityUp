@@ -259,7 +259,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/pomodoro_timer_title_text_view"
+                        android:id="@+id/pomodoro_timer_subtitle_text_view"
                         style="@style/card_subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

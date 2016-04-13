@@ -39,7 +39,6 @@ import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
 public class MainActivity extends AnalyticsTrackedActivity {
-    public static final String CARD_TITLE_TOGGLE_KEY = "CARD_TITLE_TOGGLE_KEY";
     public static final String LAST_INTERSTITIAL_DISPLAY_DATE_KEY = "LAST_INTERSTITIAL_DISPLAY_DATE_KEY";
     private final String LOG_TAG = this.getClass().getSimpleName();
     @Bind(R.id.overview_card_deadlines)
@@ -48,9 +47,6 @@ public class MainActivity extends AnalyticsTrackedActivity {
     CardView mAgendaCardView;
     @Bind(R.id.overview_card_accountability_chart)
     CardView mAccountabilityChartCardView;
-    @Bind({R.id.deadlines_subtitle_text_view, R.id.accountability_chart_title_text_view, R.id.agenda_title_text_view, R.id.pomodoro_timer_title_text_view})
-    List<TextView> mCardTitles;
-    boolean mIsShowingCardTitles = true;
     @Bind(R.id.deadlines_task_recycler_view)
     RecyclerView mDeadlinesTaskRecyclerView;
     @Bind(R.id.deadlines_date_text_view)
@@ -167,7 +163,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
         serviceIntent.setAction(TimerService.ACTION_START_SERVICE);
         this.startService(serviceIntent);
 
-        mDeadlinesCard = new DeadlinesCard(this, getSupportLoaderManager(), mDeadlinesTaskRecyclerView, mDeadlinesTimeLeftTextView, mDeadlinesNoItemTextView, mDeadlinesCardContainer);
+        mDeadlinesCard = new DeadlinesCard(this, getSupportLoaderManager(), mDeadlinesTaskRecyclerView, mDeadlinesTimeLeftTextView, mDeadlinesNoItemTextView);
         mDeadlinesCard.onCreate();
 
         mUltradianRhythmTimerCard = new UltradianRhythmTimerCard(this, mUltradianRhythmTimerTextView);
@@ -181,21 +177,6 @@ public class MainActivity extends AnalyticsTrackedActivity {
         mAccountabilityCard.onCreate();
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        mIsShowingCardTitles = mSharedPreferences.getBoolean(CARD_TITLE_TOGGLE_KEY, true);
-
-        if (mIsShowingCardTitles) {
-            Log.d(LOG_TAG, "Showing card titles");
-            for (TextView textView : mCardTitles) {
-                textView.setVisibility(View.VISIBLE);
-            }
-        } else {
-            Log.d(LOG_TAG, "Hiding card titles");
-            for (TextView textView : mCardTitles) {
-                textView.setVisibility(View.GONE);
-            }
-        }
-        mDeadlinesCard.toggleCardTitles(mIsShowingCardTitles);
 
         // Get intent, action and MIME type
         Intent intent = getIntent();
@@ -239,13 +220,6 @@ public class MainActivity extends AnalyticsTrackedActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem cardTitleToggleIcon = menu.findItem(R.id.action_toggle_card_title);
-
-        if (mIsShowingCardTitles) {
-            cardTitleToggleIcon.setIcon(R.drawable.ic_hide_card_title);
-        } else {
-            cardTitleToggleIcon.setIcon(R.drawable.ic_show_card_title);
-        }
 
         // Locate MenuItem with ShareActionProvider
         MenuItem item = menu.findItem(R.id.menu_item_share);
@@ -274,30 +248,9 @@ public class MainActivity extends AnalyticsTrackedActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        } else if (id == R.id.action_toggle_card_title) {
-            toggleCardTitles(item);
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void toggleCardTitles(MenuItem item) {
-        if (mIsShowingCardTitles) {
-            Log.d(LOG_TAG, "Hiding card titles");
-            for (TextView textView : mCardTitles) {
-                textView.setVisibility(View.GONE);
-            }
-            item.setIcon(R.drawable.ic_show_card_title);
-            mIsShowingCardTitles = false;
-        } else {
-            Log.d(LOG_TAG, "Showing card titles");
-            for (TextView textView : mCardTitles) {
-                textView.setVisibility(View.VISIBLE);
-            }
-            item.setIcon(R.drawable.ic_hide_card_title);
-            mIsShowingCardTitles = true;
-        }
-        mDeadlinesCard.toggleCardTitles(mIsShowingCardTitles);
     }
 
     @Override
@@ -305,7 +258,6 @@ public class MainActivity extends AnalyticsTrackedActivity {
         super.onPause();
         mPomodoroTimerCard.onPause();
         mUltradianRhythmTimerCard.onPause();
-        mSharedPreferences.edit().putBoolean(CARD_TITLE_TOGGLE_KEY, mIsShowingCardTitles).apply();
     }
 
     @Override

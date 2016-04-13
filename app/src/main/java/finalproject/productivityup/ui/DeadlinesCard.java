@@ -11,8 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -34,20 +32,16 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
     private final LoaderManager mLoaderManager;
     private final RecyclerView mRecyclerView;
     private final TextView mNoItemTextView;
-    private final LinearLayout mLayoutContainer;
     private final TextView mTimeLeftTextView;
-    private boolean mHasItems = true;
-    private boolean mIsShowingCardTitles = true;
     private OverviewDeadlinesCursorAdapter mCursorAdapter;
     private long mNextDeadlineUnixTime = -1;
 
-    public DeadlinesCard(Context context, LoaderManager loaderManager, RecyclerView recyclerView, TextView timeLeftTextView, TextView noItemTextView, LinearLayout layoutContainer) {
+    public DeadlinesCard(Context context, LoaderManager loaderManager, RecyclerView recyclerView, TextView timeLeftTextView, TextView noItemTextView) {
         mContext = context;
         mLoaderManager = loaderManager;
         mRecyclerView = recyclerView;
         mTimeLeftTextView = timeLeftTextView;
         mNoItemTextView = noItemTextView;
-        mLayoutContainer = layoutContainer;
     }
 
     public void onCreate() {
@@ -59,12 +53,6 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public void onStart() {
         mLoaderManager.restartLoader(TASKS_CURSOR_LOADER_ID, null, this);
-        adjustLayout(mIsShowingCardTitles);
-    }
-
-    public void toggleCardTitles(boolean isShowingCardTitles) {
-        mIsShowingCardTitles = isShowingCardTitles;
-        adjustLayout(isShowingCardTitles);
     }
 
     @Override
@@ -99,8 +87,6 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
         } else if (loader.getId() == TASKS_CURSOR_LOADER_ID) {
             if (data.moveToNext()) {
 
-                mHasItems = true;
-
                 mTimeLeftTextView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mNoItemTextView.setVisibility(View.GONE);
@@ -129,18 +115,10 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
                 }.start();
 
                 mLoaderManager.restartLoader(NEXT_DEADLINE_CURSOR_LOADER_ID, null, this);
-
-                adjustLayout(mIsShowingCardTitles);
-
             } else {
                 mTimeLeftTextView.setVisibility(View.GONE);
                 mRecyclerView.setVisibility(View.GONE);
                 mNoItemTextView.setVisibility(View.VISIBLE);
-
-                mHasItems = false;
-
-                adjustLayout(mIsShowingCardTitles);
-
             }
         }
     }
@@ -148,19 +126,6 @@ public class DeadlinesCard implements LoaderManager.LoaderCallbacks<Cursor> {
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mCursorAdapter.swapCursor(null);
-    }
-
-    private void adjustLayout(boolean isShowingCardTitles) {
-
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-
-        if (isShowingCardTitles || mHasItems) {
-            layoutParams.setMargins(0, 0, 0, mContext.getResources().getDimensionPixelSize(R.dimen.card_padding_bottom));
-        } else {
-            layoutParams.setMargins(0, 0, 0, 0);
-        }
-
-        mLayoutContainer.setLayoutParams(layoutParams);
     }
 
     private void restartDeadlinesLoader() {
