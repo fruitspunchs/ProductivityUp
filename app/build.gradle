@@ -14,7 +14,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("keystore/myreleasekey.jks")
+            storeFile file("dummykeystore/dummyreleasekey.jks")
             storePassword "password"
             keyAlias "MyReleaseKey"
             keyPassword "password"
@@ -62,3 +62,6 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+dependencies {
+    compile 'com.google.android.gms:play-services-ads:8.4.0'
+}
