@@ -3,6 +3,7 @@ package finalproject.productivityup.ui.deadlines;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
@@ -10,9 +11,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import finalproject.productivityup.R;
-import finalproject.productivityup.libs.AnalyticsTrackedActivity;
 
-public class DeadlinesActivity extends AnalyticsTrackedActivity {
+public class DeadlinesActivity extends AppCompatActivity {
     private final String LOG_TAG = this.getClass().getSimpleName();
     @Bind(R.id.deadlines_add_fab)
     FloatingActionButton mAddFab;

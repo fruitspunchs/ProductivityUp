@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.ShareActionProvider;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.List;
 
@@ -28,7 +30,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import finalproject.productivityup.R;
-import finalproject.productivityup.libs.AnalyticsTrackedActivity;
 import finalproject.productivityup.libs.Utility;
 import finalproject.productivityup.service.TimerService;
 import finalproject.productivityup.ui.accountability.AccountabilityActivity;
@@ -38,7 +39,7 @@ import finalproject.productivityup.ui.agenda.AgendaActivityFragment;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivity;
 import finalproject.productivityup.ui.deadlines.DeadlinesActivityFragment;
 
-public class MainActivity extends AnalyticsTrackedActivity {
+public class MainActivity extends AppCompatActivity {
     public static final String LAST_INTERSTITIAL_DISPLAY_DATE_KEY = "LAST_INTERSTITIAL_DISPLAY_DATE_KEY";
     private final String LOG_TAG = this.getClass().getSimpleName();
     @Bind(R.id.overview_card_deadlines)
@@ -78,6 +79,7 @@ public class MainActivity extends AnalyticsTrackedActivity {
     private UltradianRhythmTimerCard mUltradianRhythmTimerCard;
     private ShareActionProvider mShareActionProvider;
     private InterstitialAd mInterstitialAd;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @OnClick(R.id.overview_card_deadlines)
     void clickDeadlinesCard() {
@@ -148,6 +150,8 @@ public class MainActivity extends AnalyticsTrackedActivity {
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");

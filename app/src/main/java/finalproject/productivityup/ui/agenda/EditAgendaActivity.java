@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.DatePicker;
@@ -21,9 +22,8 @@ import finalproject.productivityup.data.AgendaDaysColumns;
 import finalproject.productivityup.data.AgendaTasksColumns;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.ProductivityProvider;
-import finalproject.productivityup.libs.AnalyticsTrackedActivity;
 
-public class EditAgendaActivity extends AnalyticsTrackedActivity {
+public class EditAgendaActivity extends AppCompatActivity {
     public static final String TASK_KEY = "TASK_KEY";
     public static final String ID_KEY = "ID_KEY";
     public static final String DATE_KEY = "DATE_KEY";

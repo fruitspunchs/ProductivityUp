@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.DatePicker;
@@ -19,9 +20,8 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.data.AgendaTasksColumns;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.ProductivityProvider;
-import finalproject.productivityup.libs.AnalyticsTrackedActivity;
 
-public class AddAgendaActivity extends AnalyticsTrackedActivity {
+public class AddAgendaActivity extends AppCompatActivity {
     private final String LOG_TAG = getClass().getSimpleName();
     @Bind(R.id.edit_text)
     EditText mTaskEditText;

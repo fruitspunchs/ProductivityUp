@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
@@ -18,10 +19,9 @@ import finalproject.productivityup.R;
 import finalproject.productivityup.data.AgendaTasksColumns;
 import finalproject.productivityup.data.DeadlineDaysColumns;
 import finalproject.productivityup.data.ProductivityProvider;
-import finalproject.productivityup.libs.AnalyticsTrackedActivity;
 import finalproject.productivityup.libs.Utility;
 
-public class AgendaActivity extends AnalyticsTrackedActivity {
+public class AgendaActivity extends AppCompatActivity {
     public static final String BATCH_KEY = "BATCH_KEY";
     public static final String ACTION_ADD_BATCH = "ACTION_ADD_BATCH";
     private final String LOG_TAG = this.getClass().getSimpleName();
