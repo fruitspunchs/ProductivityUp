@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context="finalproject.productivityup.ui.accountability.AddAccountabilityActivity">
+      tools:context="fruitspunchs.productivityup.io.github.fruitspunchs.productivityup.ui.accountability.AddAccountabilityActivity">
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

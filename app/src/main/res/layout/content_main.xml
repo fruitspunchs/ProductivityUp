@@ -22,7 +22,7 @@
         app:orientation="horizontal"
         app:rowCount="2"
         app:rowOrderPreserved="false"
-        tools:context=".ui.MainActivity"
+        tools:context="io.github.fruitspunchs.productivityup.ui.MainActivity"
         tools:showIn="@layout/activity_main">
 
         <LinearLayout
@@ -72,7 +72,7 @@
 
             </android.support.v7.widget.CardView>
 
-            <finalproject.productivityup.libs.InterceptTouchCardView
+            <io.github.fruitspunchs.productivityup.libs.InterceptTouchCardView
                 android:id="@+id/overview_card_deadlines"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -143,9 +143,9 @@
                     </FrameLayout>
 
                 </LinearLayout>
-            </finalproject.productivityup.libs.InterceptTouchCardView>
+            </io.github.fruitspunchs.productivityup.libs.InterceptTouchCardView>
 
-            <finalproject.productivityup.libs.InterceptTouchCardView
+            <io.github.fruitspunchs.productivityup.libs.InterceptTouchCardView
                 android:id="@+id/overview_card_accountability_chart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -202,7 +202,7 @@
 
 
                 </LinearLayout>
-            </finalproject.productivityup.libs.InterceptTouchCardView>
+            </io.github.fruitspunchs.productivityup.libs.InterceptTouchCardView>
         </LinearLayout>
 
 

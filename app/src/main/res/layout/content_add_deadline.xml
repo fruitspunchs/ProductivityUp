@@ -1,6 +1,6 @@
 <fragment
     android:id="@+id/fragment"
-    android:name="finalproject.productivityup.ui.deadlines.AddDeadlineActivityFragment"
+    android:name="io.github.fruitspunchs.productivityup.ui.deadlines.AddDeadlineActivityFragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
