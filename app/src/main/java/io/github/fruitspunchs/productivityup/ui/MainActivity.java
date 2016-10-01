@@ -5,11 +5,9 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -77,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
     private AgendaCard mAgendaCard;
     private AccountabilityCard mAccountabilityCard;
     private UltradianRhythmTimerCard mUltradianRhythmTimerCard;
-    private ShareActionProvider mShareActionProvider;
     private InterstitialAd mInterstitialAd;
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -225,19 +222,6 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        // Locate MenuItem with ShareActionProvider
-        MenuItem item = menu.findItem(R.id.menu_item_share);
-
-        // Fetch and store ShareActionProvider
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-
-        Intent shareAppIntent = new Intent();
-        shareAppIntent.setAction(Intent.ACTION_SEND);
-        shareAppIntent.putExtra(Intent.EXTRA_TEXT, this.getString(R.string.market_url));
-        shareAppIntent.putExtra(Intent.EXTRA_SUBJECT, this.getString(R.string.share_subject));
-        shareAppIntent.setType("text/plain");
-        setShareIntent(shareAppIntent);
-
         return true;
     }
 
@@ -270,12 +254,6 @@ public class MainActivity extends AppCompatActivity {
         mPomodoroTimerCard.onResume();
         mUltradianRhythmTimerCard.onResume();
         initializeAndDisplayInterstitial();
-    }
-
-    private void setShareIntent(Intent shareIntent) {
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(shareIntent);
-        }
     }
 
     @Override
