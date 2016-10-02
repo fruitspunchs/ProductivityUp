@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2016. Bel Jones Echavez
+ */
+
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 

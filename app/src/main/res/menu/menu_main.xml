@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2016. Bel Jones Echavez
+  -->
+
 <menu
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="io.github.fruitspunchs.productivityup.ui.MainActivity">

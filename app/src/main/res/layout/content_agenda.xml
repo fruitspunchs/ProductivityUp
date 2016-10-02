@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2016. Bel Jones Echavez
+  -->
+
 <fragment
     android:id="@+id/agenda_fragment"
     android:name="io.github.fruitspunchs.productivityup.ui.agenda.AgendaActivityFragment"

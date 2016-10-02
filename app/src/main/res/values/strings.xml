@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2016. Bel Jones Echavez
+  -->
+
 <resources>
     <string name="app_name">Productivity Up</string>
     <string name="action_settings">Settings</string>

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2016. Bel Jones Echavez
+ */
+
 package fruitspunchs.productivityup;
 
 import android.app.Application;
