@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Bel Jones Echavez
+  -->
+
 <manifest
-    package="finalproject.productivityup"
+    package="io.github.fruitspunchs.productivityup"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
-        android:name=".libs.AnalyticsApplication"
+        android:name="io.github.fruitspunchs.productivityup.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.MainActivity"
+            android:name="io.github.fruitspunchs.productivityup.ui.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
@@ -29,93 +33,93 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.deadlines.DeadlinesActivity"
+            android:name="io.github.fruitspunchs.productivityup.ui.deadlines.DeadlinesActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_deadlines"
-            android:parentActivityName=".ui.MainActivity"
+            android:parentActivityName="io.github.fruitspunchs.productivityup.ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity"/>
+                android:value="io.github.fruitspunchs.productivityup.ui.MainActivity"/>
         </activity>
         <activity
-            android:name=".ui.agenda.AgendaActivity"
+            android:name="io.github.fruitspunchs.productivityup.ui.agenda.AgendaActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_agenda"
-            android:parentActivityName=".ui.MainActivity"
+            android:parentActivityName="io.github.fruitspunchs.productivityup.ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity"/>
+                android:value="io.github.fruitspunchs.productivityup.ui.MainActivity"/>
         </activity>
         <activity
-            android:name=".ui.accountability.AccountabilityActivity"
+            android:name="io.github.fruitspunchs.productivityup.ui.accountability.AccountabilityActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_accountability_chart"
-            android:parentActivityName=".ui.MainActivity"
+            android:parentActivityName="io.github.fruitspunchs.productivityup.ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity"/>
+                android:value="io.github.fruitspunchs.productivityup.ui.MainActivity"/>
         </activity>
         <activity
-            android:name=".ui.deadlines.AddDeadlineActivity"
+            android:name="io.github.fruitspunchs.productivityup.ui.deadlines.AddDeadlineActivity"
             android:label="@string/title_activity_add_deadline"
-            android:parentActivityName=".ui.deadlines.DeadlinesActivity"
+            android:parentActivityName="io.github.fruitspunchs.productivityup.ui.deadlines.DeadlinesActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.deadlines.DeadlinesActivity"/>
+                android:value="io.github.fruitspunchs.productivityup.ui.deadlines.DeadlinesActivity"/>
         </activity>
         <activity
-            android:name=".ui.deadlines.EditDeadlineActivity"
+            android:name="io.github.fruitspunchs.productivityup.ui.deadlines.EditDeadlineActivity"
             android:label="@string/title_activity_add_deadline"
-            android:parentActivityName=".ui.deadlines.DeadlinesActivity"
+            android:parentActivityName="io.github.fruitspunchs.productivityup.ui.deadlines.DeadlinesActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.deadlines.DeadlinesActivity"/>
+                android:value="io.github.fruitspunchs.productivityup.ui.deadlines.DeadlinesActivity"/>
         </activity>
         <activity
-            android:name=".ui.agenda.AddAgendaActivity"
+            android:name="io.github.fruitspunchs.productivityup.ui.agenda.AddAgendaActivity"
             android:label="@string/title_activity_add_agenda"
-            android:parentActivityName=".ui.agenda.AgendaActivity"
+            android:parentActivityName="io.github.fruitspunchs.productivityup.ui.agenda.AgendaActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="finalproject.productivityup.ui.agenda.AgendaActivity"/>
+                android:value="io.github.fruitspunchs.productivityup.ui.agenda.AgendaActivity"/>
         </activity>
         <activity
-            android:name=".ui.agenda.EditAgendaActivity"
+            android:name="io.github.fruitspunchs.productivityup.ui.agenda.EditAgendaActivity"
             android:label="@string/title_activity_edit_agenda"
-            android:parentActivityName=".ui.agenda.AddAgendaActivity"
+            android:parentActivityName="io.github.fruitspunchs.productivityup.ui.agenda.AddAgendaActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="finalproject.productivityup.ui.agenda.AddAgendaActivity"/>
+                android:value="io.github.fruitspunchs.productivityup.ui.agenda.AddAgendaActivity"/>
         </activity>
         <activity
-            android:name=".ui.accountability.AddAccountabilityActivity"
+            android:name="io.github.fruitspunchs.productivityup.ui.accountability.AddAccountabilityActivity"
             android:label="@string/title_activity_add_accountability"
-            android:parentActivityName=".ui.accountability.AccountabilityActivity"
+            android:parentActivityName="io.github.fruitspunchs.productivityup.ui.accountability.AccountabilityActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.accountability.AccountabilityActivity"/>
+                android:value="io.github.fruitspunchs.productivityup.ui.accountability.AccountabilityActivity"/>
         </activity>
         <activity
-            android:name=".ui.accountability.EditAccountabilityActivity"
+            android:name="io.github.fruitspunchs.productivityup.ui.accountability.EditAccountabilityActivity"
             android:label="@string/title_activity_edit_accountability"
-            android:parentActivityName=".ui.accountability.AccountabilityActivity"
+            android:parentActivityName="io.github.fruitspunchs.productivityup.ui.accountability.AccountabilityActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="finalproject.productivityup.ui.accountability.AccountabilityActivity"/>
+                android:value="io.github.fruitspunchs.productivityup.ui.accountability.AccountabilityActivity"/>
         </activity>
 
         <!-- Widget-->
         <receiver
-            android:name=".widget.TimerAppWidgetProvider"
+            android:name="io.github.fruitspunchs.productivityup.widget.TimerAppWidgetProvider"
             android:enabled="true"
             android:label="ProductivityUp">
             <intent-filter>
@@ -128,13 +132,13 @@
 
         <!-- Service-->
         <service
-            android:name=".service.TimerService"
+            android:name="io.github.fruitspunchs.productivityup.service.TimerService"
             android:exported="false"/>
 
         <!-- Provider-->
         <provider
-            android:name=".data.generated.ProductivityProvider"
-            android:authorities="finalproject.productivityup.data.ProductivityProvider"
+            android:name="io.github.fruitspunchs.productivityup.data.generated.ProductivityProvider"
+            android:authorities="io.github.fruitspunchs.productivityup.data.ProductivityProvider"
             android:exported="false"/>
     </application>
 </manifest>

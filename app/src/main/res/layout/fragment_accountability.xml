@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2016. Bel Jones Echavez
+  -->
+
 <android.support.v7.widget.RecyclerView
     android:id="@+id/recycler_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -9,8 +13,8 @@
     android:focusable="true"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="16dp"
-    tools:context=".ui.accountability.AccountabilityActivityFragment"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="io.github.fruitspunchs.productivityup.ui.accountability.AccountabilityActivityFragment"
     tools:showIn="@layout/activity_accountability">
 
 

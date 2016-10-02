@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Bel Jones Echavez
+  -->
+
 <android.support.v4.widget.NestedScrollView
     android:id="@+id/scrollView"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -22,7 +26,7 @@
         app:orientation="horizontal"
         app:rowCount="2"
         app:rowOrderPreserved="false"
-        tools:context=".ui.MainActivity"
+        tools:context="io.github.fruitspunchs.productivityup.ui.MainActivity"
         tools:showIn="@layout/activity_main">
 
         <LinearLayout
@@ -48,82 +52,31 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
                     android:orientation="vertical"
-                    android:paddingBottom="8dp">
+                    android:paddingBottom="@dimen/card_padding_bottom"
+                    android:paddingLeft="@dimen/card_horizontal_padding"
+                    android:paddingRight="@dimen/card_horizontal_padding"
+                    android:paddingTop="@dimen/card_padding_top">
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/ultradian_rhythm_status_text_view"
+                        style="@style/card_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/colorPrimary"
-                        android:orientation="vertical"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="@dimen/card_padding_top">
+                        android:text="@string/ultradian_rhythm_title_card"/>
 
-
-                        <TextView
-                            android:id="@+id/ultradian_rhythm_title_text_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ultradian_rhythm_title_card"
-                            android:textColor="@color/white"
-                            android:textSize="24sp"/>
-
-                        <TextView
-                            android:id="@+id/ultradian_rhythm_subtitle_text_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="16dp"
-                            android:text="@string/ultradian_rhythm_subtitle_card"
-                            android:textColor="@color/white"
-                            android:textSize="14sp"/>
-                    </LinearLayout>
-
-                    <FrameLayout
+                    <TextView
+                        android:id="@+id/ultradian_rhythm_subtitle_text_view"
+                        style="@style/card_subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="16dp"
-                        android:paddingTop="24dp">
-
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center">
-
-                            <com.pascalwelsch.holocircularprogressbar.HoloCircularProgressBar
-                                android:id="@+id/holoCircularProgressBar"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"/>
-                        </FrameLayout>
-
-                        <TextView
-                            android:id="@+id/ultradian_rhythm_timer_text_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:textColor="@color/colorPrimaryText"
-                            android:textSize="24sp"
-                            android:textStyle=""
-                            tools:text="73m"/>
-
-                    </FrameLayout>
-
-                    <ImageButton
-                        android:id="@+id/ultradian_rhythm_work_rest_image_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@android:color/transparent"
-                        android:contentDescription="@string/cd_work_button"
-                        android:minHeight="48dp"
-                        android:minWidth="48dp"
-                        android:src="@drawable/ic_work_white_36dp"
-                        android:tint="@color/colorAccent"/>
-
+                        android:text="@string/ultradian_rhythm_subtitle_card"/>
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
-            <finalproject.productivityup.libs.InterceptTouchCardView
+            <io.github.fruitspunchs.productivityup.libs.InterceptTouchCardView
                 android:id="@+id/overview_card_deadlines"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,26 +90,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/card_padding_bottom"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/card_padding_bottom">
 
-                    <TextView
-                        android:id="@+id/deadlines_title_text_view"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="@dimen/card_padding_top"
-                        android:gravity="center_horizontal"
-                        android:text="@string/deadlines_title_card"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                        android:background="@color/colorPrimary"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/card_subtitle_padding_bottom"
+                        android:paddingLeft="@dimen/card_horizontal_padding"
+                        android:paddingRight="@dimen/card_horizontal_padding"
+                        android:paddingTop="@dimen/card_padding_top">
+
+                        <TextView
+                            android:id="@+id/deadlines_time_left_text_view"
+                            style="@style/card_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="No deadline"/>
+
+                        <TextView
+                            android:id="@+id/deadlines_subtitle_text_view"
+                            style="@style/card_subtitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/deadlines_title_card"/>
+                    </LinearLayout>
+
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="24dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="24dp">
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/deadlines_no_item"
@@ -177,21 +142,14 @@
                             android:layout_gravity="center_horizontal"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/colorPrimaryText"
+                            tools:layout_height="50dp"
                             tools:text="Finish mock"/>
                     </FrameLayout>
 
-                    <TextView
-                        android:id="@+id/deadlines_date_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/colorPrimaryText"
-                        tools:text="2 days 1 hour"/>
                 </LinearLayout>
-            </finalproject.productivityup.libs.InterceptTouchCardView>
+            </io.github.fruitspunchs.productivityup.libs.InterceptTouchCardView>
 
-            <finalproject.productivityup.libs.InterceptTouchCardView
+            <io.github.fruitspunchs.productivityup.libs.InterceptTouchCardView
                 android:id="@+id/overview_card_accountability_chart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -242,12 +200,13 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/colorPrimaryText"
+                            tools:layout_height="50dp"
                             tools:text="Finish mock"/>
                     </FrameLayout>
 
 
                 </LinearLayout>
-            </finalproject.productivityup.libs.InterceptTouchCardView>
+            </io.github.fruitspunchs.productivityup.libs.InterceptTouchCardView>
         </LinearLayout>
 
 
@@ -272,40 +231,45 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="@dimen/card_padding_top"
-                    android:orientation="vertical">
+                    android:background="@color/colorPrimary"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/card_padding_bottom"
+                    android:paddingLeft="@dimen/card_horizontal_padding"
+                    android:paddingRight="@dimen/card_horizontal_padding"
+                    android:paddingTop="@dimen/card_padding_top">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/pomodoro_timer_timer_text_view"
+                            style="@style/card_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="19:24"/>
+
+                        <ImageButton
+                            android:id="@+id/pomodoro_timer_start_pause_button"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:background="@drawable/round_button_accent"
+                            android:contentDescription="@string/cd_start_button"
+                            android:elevation="2dp"
+                            android:src="@drawable/ic_start_arrow_white_18dp"
+                            tools:targetApi="lollipop"/>
+
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/pomodoro_timer_title_text_view"
+                        android:id="@+id/pomodoro_timer_subtitle_text_view"
+                        style="@style/card_subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:gravity="center_horizontal"
-                        android:text="@string/pomodoro_timer_title_card"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
-
-                    <TextView
-                        android:id="@+id/pomodoro_timer_timer_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginTop="24dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textColor="@color/colorPrimaryText"
-                        tools:text="19:24"/>
-
-                    <ImageButton
-                        android:id="@+id/pomodoro_timer_start_pause_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/round_button_accent"
-                        android:contentDescription="@string/cd_start_button"
-                        android:padding="4dp"
-                        android:src="@drawable/ic_start_arrow_white_24dp"/>
+                        android:text="@string/pomodoro_timer_title_card"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -364,6 +328,7 @@
                             android:focusable="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/colorPrimaryText"
+                            tools:layout_height="50dp"
                             tools:text="Finish mock"/>
                     </FrameLayout>
 

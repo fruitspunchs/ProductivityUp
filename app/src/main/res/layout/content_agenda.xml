@@ -1,6 +1,10 @@
+<!--
+  ~ Copyright (c) 2016. Bel Jones Echavez
+  -->
+
 <fragment
     android:id="@+id/agenda_fragment"
-    android:name="finalproject.productivityup.ui.agenda.AgendaActivityFragment"
+    android:name="io.github.fruitspunchs.productivityup.ui.agenda.AgendaActivityFragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

@@ -1,6 +1,10 @@
+<!--
+  ~ Copyright (c) 2016. Bel Jones Echavez
+  -->
+
 <fragment
     android:id="@+id/fragment"
-    android:name="finalproject.productivityup.ui.accountability.AddAccountabilityActivityFragment"
+    android:name="io.github.fruitspunchs.productivityup.ui.accountability.AddAccountabilityActivityFragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

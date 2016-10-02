@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2016. Bel Jones Echavez
+  -->
+
 <resources>
     <dimen name="card_margin_bottom">8dp</dimen>
     <dimen name="horizontal_card_margin">5dp</dimen>

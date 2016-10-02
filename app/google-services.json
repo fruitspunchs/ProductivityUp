@@ -1,1 +1,84 @@
-{"project_info":{"project_id":"productivityup-915ac","project_number":"1024409444826","name":"ProductivityUp"},"client":[{"client_info":{"mobilesdk_app_id":"1:1024409444826:android:173122803d0a0f6c","client_id":"android:finalproject.productivityup","client_type":1,"android_client_info":{"package_name":"finalproject.productivityup"}},"oauth_client":[],"api_key":[],"services":{"analytics_service":{"status":2,"analytics_property":{"tracking_id":"UA-70655440-1"}},"cloud_messaging_service":{"status":1,"apns_config":[]},"appinvite_service":{"status":1,"other_platform_oauth_client":[]},"google_signin_service":{"status":1},"ads_service":{"status":1}}}],"client_info":[],"ARTIFACT_VERSION":"1"}
+{
+  "project_info": {
+    "project_number": "1024409444826",
+    "firebase_url": "https://productivityup-915ac.firebaseio.com",
+    "project_id": "productivityup-915ac",
+    "storage_bucket": "productivityup-915ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024409444826:android:173122803d0a0f6c",
+        "android_client_info": {
+          "package_name": "finalproject.productivityup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1024409444826-3rrqmtuns47171e9bhhfin0av6e4ns7e.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1024409444826-rl0acq58qjkt6liafm2jijk0vfkf39bh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClMBwE8HsP-4nmwnU3p1qWVmDg6yUnHL4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-70655440-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024409444826:android:228b163afd9ed0cf",
+        "android_client_info": {
+          "package_name": "io.github.fruitspunchs.productivityup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1024409444826-3rrqmtuns47171e9bhhfin0av6e4ns7e.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1024409444826-rl0acq58qjkt6liafm2jijk0vfkf39bh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClMBwE8HsP-4nmwnU3p1qWVmDg6yUnHL4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

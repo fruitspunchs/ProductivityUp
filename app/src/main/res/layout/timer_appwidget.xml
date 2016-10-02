@@ -1,70 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<!--
+  ~ Copyright (c) 2016. Bel Jones Echavez
+  -->
+
+<LinearLayout
     android:id="@+id/layout_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
     android:padding="8dp">
 
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/ultradian_rhythm_status_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="4dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/widget_ultradian_timer_default"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/white"
+        android:textSize="36dp"
+        tools:ignore="SpUsage"/>
 
+    <ImageButton
+        android:id="@+id/work_rest_button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/cd_work_icon"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_work_white_36dp"
+        android:tint="@color/white"/>
 
-        <TextView
-            android:id="@+id/ultradian_rhythm_timer_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/widget_ultradian_timer_default"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/white"
-            android:textSize="36dp"
-            tools:ignore="SpUsage"/>
+    <TextView
+        android:id="@+id/pomodoro_timer_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/widget_pomodoro_timer_default"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/white"
+        android:textSize="36dp"
+        tools:ignore="SpUsage"/>
 
-        <ImageButton
-
-            android:id="@+id/work_rest_button"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/cd_work_icon"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_work_white_36dp"
-            android:tint="@color/white"/>
-
-        <TextView
-            android:id="@+id/pomodoro_timer_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/widget_pomodoro_timer_default"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/white"
-            android:textSize="36dp"
-            tools:ignore="SpUsage"/>
-
-        <ImageButton
-
-            android:id="@+id/start_pause_button"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/round_button_white"
-            android:contentDescription="@string/cd_start_button"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_start_arrow_white_24dp"
-            android:tint="@color/colorPrimary"/>
-    </LinearLayout>
-</FrameLayout>
+    <ImageButton
+        android:id="@+id/start_pause_button"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/round_button_white"
+        android:contentDescription="@string/cd_start_button"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_start_arrow_white_24dp"
+        android:tint="@color/colorPrimary"/>
+</LinearLayout>

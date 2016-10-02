@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2016. Bel Jones Echavez
+  -->
+
 <resources>
     <string name="app_name">Productivity Up</string>
     <string name="action_settings">Settings</string>
@@ -18,7 +22,7 @@
 
     <!-- Overview card titles-->
     <string name="deadlines_title_card">Next deadline</string>
-    <string name="ultradian_rhythm_title_card">Work</string>
+    <string name="ultradian_rhythm_title_card">90m Work</string>
     <string name="ultradian_rhythm_subtitle_card">Ultradian rhythm</string>
     <string name="pomodoro_timer_title_card">Pomodoro timer</string>
     <string name="agenda_title_card">Today\'s agenda</string>
@@ -42,6 +46,8 @@
     <string name="no_deadlines">Add a deadline</string>
     <string name="no_agenda">Add agenda</string>
     <string name="no_accountability">Add accountability</string>
+
+    <string name="no_deadline_countdown">No deadline</string>
 
     <string name="minute_letter">m</string>
 
@@ -79,5 +85,9 @@
     <string name="market_url" translatable="false">market://details?id=com.finalproject.productivityup</string>
 
     <string name="share_subject">Try this productivity app</string>
+
+    <!--Ultradian timer states-->
+    <string name="work">Work</string>
+    <string name="rest">Rest</string>
 
 </resources>
