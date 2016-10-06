@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2016. Bel Jones Echavez
- */
-
 /**
  * Automatically generated file. DO NOT MODIFY
  */
